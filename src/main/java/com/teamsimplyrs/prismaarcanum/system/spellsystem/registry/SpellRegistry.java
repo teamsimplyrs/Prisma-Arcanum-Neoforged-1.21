@@ -1,6 +1,6 @@
 package com.teamsimplyrs.prismaarcanum.system.spellsystem.registry;
 
-import com.teamsimplyrs.prismaarcanum.system.spellsystem.SpellDataModel;
+import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.SpellDataModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;

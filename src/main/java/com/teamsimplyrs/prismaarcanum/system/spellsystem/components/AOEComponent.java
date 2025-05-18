@@ -5,9 +5,11 @@ import com.teamsimplyrs.prismaarcanum.system.spellsystem.interfaces.ISpellCompon
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-public class DashComponent implements ISpellComponent {
-    public float distance;
-    public float speed;
+public class AOEComponent implements ISpellComponent {
+    public float radius_x;
+    public float radius_y;
+    public float radius_z;
+    public ISpellComponent[] hit_components;
 
     @Override
     public void execute(Player player, Level level, SpellDataModel spellData) {
