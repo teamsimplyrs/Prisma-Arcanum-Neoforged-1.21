@@ -10,6 +10,12 @@ public class DamageOverTimeComponent implements ISpellComponent {
     public float duration;
     public float interval;
 
+    public DamageOverTimeComponent(float amount, float duration, float interval) {
+        this.amount = amount;
+        this.duration = duration;
+        this.interval = interval;
+    }
+
     @Override
     public void execute(Player player, Level level, SpellDataModel spellData) {
 

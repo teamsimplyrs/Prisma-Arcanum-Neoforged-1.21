@@ -1,7 +1,9 @@
 package com.teamsimplyrs.prismaarcanum;
 
 import com.teamsimplyrs.prismaarcanum.registry.ItemRegistry;
+import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.SpellDataLoader;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -34,7 +36,7 @@ public class PrismaArcanum
     {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
-
+        modEventBus.addListener(this::registerReloadListeners);
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (PrismaArcanum) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
@@ -50,9 +52,13 @@ public class PrismaArcanum
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
+    private void registerReloadListeners(AddReloadListenerEvent event) {
+        event.addListener(new SpellDataLoader());
+    }
+
     private void commonSetup(final FMLCommonSetupEvent event)
     {
-        // Some common setup code
+
     }
 
     // Add the block item to the building blocks tab

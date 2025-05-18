@@ -6,9 +6,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 public class InflictionComponent implements ISpellComponent {
-    public ISpellComponent[] components;
     public float duration;
+    public ISpellComponent[] components;
 
+    public InflictionComponent(float duration, ISpellComponent[] hit_components) {
+        this.duration = duration;
+        this.components = hit_components;
+    }
 
     @Override
     public void execute(Player player, Level level, SpellDataModel spellData) {

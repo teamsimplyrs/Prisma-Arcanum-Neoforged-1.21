@@ -10,6 +10,12 @@ public class HealOverTimeComponent implements ISpellComponent {
     public float duration;
     public float interval;
 
+    public HealOverTimeComponent(float amount, float duration, float interval) {
+        this.amount = amount;
+        this.duration = duration;
+        this.interval = interval;
+    }
+
     @Override
     public void execute(Player player, Level level, SpellDataModel spellData) {
 

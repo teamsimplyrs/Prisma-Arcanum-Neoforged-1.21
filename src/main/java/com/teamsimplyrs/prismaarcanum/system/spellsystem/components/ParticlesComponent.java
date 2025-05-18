@@ -9,6 +9,11 @@ public class ParticlesComponent implements ISpellComponent {
     public String type;
     public int count;
 
+    public ParticlesComponent(String type, int count) {
+        this.type = type;
+        this.count = count;
+    }
+
     @Override
     public void execute(Player player, Level level, SpellDataModel spellData) {
 

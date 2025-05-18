@@ -11,6 +11,13 @@ public class BeamComponent implements ISpellComponent {
     public float range;
     public ISpellComponent[] hit_components;
 
+    public BeamComponent(float width, float height, float range, ISpellComponent[] hit_components) {
+        this.width = width;
+        this.height = height;
+        this.range = range;
+        this.hit_components = hit_components;
+    }
+
     @Override
     public void execute(Player player, Level level, SpellDataModel spellData) {
 

@@ -1,0 +1,30 @@
+{
+  "id": 1,
+  "spell_name": "aqua_stride",
+  "spell_display_name": "Aqua Stride",
+  "tier": 1,
+  "base_mana_cost": 10,
+  "cooldown": 3,
+  "element": "ignis",
+  "school": "motion",
+  "has_evolution": true,
+  "spell_components": [
+    {
+      "type": "dash",
+      "distance": 5,
+      "speed": 1
+    },
+    {
+      "type": "aoe",
+      "radius_x": 4,
+      "radius_y": 1,
+      "radius_z": 4,
+      "hit_components": [
+        {
+          "type": "knockback",
+          "strength": 2
+        }
+      ]
+    }
+  ]
+}

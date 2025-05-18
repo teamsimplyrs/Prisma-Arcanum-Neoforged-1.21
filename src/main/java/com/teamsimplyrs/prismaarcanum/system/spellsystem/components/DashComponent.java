@@ -9,6 +9,11 @@ public class DashComponent implements ISpellComponent {
     public float distance;
     public float speed;
 
+    public DashComponent(float distance, float speed) {
+        this.distance = distance;
+        this.speed = speed;
+    }
+
     @Override
     public void execute(Player player, Level level, SpellDataModel spellData) {
 

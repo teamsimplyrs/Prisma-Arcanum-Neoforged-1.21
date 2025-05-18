@@ -8,6 +8,10 @@ import net.minecraft.world.level.Level;
 public class DamageInstantComponent implements ISpellComponent {
     public float amount;
 
+    public DamageInstantComponent(float amount) {
+        this.amount = amount;
+    }
+
     @Override
     public void execute(Player player, Level level, SpellDataModel spellData) {
 

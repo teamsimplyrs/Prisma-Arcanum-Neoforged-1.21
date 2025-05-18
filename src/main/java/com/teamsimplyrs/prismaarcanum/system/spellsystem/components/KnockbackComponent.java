@@ -8,6 +8,10 @@ import net.minecraft.world.level.Level;
 public class KnockbackComponent implements ISpellComponent {
     public float strength;
 
+    public KnockbackComponent(float strength) {
+        this.strength = strength;
+    }
+
     @Override
     public void execute(Player player, Level level, SpellDataModel spellData) {
 

@@ -16,9 +16,8 @@ public class SpellDataModel {
     public String spell_name;
     public String spell_display_name;
 
-    public ElementNames element;
-    public SchoolNames school;
-    public SpellTypes type;
+    public String element;
+    public String school;
 
     public boolean has_evolution;
 
@@ -26,7 +25,4 @@ public class SpellDataModel {
 
     public SpellVFX[] vfx;
     public SpellParticles[] particles;
-
-    public SpellDataModel spell_prevolution_data;
-    public SpellDataModel spell_evolution_data;
 }

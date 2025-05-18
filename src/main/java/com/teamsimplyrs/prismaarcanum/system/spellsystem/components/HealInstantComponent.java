@@ -6,7 +6,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 public class HealInstantComponent implements ISpellComponent {
-    public float heal_amount;
+    public float amount;
+
+    public HealInstantComponent(float amount) {
+        this.amount = amount;
+    }
 
     @Override
     public void execute(Player player, Level level, SpellDataModel spellData) {
