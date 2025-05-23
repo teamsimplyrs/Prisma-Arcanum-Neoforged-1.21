@@ -1,5 +1,9 @@
 package com.teamsimplyrs.prismaarcanum;
 
+import com.teamsimplyrs.prismaarcanum.registry.ItemRegistry;
+import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.SpellDataLoader;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -33,10 +37,16 @@ public class PrismaArcanum
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
+        // NeoForge specific Events
+        NeoForge.EVENT_BUS.addListener(this::registerReloadListeners);
+
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (PrismaArcanum) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
+
+        // Call all registers here
+        ItemRegistry.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -45,15 +55,21 @@ public class PrismaArcanum
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
-        // Some common setup code
+    private void registerReloadListeners(AddReloadListenerEvent event) {
+        event.addListener(new SpellDataLoader());
     }
 
-    // Add the teamsimplyrs block item to the building blocks tab
-    private void addCreative(BuildCreativeModeTabContentsEvent event)
+    private void commonSetup(final FMLCommonSetupEvent event)
     {
 
+    }
+
+    // Add the block item to the building blocks tab
+    private void addCreative(BuildCreativeModeTabContentsEvent event)
+    {
+        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            event.accept(ItemRegistry.DEBUG_WAND);
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
