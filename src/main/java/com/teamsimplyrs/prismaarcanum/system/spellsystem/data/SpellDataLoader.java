@@ -2,7 +2,10 @@ package com.teamsimplyrs.prismaarcanum.system.spellsystem.data;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mojang.logging.LogUtils;
+import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.factory.SpellFactory;
+import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.model.SpellDataModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -27,9 +30,12 @@ public class SpellDataLoader extends SimpleJsonResourceReloadListener {
         for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
             try {
                 ResourceLocation path = entry.getKey();
-                SpellDataModel spellData = GSON.fromJson(entry.getValue(), SpellDataModel.class);
+                JsonObject value = entry.getValue().getAsJsonObject();
+
+                SpellDataModel spellData = SpellFactory.parseSpell(value);
                 SpellRegistry.register(path, spellData);
-                LOGGER.info("[Prisma Arcanum] Loaded spell JSON: {} → {}", entry.getKey(), entry.getValue());
+
+                LOGGER.info("[Prisma Arcanum] Loaded spell JSON: {}", entry.getKey());
             } catch (Exception e) {
                 System.err.println("[Prisma Arcanum] Failed to load spell JSON: " + entry.getKey() + " → " + e.getMessage());
             }

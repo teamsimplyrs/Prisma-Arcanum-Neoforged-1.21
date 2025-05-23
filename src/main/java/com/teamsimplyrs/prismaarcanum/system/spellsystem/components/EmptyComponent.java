@@ -5,15 +5,10 @@ import com.teamsimplyrs.prismaarcanum.system.spellsystem.interfaces.ISpellCompon
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-public class KnockbackComponent implements ISpellComponent {
-    public float strength;
-
-    public KnockbackComponent(float strength) {
-        this.strength = strength;
-    }
+public class EmptyComponent implements ISpellComponent {
 
     @Override
     public void execute(Player player, Level level, SpellDataModel spellData) {
-
+        // Do nothing.
     }
 }

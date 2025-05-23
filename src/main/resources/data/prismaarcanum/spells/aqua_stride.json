@@ -5,7 +5,7 @@
   "tier": 1,
   "base_mana_cost": 10,
   "cooldown": 3,
-  "element": "ignis",
+  "element": "aqua",
   "school": "motion",
   "has_evolution": true,
   "spell_components": [
@@ -19,12 +19,11 @@
       "radius_x": 4,
       "radius_y": 1,
       "radius_z": 4,
-      "hit_components": [
-        {
-          "type": "knockback",
-          "strength": 2
-        }
-      ]
+      "hit_component":
+      {
+        "type": "knockback",
+        "strength": 2
+      }
     }
   ]
 }

@@ -36,7 +36,10 @@ public class PrismaArcanum
     {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(this::registerReloadListeners);
+
+        // NeoForge specific Events
+        NeoForge.EVENT_BUS.addListener(this::registerReloadListeners);
+
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (PrismaArcanum) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.

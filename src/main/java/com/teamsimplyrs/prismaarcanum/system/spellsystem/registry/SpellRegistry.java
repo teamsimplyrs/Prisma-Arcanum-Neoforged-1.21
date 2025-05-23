@@ -1,6 +1,6 @@
 package com.teamsimplyrs.prismaarcanum.system.spellsystem.registry;
 
-import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.SpellDataModel;
+import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.model.SpellDataModel;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Collection;
