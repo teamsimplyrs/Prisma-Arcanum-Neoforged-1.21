@@ -26,7 +26,7 @@ public class DebugWand extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         if (level.isClientSide()) {
-            
+            LOGGER.info("Debug Wand used");
         }
 
         return super.use(level, player, usedHand);

@@ -1,5 +1,6 @@
 package com.teamsimplyrs.prismaarcanum;
 
+import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.registry.PACreativeTabsRegistry;
 import com.teamsimplyrs.prismaarcanum.registry.PAItemRegistry;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.SpellDataLoader;
@@ -49,6 +50,7 @@ public class PrismaArcanum
         // Call all registers here
         PACreativeTabsRegistry.register(modEventBus);
         PAItemRegistry.register(modEventBus);
+        PADataComponents.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
