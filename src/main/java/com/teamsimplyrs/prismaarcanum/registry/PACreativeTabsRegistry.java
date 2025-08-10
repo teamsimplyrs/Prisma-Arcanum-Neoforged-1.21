@@ -2,6 +2,7 @@ package com.teamsimplyrs.prismaarcanum.registry;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
+import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.model.SpellDataModel;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.registry.SpellRegistry;
 import net.minecraft.core.component.DataComponents;
@@ -31,10 +32,12 @@ public class PACreativeTabsRegistry {
                     ItemStack spellPrismItemInstance = new ItemStack(PAItemRegistry.SPELL_PRISM_ITEM.get());
                     // Set bound spell ID resource location
                     spellPrismItemInstance.set(PADataComponents.SPELL_ID, spellData.id);
-                    // Set display name
+                    // Set display name; in the format: Spell Prism (Spell Name)
                     spellPrismItemInstance.set(
                             DataComponents.ITEM_NAME,
-                            Component.literal(spellData.spell_display_name)
+                            Component.literal(String.format("%s (%s)",
+                                    Component.translatable(String.format("item.%s.%s", PrismaArcanum.MOD_ID, SpellPrismItem.NAME)).getString(),
+                                    spellData.spell_display_name))
                     );
                     output.accept(spellPrismItemInstance);
                 }
