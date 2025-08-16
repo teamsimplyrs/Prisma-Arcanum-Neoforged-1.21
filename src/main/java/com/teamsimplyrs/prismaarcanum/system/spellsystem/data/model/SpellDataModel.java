@@ -1,6 +1,6 @@
 package com.teamsimplyrs.prismaarcanum.system.spellsystem.data.model;
 
-import com.teamsimplyrs.prismaarcanum.system.spellsystem.interfaces.ISpellComponent;
+import com.teamsimplyrs.prismaarcanum.system.spellsystem.interfaces.ISpellAction;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.vfx.SpellParticles;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.vfx.SpellVFX;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +22,7 @@ public class SpellDataModel {
 
     public boolean has_evolution;
 
-    public ArrayList<ISpellComponent> spell_components;
+    public ArrayList<ISpellAction> spell_components;
 
     public SpellVFX[] vfx;
     public SpellParticles[] particles;
