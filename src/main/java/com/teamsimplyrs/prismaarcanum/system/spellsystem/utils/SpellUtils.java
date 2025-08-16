@@ -7,8 +7,8 @@ public class SpellUtils {
         public static final String BASE_MANA_COST = "base_mana_cost";
         public static final String COOLDOWN = "cooldown";
 
-        public static final String SPELL_NAME = "spell_name";
         public static final String SPELL_DISPLAY_NAME = "spell_display_name";
+        public static final String SPELL_DESCRIPTION = "spell_description";
 
         public static final String ELEMENT = "element";
         public static final String SCHOOL = "school";

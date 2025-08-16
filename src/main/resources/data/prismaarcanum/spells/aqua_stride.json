@@ -1,7 +1,6 @@
 {
-  "id": 1,
-  "spell_name": "aqua_stride",
   "spell_display_name": "Aqua Stride",
+  "spell_description": "Basic Aqua movement spell. Tap to dash in the direction you're looking, and create a tiny splash causing AoE knockback at the end.",
   "tier": 1,
   "base_mana_cost": 10,
   "cooldown": 3,

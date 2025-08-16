@@ -3,9 +3,9 @@ package com.teamsimplyrs.prismaarcanum.system.spellsystem.registry;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.model.SpellDataModel;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
+import static java.util.Collections.unmodifiableSet;
 
 public class SpellRegistry {
 
@@ -25,6 +25,10 @@ public class SpellRegistry {
 
     public static Collection<SpellDataModel> getAllSpellData() {
         return SPELLS.values();
+    }
+
+    public static Set<Map.Entry<ResourceLocation, SpellDataModel>> getAllEntries() {
+        return unmodifiableSet(SPELLS.entrySet());
     }
 
     public static void clear() {

@@ -8,16 +8,16 @@ import com.teamsimplyrs.prismaarcanum.system.spellsystem.utils.SpellUtils;
 public class SpellFactory {
     public static SpellDataModel parseSpell(JsonObject json) {
         SpellDataModel spell = new SpellDataModel();
-        spell.id = json.get(SpellUtils.SpellPropertyConstants.ID).getAsInt();
+
+        spell.spell_display_name = json.get(SpellUtils.SpellPropertyConstants.SPELL_DISPLAY_NAME).getAsString();
+        spell.spell_description = json.get(SpellUtils.SpellPropertyConstants.SPELL_DESCRIPTION).getAsString();
+        spell.element = json.get(SpellUtils.SpellPropertyConstants.ELEMENT).getAsString();
+        spell.school = json.get(SpellUtils.SpellPropertyConstants.SCHOOL).getAsString();
+
         spell.tier = json.get(SpellUtils.SpellPropertyConstants.TIER).getAsInt();
         spell.base_mana_cost = json.get(SpellUtils.SpellPropertyConstants.BASE_MANA_COST).getAsInt();
         spell.cooldown = json.get(SpellUtils.SpellPropertyConstants.COOLDOWN).getAsInt();
 
-        spell.spell_name = json.get(SpellUtils.SpellPropertyConstants.SPELL_NAME).getAsString();
-        spell.spell_display_name = json.get(SpellUtils.SpellPropertyConstants.SPELL_DISPLAY_NAME).getAsString();
-
-        spell.element = json.get(SpellUtils.SpellPropertyConstants.ELEMENT).getAsString();
-        spell.school = json.get(SpellUtils.SpellPropertyConstants.SCHOOL).getAsString();
 
         spell.has_evolution = json.get(SpellUtils.SpellPropertyConstants.HAS_EVOLUTION).getAsBoolean();
 

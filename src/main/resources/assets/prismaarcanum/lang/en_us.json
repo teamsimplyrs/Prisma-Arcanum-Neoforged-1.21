@@ -1,3 +1,6 @@
 {
-  "item.prismaarcanum.debug_wand": "Debug Wand"
+  "item.prismaarcanum.debug_wand": "Debug Wand",
+  "item.prismaarcanum.spell_prism": "Spell Prism",
+  "creativetab.prismaarcanum.prismatic_tools": "Prisma Arcanum: Prismatic Tools"
+
 }

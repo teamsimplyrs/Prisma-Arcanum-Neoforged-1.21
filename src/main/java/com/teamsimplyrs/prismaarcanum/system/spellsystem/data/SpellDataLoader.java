@@ -33,8 +33,9 @@ public class SpellDataLoader extends SimpleJsonResourceReloadListener {
                 JsonObject value = entry.getValue().getAsJsonObject();
 
                 SpellDataModel spellData = SpellFactory.parseSpell(value);
-                SpellRegistry.register(path, spellData);
+                spellData.id = path;
 
+                SpellRegistry.register(path, spellData);
                 LOGGER.info("[Prisma Arcanum] Loaded spell JSON: {}", entry.getKey());
             } catch (Exception e) {
                 System.err.println("[Prisma Arcanum] Failed to load spell JSON: " + entry.getKey() + " → " + e.getMessage());

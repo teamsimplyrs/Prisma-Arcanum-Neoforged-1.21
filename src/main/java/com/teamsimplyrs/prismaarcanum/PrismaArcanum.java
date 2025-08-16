@@ -1,6 +1,8 @@
 package com.teamsimplyrs.prismaarcanum;
 
-import com.teamsimplyrs.prismaarcanum.registry.ItemRegistry;
+import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
+import com.teamsimplyrs.prismaarcanum.registry.PACreativeTabsRegistry;
+import com.teamsimplyrs.prismaarcanum.registry.PAItemRegistry;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.SpellDataLoader;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
@@ -46,7 +48,9 @@ public class PrismaArcanum
         NeoForge.EVENT_BUS.register(this);
 
         // Call all registers here
-        ItemRegistry.register(modEventBus);
+        PACreativeTabsRegistry.register(modEventBus);
+        PAItemRegistry.register(modEventBus);
+        PADataComponents.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -68,7 +72,7 @@ public class PrismaArcanum
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-            event.accept(ItemRegistry.DEBUG_WAND);
+            event.accept(PAItemRegistry.DEBUG_WAND);
         }
     }
 
