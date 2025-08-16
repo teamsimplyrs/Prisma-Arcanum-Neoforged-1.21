@@ -7,6 +7,7 @@ import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.jetbrains.annotations.Debug;
 
 public class PAItemRegistry {
     public static final DeferredRegister.Items ITEM_REGISTER = DeferredRegister.createItems(PrismaArcanum.MOD_ID);

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.logging.LogUtils;
+import com.teamsimplyrs.prismaarcanum.system.events.SpellsReloadedEvent;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.factory.SpellFactory;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.model.SpellDataModel;
 import net.minecraft.resources.ResourceLocation;
@@ -12,6 +13,7 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import java.util.Map;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.registry.SpellRegistry;
+import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
 
 public class SpellDataLoader extends SimpleJsonResourceReloadListener {
@@ -41,5 +43,7 @@ public class SpellDataLoader extends SimpleJsonResourceReloadListener {
                 System.err.println("[Prisma Arcanum] Failed to load spell JSON: " + entry.getKey() + " → " + e.getMessage());
             }
         }
+
+        NeoForge.EVENT_BUS.post(new SpellsReloadedEvent(SpellRegistry.getAllSpellData().size()));
     }
 }

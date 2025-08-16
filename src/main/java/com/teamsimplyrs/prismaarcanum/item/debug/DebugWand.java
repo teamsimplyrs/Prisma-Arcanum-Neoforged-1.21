@@ -5,6 +5,7 @@ import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.system.castingsystem.interfaces.ICastable;
 import com.teamsimplyrs.prismaarcanum.system.castingsystem.interfaces.IMultiSpellHolder;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.model.SpellDataModel;
+import com.teamsimplyrs.prismaarcanum.system.spellsystem.registry.SpellRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -12,6 +13,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -23,6 +25,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DebugWand extends Item implements ICastable, IMultiSpellHolder {
@@ -36,6 +39,10 @@ public class DebugWand extends Item implements ICastable, IMultiSpellHolder {
 
     public DebugWand() {
         super(properties);
+    }
+
+    public void onSpellsReloaded() {
+        this.spells = new ArrayList<>(SpellRegistry.getAllSpellData());
     }
 
     @Override
