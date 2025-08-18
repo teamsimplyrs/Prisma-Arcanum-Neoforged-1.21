@@ -1,4 +1,4 @@
-package com.teamsimplyrs.prismaarcanum.system.eventhandlers;
+package com.teamsimplyrs.prismaarcanum.system.events.eventhandlers;
 
 import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;

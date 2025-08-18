@@ -1,5 +1,6 @@
 package com.teamsimplyrs.prismaarcanum.system.spellsystem.data.model;
 
+import com.teamsimplyrs.prismaarcanum.system.spellsystem.actions.GenericAction;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.interfaces.ISpellAction;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.vfx.SpellParticles;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.vfx.SpellVFX;
@@ -22,7 +23,7 @@ public class SpellDataModel {
 
     public boolean has_evolution;
 
-    public ArrayList<ISpellAction> spell_components;
+    public ArrayList<GenericAction> spell_actions;
 
     public SpellVFX[] vfx;
     public SpellParticles[] particles;

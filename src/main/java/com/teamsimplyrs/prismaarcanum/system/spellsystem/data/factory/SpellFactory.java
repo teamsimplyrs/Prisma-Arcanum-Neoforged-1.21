@@ -21,8 +21,8 @@ public class SpellFactory {
 
         spell.has_evolution = json.get(SpellUtils.SpellPropertyConstants.HAS_EVOLUTION).getAsBoolean();
 
-        JsonArray componentsJson = json.get(SpellUtils.SpellPropertyConstants.SPELL_COMPONENTS).getAsJsonArray();
-        spell.spell_components = SpellComponentFactory.parseComponents(componentsJson);
+        JsonArray componentsJson = json.get(SpellUtils.SpellPropertyConstants.SPELL_ACTIONS).getAsJsonArray();
+        spell.spell_actions = SpellActionFactory.parseActions(componentsJson);
 
         return spell;
     }

@@ -13,5 +13,9 @@ public interface ICastable {
 
     public HitResult raycast(Level level, Player player, ClipContext.Fluid fluidMode, float distance) ;
 
+    HitResult blockRaycast(Level level, Player player, ClipContext.Fluid fluidMode, float distance);
+
+    HitResult entityRaycast(Level level, Player player, ClipContext.Fluid fluidMode, float distance);
+
     public void upgrade();
 }

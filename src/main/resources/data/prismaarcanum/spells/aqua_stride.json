@@ -7,21 +7,24 @@
   "element": "aqua",
   "school": "motion",
   "has_evolution": true,
-  "spell_components": [
+  "spell_actions": [
     {
       "type": "dash",
       "distance": 5,
-      "speed": 1
+      "duration": 1,
+      "is_blocking": true
     },
     {
       "type": "aoe",
       "radius_x": 4,
       "radius_y": 1,
       "radius_z": 4,
-      "hit_component":
+      "is_blocking": false,
+      "hit_action":
       {
         "type": "knockback",
-        "strength": 2
+        "strength": 2,
+        "is_blocking": false
       }
     }
   ]

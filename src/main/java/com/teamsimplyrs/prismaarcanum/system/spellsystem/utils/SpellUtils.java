@@ -14,13 +14,13 @@ public class SpellUtils {
         public static final String SCHOOL = "school";
 
         public static final String HAS_EVOLUTION = "has_evolution";
-        public static final String SPELL_COMPONENTS = "spell_components";
+        public static final String SPELL_ACTIONS = "spell_actions";
 
         public static final String SPELL_VFX = "vfx";
         public static final String SPELL_PARTICLES = "particles";
     }
 
-    public static class SpellComponentNames {
+    public static class SpellActionNames {
         public static final String AREA_OF_EFFECT = "aoe";
         public static final String BEAM = "beam";
         public static final String CHAIN_EFFECT = "chain";
@@ -35,7 +35,7 @@ public class SpellUtils {
         public static final String PARTICLE_EFFECT = "particles";
     }
 
-    public static class SpellComponentProperties {
+    public static class SpellActionProperties {
         public static final String TYPE = "type";
         public static final String DISTANCE = "distance";
         public static final String SPEED = "speed";
@@ -51,7 +51,8 @@ public class SpellUtils {
         public static final String HOPS = "hops";
         public static final String EFFECT_DROPOFF = "effect_dropoff";
         public static final String STRENGTH = "strength";
-        public static final String HIT_COMPONENT = "hit_component";
+        public static final String HIT_ACTION = "hit_action";
         public static final String COUNT = "count";
+        public static final String IS_BLOCKING = "is_blocking";
     }
 }
