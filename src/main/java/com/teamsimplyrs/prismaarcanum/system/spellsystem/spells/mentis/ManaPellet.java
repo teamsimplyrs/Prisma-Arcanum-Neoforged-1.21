@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -40,12 +41,11 @@ public class ManaPellet extends AbstractSpell {
         if (!world.isClientSide) {
             player.sendSystemMessage(Component.literal("Mana Pellet: Server Cast called"));
             ManaPelletProjectile projectile = new ManaPelletProjectile(player, world);
-            Vec3 offset = player.position().add(0, player.getEyeHeight() - projectile.getBoundingBox().getYsize(), 0);
+            Vec3 offset = player.position().add(0, player.getEyeHeight() - projectile.getBoundingBox().getYsize() * 2, 0);
             projectile.setSpellData(getDamage(), getLifetime(), getLifetime(), getProjectileMotionType());
             projectile.setPos(offset);
             projectile.launch(player.getLookAngle());
 
-            player.sendSystemMessage(Component.literal("Mana Pellet: Spawned at" + projectile.position()));
             world.addFreshEntity(projectile);
         }
     }
@@ -58,6 +58,11 @@ public class ManaPellet extends AbstractSpell {
     @Override
     public MutableComponent getDisplayName() {
         return super.getDisplayName();
+    }
+
+    @Override
+    protected String getTranslatableComponent() {
+        return super.getTranslatableComponent();
     }
 
     @Override
@@ -82,6 +87,6 @@ public class ManaPellet extends AbstractSpell {
     }
 
     public ProjectileMotionType getProjectileMotionType() {
-        return ProjectileMotionType.ROTATE_RANDOM;
+        return ProjectileMotionType.NONE;
     }
 }

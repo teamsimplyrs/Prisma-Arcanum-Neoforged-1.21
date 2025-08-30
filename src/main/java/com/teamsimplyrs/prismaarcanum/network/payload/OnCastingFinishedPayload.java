@@ -1,26 +1,23 @@
 package com.teamsimplyrs.prismaarcanum.network.payload;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
-import com.teamsimplyrs.prismaarcanum.system.spellsystem.registry.SpellRegistry;
-import com.teamsimplyrs.prismaarcanum.system.spellsystem.spells.common.AbstractSpell;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.UUID;
 
-public record OnCastingStartPayload(UUID uuid, ResourceLocation spellID) implements CustomPacketPayload {
-    public static final CustomPacketPayload.Type<OnCastingStartPayload> PAYLOAD_TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "on_casting_start"));
-    public static final StreamCodec<RegistryFriendlyByteBuf, OnCastingStartPayload> CODEC =
-            CustomPacketPayload.codec(OnCastingStartPayload::write, OnCastingStartPayload::new);
+public record OnCastingFinishedPayload(UUID uuid, ResourceLocation spellID) implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<OnCastingFinishedPayload> PAYLOAD_TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "on_casting_finished"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, OnCastingFinishedPayload> CODEC =
+            CustomPacketPayload.codec(OnCastingFinishedPayload::write, OnCastingFinishedPayload::new);
 
-    public OnCastingStartPayload(RegistryFriendlyByteBuf buf) {
+    public OnCastingFinishedPayload(RegistryFriendlyByteBuf buf) {
         this(buf.readUUID(), buf.readResourceLocation());
     }
 
@@ -29,7 +26,7 @@ public record OnCastingStartPayload(UUID uuid, ResourceLocation spellID) impleme
         buf.writeResourceLocation(spellID);
     }
 
-    public static void handle(OnCastingStartPayload payload, IPayloadContext ctx) {
+    public static void handle(OnCastingFinishedPayload payload, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
             Player player = ctx.player();
             ResourceLocation spellID = payload.spellID;

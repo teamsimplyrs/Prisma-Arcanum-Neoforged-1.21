@@ -3,6 +3,7 @@ package com.teamsimplyrs.prismaarcanum.system.spellsystem.spells.common;
 import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.network.payload.CastPayload;
+import com.teamsimplyrs.prismaarcanum.network.payload.OnCastingStartedPayload;
 import com.teamsimplyrs.prismaarcanum.system.utils.Element;
 import com.teamsimplyrs.prismaarcanum.system.utils.School;
 import net.minecraft.network.chat.Component;
@@ -56,21 +57,29 @@ public abstract class AbstractSpell implements ISpell {
         }
 
         LOGGER.info("AbstractSpell: Sending Cast Packet");
-//        PacketDistributor.sendToPlayersTrackingEntityAndSelf(serverPlayer, new CastPacketPayload(serverPlayer.getUUID(), getResourceLocation()));
         PacketDistributor.sendToServer(new CastPayload(serverPlayer.getUUID(), getResourceLocation()));
         return true;
     }
 
     public void cast(ServerPlayer player, Level world) {
+        ResourceLocation resLoc = getResourceLocation();
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, new OnCastingStartedPayload(player.getUUID(), resLoc));
+    }
+
+    public void onCastingStarted() {
 
     }
 
-    public void castClient() {
+    public void onCastingFinished() {
 
     }
 
     public MutableComponent getDisplayName() {
         return Component.translatable(getTranslatableComponent());
+    }
+
+    public String getElementAsString() {
+        return element.toString().toLowerCase();
     }
 
     public MutableComponent getDescription() {
@@ -79,7 +88,7 @@ public abstract class AbstractSpell implements ISpell {
     }
 
     protected String getTranslatableComponent() {
-        return String.format("%s.%s.%s", "spells", getResourceLocation().getNamespace(), getResourceLocation().getPath());
+        return String.format("%s.%s.%s.%s", "spells", getResourceLocation().getNamespace(), getElementAsString(), getResourceLocation().getPath());
     }
 
     public ResourceLocation getResourceLocation() {
