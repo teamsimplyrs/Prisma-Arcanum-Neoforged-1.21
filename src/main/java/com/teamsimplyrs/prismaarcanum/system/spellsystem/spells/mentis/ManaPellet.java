@@ -1,6 +1,5 @@
 package com.teamsimplyrs.prismaarcanum.system.spellsystem.spells.mentis;
 
-import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.entity.custom.ManaPelletProjectile;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.system.utils.Element;
@@ -40,34 +39,26 @@ public class ManaPellet extends AbstractSpell {
     public void cast(ServerPlayer player, Level world) {
         if (!world.isClientSide) {
             player.sendSystemMessage(Component.literal("Mana Pellet: Server Cast called"));
-            ManaPelletProjectile projectile = new ManaPelletProjectile(player, world);
-            Vec3 offset = player.position().add(0, player.getEyeHeight() - projectile.getBoundingBox().getYsize() * 2, 0);
+            ManaPelletProjectile projectile = new ManaPelletProjectile(player, world, this);
+            Vec3 offset = player.position().add(0, player.getEyeHeight() - projectile.getBoundingBox().getYsize() * 0.5F, 0);
             projectile.setSpellData(getDamage(), getLifetime(), getLifetime(), getProjectileMotionType());
             projectile.setPos(offset);
             projectile.launch(player.getLookAngle());
 
             world.addFreshEntity(projectile);
+
+            super.cast(player, world);
         }
     }
 
     @Override
-    public ResourceLocation getResourceLocation() {
-        return super.getResourceLocation();
+    public void onCastingStarted(Player player, Level world) {
+        super.onCastingStarted(player, world);
     }
 
     @Override
-    public MutableComponent getDisplayName() {
-        return super.getDisplayName();
-    }
-
-    @Override
-    protected String getTranslatableComponent() {
-        return super.getTranslatableComponent();
-    }
-
-    @Override
-    public MutableComponent getDescription() {
-        return super.getDescription();
+    public void onCastingFinished(Player player, Level world) {
+        super.onCastingFinished(player, world);
     }
 
     public float getSpeed() {
@@ -87,6 +78,6 @@ public class ManaPellet extends AbstractSpell {
     }
 
     public ProjectileMotionType getProjectileMotionType() {
-        return ProjectileMotionType.NONE;
+        return ProjectileMotionType.ROTATE_RANDOM;
     }
 }

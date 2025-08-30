@@ -19,6 +19,7 @@ group = mod_group_id
 
 repositories {
     mavenLocal()
+    maven { url = "https://cursemaven.com" }
 }
 
 base {
@@ -113,6 +114,7 @@ configurations {
 }
 
 dependencies {
+    implementation "curse.maven:photon-871522:6911487"
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"

@@ -5,8 +5,6 @@ import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.spells.common.AbstractSpell;
-import com.teamsimplyrs.prismaarcanum.system.spellsystem_deprecated.data.model.SpellDataModel;
-import com.teamsimplyrs.prismaarcanum.system.spellsystem_deprecated.registry.SpellRegistryOld;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -36,7 +34,8 @@ public class PACreativeTabsRegistry {
                             DataComponents.ITEM_NAME,
                             Component.literal(String.format("%s (%s)",
                                     Component.translatable(String.format("item.%s.%s", PrismaArcanum.MOD_ID, SpellPrismItem.NAME)).getString(),
-                                    spell.getDisplayName()))
+                                    spell.getDisplayName()
+                            ))
                     );
                     output.accept(spellPrismItemInstance);
                 }

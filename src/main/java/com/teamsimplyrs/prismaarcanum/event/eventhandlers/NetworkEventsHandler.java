@@ -2,6 +2,7 @@ package com.teamsimplyrs.prismaarcanum.event.eventhandlers;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.network.payload.CastPayload;
+import com.teamsimplyrs.prismaarcanum.network.payload.OnCastingFinishedPayload;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCastingStartedPayload;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -25,6 +26,7 @@ public class NetworkEventsHandler {
 
     private static void PlayToClient(PayloadRegistrar registrar) {
         registrar.playToClient(OnCastingStartedPayload.PAYLOAD_TYPE, OnCastingStartedPayload.CODEC, OnCastingStartedPayload::handle);
+        registrar.playToClient(OnCastingFinishedPayload.PAYLOAD_TYPE, OnCastingFinishedPayload.CODEC, OnCastingFinishedPayload::handle);
     }
 
     private static void PlayBidirectional(PayloadRegistrar registrar) {

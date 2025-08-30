@@ -59,7 +59,7 @@ public class DebugWand extends Item implements ICastable, IMultiSpellHolder {
     @Override
     public void cast(Level world, Player player, AbstractSpell spell) {
         // HitResult hit = raycast(world, player, ClipContext.Fluid.NONE, 20f);
-        player.sendSystemMessage(Component.literal("Called cast for spell: " + spell.getDisplayName().toString()));
+        player.sendSystemMessage(Component.literal("Called cast for spell: " + spell.getDisplayName()));
         spell.tryCast(world, player);
     }
 

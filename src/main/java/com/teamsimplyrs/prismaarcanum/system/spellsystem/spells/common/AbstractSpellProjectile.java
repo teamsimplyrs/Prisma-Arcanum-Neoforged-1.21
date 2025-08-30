@@ -7,13 +7,14 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.slf4j.Logger;
 
-public class AbstractSpellProjectile extends Projectile {
+public abstract class AbstractSpellProjectile extends Projectile {
     private static final Logger LOGGER = LogUtils.getLogger();
     protected float damage = 1f;
     protected float lifetime = 100f;
@@ -67,6 +68,12 @@ public class AbstractSpellProjectile extends Projectile {
         moveDefault();
     }
 
+    protected abstract void particlesOnLaunch();
+
+    protected abstract void particlesTrailing();
+
+    protected abstract void particlesOnHit();
+
     @Override
     public void tick() {
         super.tick();
@@ -80,6 +87,16 @@ public class AbstractSpellProjectile extends Projectile {
             case ROTATE_RANDOM -> moveWithRandomizedRotation();
             case FACE_TRAJECTORY -> moveFacingTrajectory();
             case HOMING -> moveHomingTarget();
+        }
+
+        checkHit();
+    }
+
+    protected void checkHit() {
+        HitResult hitResult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
+        HitResult.Type hitType = hitResult.getType();
+        if (hitType != HitResult.Type.MISS) {
+            onHit(hitResult);
         }
     }
 
