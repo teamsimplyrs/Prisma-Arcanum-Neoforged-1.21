@@ -16,9 +16,9 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import java.util.UUID;
 
 public record OnCastingStartPayload(UUID uuid, ResourceLocation spellID) implements CustomPacketPayload {
-    public static final CustomPacketPayload.Type<CastPayload> PAYLOAD_TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "on_casting_start"));
-    public static final StreamCodec<RegistryFriendlyByteBuf, CastPayload> CODEC =
-            CustomPacketPayload.codec(CastPayload::write, CastPayload::new);
+    public static final CustomPacketPayload.Type<OnCastingStartPayload> PAYLOAD_TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "on_casting_start"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, OnCastingStartPayload> CODEC =
+            CustomPacketPayload.codec(OnCastingStartPayload::write, OnCastingStartPayload::new);
 
     public OnCastingStartPayload(RegistryFriendlyByteBuf buf) {
         this(buf.readUUID(), buf.readResourceLocation());
