@@ -1,37 +1,40 @@
 package com.teamsimplyrs.prismaarcanum.system.spellsystem.registry;
 
-import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.model.SpellDataModel;
+import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
+import com.teamsimplyrs.prismaarcanum.event.SpellsLoadedEvent;
+import com.teamsimplyrs.prismaarcanum.system.spellsystem.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.system.spellsystem.spells.mentis.ManaPellet;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.RegistryBuilder;
 
-import java.util.*;
-
-import static java.util.Collections.unmodifiableSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class SpellRegistry {
+    public static final ResourceKey<Registry<AbstractSpell>> SPELL_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "spells"));
+    public static final Registry<AbstractSpell> SPELL_REGISTRY = new RegistryBuilder<>(SPELL_REGISTRY_KEY).sync(true).create();
 
-    private static final Map<ResourceLocation, SpellDataModel> SPELLS = new HashMap<>();
+    public static final DeferredRegister<AbstractSpell> SPELLS = DeferredRegister.create(SPELL_REGISTRY_KEY, PrismaArcanum.MOD_ID);
 
-    public static void loadAndRegisterAllSpells() {
+    public static final Supplier<ManaPellet> MANA_PELLET = SPELLS.register(ManaPellet.spellID, ManaPellet::new);
 
+    public static void register(IEventBus eventBus) {
+        SPELLS.register(eventBus);
+        NeoForge.EVENT_BUS.post(new SpellsLoadedEvent(getAllSpells().size()));
     }
 
-    public static void register(ResourceLocation path, SpellDataModel spellData) {
-        SPELLS.put(path, spellData);
+    public static List<AbstractSpell> getAllSpells() {
+        return SPELL_REGISTRY.stream().toList();
     }
 
-    public static SpellDataModel getSpellData(ResourceLocation path) {
-        return SPELLS.get(path);
-    }
-
-    public static Collection<SpellDataModel> getAllSpellData() {
-        return SPELLS.values();
-    }
-
-    public static Set<Map.Entry<ResourceLocation, SpellDataModel>> getAllEntries() {
-        return unmodifiableSet(SPELLS.entrySet());
-    }
-
-    public static void clear() {
-        SPELLS.clear();
+    public static AbstractSpell getSpell(ResourceLocation id) {
+        return SPELL_REGISTRY.get(id);
     }
 }

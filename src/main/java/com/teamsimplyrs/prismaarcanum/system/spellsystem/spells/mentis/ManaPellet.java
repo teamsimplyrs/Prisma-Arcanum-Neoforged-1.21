@@ -1,0 +1,87 @@
+package com.teamsimplyrs.prismaarcanum.system.spellsystem.spells.mentis;
+
+import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
+import com.teamsimplyrs.prismaarcanum.entity.custom.ManaPelletProjectile;
+import com.teamsimplyrs.prismaarcanum.system.spellsystem.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.system.utils.Element;
+import com.teamsimplyrs.prismaarcanum.system.utils.ProjectileMotionType;
+import com.teamsimplyrs.prismaarcanum.system.utils.School;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+
+public class ManaPellet extends AbstractSpell {
+    public static final String spellID = "mana_pellet";
+    public static final Element element = Element.Mentis;
+    public static final School school = School.Occult;
+
+    public static final int tier = 1;
+    public static final float basicManaCost = 1.5f;
+    public static final float basicCooldown = 0.5f;
+
+    public static final boolean hasEvolution = true;
+    public static final String prevolutionSpellID = null;
+    public static final String evolutionSpellID = MagicBullet.spellID;
+
+    private static final float baseDamage = 1.5f;
+    private static final float baseSpeed = 1f;
+    private static final float baseInaccuracy = 1f;
+    private static final float baseLifetime = 100f;
+
+    public ManaPellet() {
+        super(spellID, element, school, tier, basicManaCost, basicCooldown, hasEvolution, prevolutionSpellID, evolutionSpellID);
+    }
+
+    @Override
+    public void cast(ServerPlayer player, Level world) {
+        if (!world.isClientSide) {
+            player.sendSystemMessage(Component.literal("Mana Pellet: Server Cast called"));
+            ManaPelletProjectile projectile = new ManaPelletProjectile(player, world);
+            Vec3 offset = player.position().add(0, player.getEyeHeight() - projectile.getBoundingBox().getYsize(), 0);
+            projectile.setSpellData(getDamage(), getLifetime(), getLifetime(), getProjectileMotionType());
+            projectile.setPos(offset);
+            projectile.launch(player.getLookAngle());
+
+            player.sendSystemMessage(Component.literal("Mana Pellet: Spawned at" + projectile.position()));
+            world.addFreshEntity(projectile);
+        }
+    }
+
+    @Override
+    public ResourceLocation getResourceLocation() {
+        return super.getResourceLocation();
+    }
+
+    @Override
+    public MutableComponent getDisplayName() {
+        return super.getDisplayName();
+    }
+
+    @Override
+    public MutableComponent getDescription() {
+        return super.getDescription();
+    }
+
+    public float getSpeed() {
+        return ((float)tier / 2f) * baseSpeed;
+    }
+
+    public float getDamage() {
+        return tier * baseDamage;
+    }
+
+    public float getInaccuracy() {
+        return (1f / tier) * baseInaccuracy;
+    }
+
+    public float getLifetime() {
+        return tier * baseLifetime;
+    }
+
+    public ProjectileMotionType getProjectileMotionType() {
+        return ProjectileMotionType.ROTATE_RANDOM;
+    }
+}

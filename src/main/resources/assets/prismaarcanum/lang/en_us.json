@@ -1,6 +1,9 @@
 {
   "item.prismaarcanum.debug_wand": "Debug Wand",
   "item.prismaarcanum.spell_prism": "Spell Prism",
-  "creativetab.prismaarcanum.prismatic_tools": "Prisma Arcanum: Prismatic Tools"
+  "creativetab.prismaarcanum.prismatic_tools": "Prisma Arcanum: Prismatic Tools",
+
+  "spells.prismaarcanum.mentis.mana_pellet": "Mana Pellet",
+  "spells.prismaarcanum.mentis.mana_pellet.description": "Basic mana pellet stuff tbh"
 
 }

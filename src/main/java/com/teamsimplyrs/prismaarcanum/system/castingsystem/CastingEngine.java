@@ -1,11 +1,10 @@
 package com.teamsimplyrs.prismaarcanum.system.castingsystem;
 
-import com.teamsimplyrs.prismaarcanum.system.spellsystem.actions.GenericAction;
-import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.model.SpellDataModel;
+import com.teamsimplyrs.prismaarcanum.system.spellsystem_deprecated.actions.GenericAction;
+import com.teamsimplyrs.prismaarcanum.system.spellsystem_deprecated.data.model.SpellDataModel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.HitResult;
 
 import java.util.*;
 

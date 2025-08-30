@@ -3,19 +3,18 @@ package com.teamsimplyrs.prismaarcanum.registry;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
-import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.model.SpellDataModel;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.registry.SpellRegistry;
+import com.teamsimplyrs.prismaarcanum.system.spellsystem.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.system.spellsystem_deprecated.data.model.SpellDataModel;
+import com.teamsimplyrs.prismaarcanum.system.spellsystem_deprecated.registry.SpellRegistryOld;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import org.spongepowered.asm.mixin.injection.struct.InjectorGroupInfo;
 
-import java.util.Map;
 import java.util.function.Supplier;
 
 public class PACreativeTabsRegistry {
@@ -28,16 +27,16 @@ public class PACreativeTabsRegistry {
                 output.accept(PAItemRegistry.DEBUG_WAND);
                 output.accept(PAItemRegistry.SPELL_PRISM_ITEM);
 
-                for (SpellDataModel spellData : SpellRegistry.getAllSpellData()) {
+                for (AbstractSpell spell : SpellRegistry.getAllSpells()) {
                     ItemStack spellPrismItemInstance = new ItemStack(PAItemRegistry.SPELL_PRISM_ITEM.get());
                     // Set bound spell ID resource location
-                    spellPrismItemInstance.set(PADataComponents.SPELL_ID, spellData.id);
+                    spellPrismItemInstance.set(PADataComponents.SPELL_ID, spell.getResourceLocation());
                     // Set display name; in the format: Spell Prism (Spell Name)
                     spellPrismItemInstance.set(
                             DataComponents.ITEM_NAME,
                             Component.literal(String.format("%s (%s)",
                                     Component.translatable(String.format("item.%s.%s", PrismaArcanum.MOD_ID, SpellPrismItem.NAME)).getString(),
-                                    spellData.spell_display_name))
+                                    spell.getDisplayName()))
                     );
                     output.accept(spellPrismItemInstance);
                 }
