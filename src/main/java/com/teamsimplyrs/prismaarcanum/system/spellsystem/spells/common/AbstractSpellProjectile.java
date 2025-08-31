@@ -53,8 +53,8 @@ public abstract class AbstractSpellProjectile extends Projectile {
     // not really "random", just spinny.
     protected void moveWithRandomizedRotation() {
         moveDefault();
-        float newXRot = getXRot() + 20;
-        float newYRot = getYRot() + 20;
+        float newXRot = getXRot() + 2;
+        float newYRot = getYRot() + 2;
         setXRot(Mth.wrapDegrees(newXRot));
         setYRot(Mth.wrapDegrees(newYRot));
     }
@@ -68,7 +68,7 @@ public abstract class AbstractSpellProjectile extends Projectile {
         moveDefault();
     }
 
-    protected abstract void particlesOnLaunch();
+    protected abstract void particlesOnLaunch(Vec3 rot);
 
     protected abstract void particlesTrailing();
 

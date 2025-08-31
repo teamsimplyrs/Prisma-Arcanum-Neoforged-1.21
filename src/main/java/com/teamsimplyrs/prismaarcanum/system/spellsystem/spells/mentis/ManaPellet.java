@@ -1,5 +1,9 @@
 package com.teamsimplyrs.prismaarcanum.system.spellsystem.spells.mentis;
 
+import com.lowdragmc.photon.client.fx.EntityEffectExecutor;
+import com.lowdragmc.photon.client.fx.FX;
+import com.lowdragmc.photon.client.fx.FXHelper;
+import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.entity.custom.ManaPelletProjectile;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.system.utils.Element;
@@ -12,6 +16,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 
 public class ManaPellet extends AbstractSpell {
     public static final String spellID = "mana_pellet";
@@ -54,6 +59,18 @@ public class ManaPellet extends AbstractSpell {
     @Override
     public void onCastingStarted(Player player, Level world) {
         super.onCastingStarted(player, world);
+
+        FX mentisPulseMini = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "mentis_pulse_mini"));
+        EntityEffectExecutor entityFX = new EntityEffectExecutor(mentisPulseMini, world, player, EntityEffectExecutor.AutoRotate.LOOK);
+
+        Vec3 look = player.getLookAngle();
+        double distance = 0.5f;
+        float x = (float)(look.x * distance);
+        float y = (float)(player.getEyeHeight());
+        float z = (float)(look.z * distance);
+
+        entityFX.setOffset(new Vector3f(x, 0, z));
+        entityFX.start();
     }
 
     @Override
