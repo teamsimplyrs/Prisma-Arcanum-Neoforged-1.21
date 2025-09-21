@@ -61,6 +61,8 @@ public class ManaPelletProjectile extends AbstractSpellProjectile {
     @Override
     public void launch(Vec3 rot) {
         super.launch(rot);
+        this.refreshDimensions();
+
         particlesOnLaunch(rot);
     }
 
