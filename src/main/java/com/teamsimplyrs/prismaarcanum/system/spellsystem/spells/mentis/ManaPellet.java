@@ -95,6 +95,6 @@ public class ManaPellet extends AbstractSpell {
     }
 
     public ProjectileMotionType getProjectileMotionType() {
-        return ProjectileMotionType.ROTATE_RANDOM;
+        return ProjectileMotionType.NONE;
     }
 }

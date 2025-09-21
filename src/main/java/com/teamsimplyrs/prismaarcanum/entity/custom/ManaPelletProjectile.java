@@ -61,8 +61,6 @@ public class ManaPelletProjectile extends AbstractSpellProjectile {
     @Override
     public void launch(Vec3 rot) {
         super.launch(rot);
-        this.refreshDimensions();
-
         particlesOnLaunch(rot);
     }
 
@@ -70,8 +68,6 @@ public class ManaPelletProjectile extends AbstractSpellProjectile {
     protected void particlesOnLaunch(Vec3 rot) {
         FX manaPelletTrail = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "mana_pellet_trail"));
         EntityEffectExecutor entityFX = new EntityEffectExecutor(manaPelletTrail, world, this, EntityEffectExecutor.AutoRotate.NONE);
-        Vec3 rotToDeg = new Vec3(Math.toDegrees(rot.x), Math.toDegrees(rot.y), Math.toDegrees(rot.z));
-        entityFX.setRotation(new Quaternionf().rotationXYZ((float) rotToDeg.x, (float) rotToDeg.y, (float) rotToDeg.z));
         entityFX.start();
     }
 
