@@ -32,9 +32,9 @@ public class ManaPellet extends AbstractSpell {
     public static final String evolutionSpellID = MagicBullet.spellID;
 
     private static final float baseDamage = 1.5f;
-    private static final float baseSpeed = 1f;
+    private static final float baseSpeed = 80f;
     private static final float baseInaccuracy = 1f;
-    private static final float baseLifetime = 100f;
+    private static final float baseLifetime = 50f;
 
     public ManaPellet() {
         super(spellID, element, school, tier, basicManaCost, basicCooldown, hasEvolution, prevolutionSpellID, evolutionSpellID);
@@ -46,7 +46,7 @@ public class ManaPellet extends AbstractSpell {
             player.sendSystemMessage(Component.literal("Mana Pellet: Server Cast called"));
             ManaPelletProjectile projectile = new ManaPelletProjectile(player, world, this);
             Vec3 offset = player.position().add(0, player.getEyeHeight() - projectile.getBoundingBox().getYsize() * 0.5F, 0);
-            projectile.setSpellData(getDamage(), getLifetime(), getLifetime(), getProjectileMotionType());
+            projectile.setSpellData(getDamage(), getLifetime(), getVelocity(), getProjectileMotionType());
             projectile.setPos(offset);
             projectile.launch(player.getLookAngle());
 
@@ -58,19 +58,21 @@ public class ManaPellet extends AbstractSpell {
 
     @Override
     public void onCastingStarted(Player player, Level world) {
-        super.onCastingStarted(player, world);
+        if (!world.isClientSide) {
+            super.onCastingStarted(player, world);
 
-        FX mentisPulseMini = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "mentis_pulse_mini"));
-        EntityEffectExecutor entityFX = new EntityEffectExecutor(mentisPulseMini, world, player, EntityEffectExecutor.AutoRotate.LOOK);
+            FX mentisPulseMini = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "mentis_pulse_mini"));
+            EntityEffectExecutor entityFX = new EntityEffectExecutor(mentisPulseMini, world, player, EntityEffectExecutor.AutoRotate.LOOK);
 
-        Vec3 look = player.getLookAngle();
-        double distance = 0.5f;
-        float x = (float)(look.x * distance);
-        float y = (float)(player.getEyeHeight());
-        float z = (float)(look.z * distance);
+            Vec3 look = player.getLookAngle();
+            double distance = 0.5f;
+            float x = (float)(look.x * distance);
+            float y = (float)(player.getEyeHeight());
+            float z = (float)(look.z * distance);
 
-        entityFX.setOffset(new Vector3f(x, 0, z));
-        entityFX.start();
+            entityFX.setOffset(new Vector3f(x, 0, z));
+            entityFX.start();
+        }
     }
 
     @Override
@@ -92,6 +94,10 @@ public class ManaPellet extends AbstractSpell {
 
     public float getLifetime() {
         return tier * baseLifetime;
+    }
+
+    public float getVelocity() {
+        return (1 + (tier - 1) * 0.5f) * baseSpeed;
     }
 
     public ProjectileMotionType getProjectileMotionType() {
