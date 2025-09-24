@@ -3,9 +3,7 @@ package com.teamsimplyrs.prismaarcanum;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.entity.client.ManaPelletRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.custom.ManaPelletProjectile;
-import com.teamsimplyrs.prismaarcanum.registry.PACreativeTabsRegistry;
-import com.teamsimplyrs.prismaarcanum.registry.PAEntityRegistry;
-import com.teamsimplyrs.prismaarcanum.registry.PAItemRegistry;
+import com.teamsimplyrs.prismaarcanum.registry.*;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem_deprecated.data.SpellDataLoader;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -49,10 +47,12 @@ public class PrismaArcanum
 
         // Call all registers here
         SpellRegistry.register(modEventBus);
-        PACreativeTabsRegistry.register(modEventBus);
+        PABlockRegistry.register(modEventBus);
         PAItemRegistry.register(modEventBus);
         PAEntityRegistry.register(modEventBus);
+        PABlockEntityRegistry.register(modEventBus);
         PADataComponents.register(modEventBus);
+        PACreativeTabsRegistry.register(modEventBus);
 
         modEventBus.addListener(this::addCreative);
 
@@ -72,9 +72,7 @@ public class PrismaArcanum
     // Add the block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-            event.accept(PAItemRegistry.DEBUG_WAND);
-        }
+
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

@@ -8,6 +8,7 @@ import com.teamsimplyrs.prismaarcanum.system.spellsystem.spells.common.AbstractS
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
@@ -45,6 +46,7 @@ public class PACreativeTabsRegistry {
 
     public static final Supplier<CreativeModeTab> PA_PRISMATIC_BLOCKS_TAB = CREATIVE_TAB_REGISTRY.register("prismatic_blocks_tab", () -> CreativeModeTab.builder()
             .icon(() -> new ItemStack(PABlockRegistry.PRISMA_FOCUS_BENCH))
+            .withTabsBefore(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "prismatic_tools_tab"))
             .title(Component.translatable("creativetab.prismaarcanum.prismatic_blocks"))
             .displayItems(((itemDisplayParameters, output) -> {
                 output.accept(PABlockRegistry.PRISMA_FOCUS_BENCH.get());

@@ -32,7 +32,7 @@ public class PrismaFocusBenchBlock extends BaseEntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return null;
+        return new PrismaFocusBenchBlockEntity(blockPos, blockState);
     }
 
     @Override
