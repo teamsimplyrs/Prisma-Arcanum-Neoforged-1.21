@@ -39,7 +39,18 @@ public class PACreativeTabsRegistry {
                     );
                     output.accept(spellPrismItemInstance);
                 }
-            }).build());
+            })
+            .build());
+
+
+    public static final Supplier<CreativeModeTab> PA_PRISMATIC_BLOCKS_TAB = CREATIVE_TAB_REGISTRY.register("prismatic_blocks_tab", () -> CreativeModeTab.builder()
+            .icon(() -> new ItemStack(PABlockRegistry.PRISMA_FOCUS_BENCH))
+            .title(Component.translatable("creativetab.prismaarcanum.prismatic_blocks"))
+            .displayItems(((itemDisplayParameters, output) -> {
+                output.accept(PABlockRegistry.PRISMA_FOCUS_BENCH.get());
+            }))
+            .build());
+
     public static void register(IEventBus eventBus) {
         CREATIVE_TAB_REGISTRY.register(eventBus);
     }
