@@ -1,7 +1,9 @@
 package com.teamsimplyrs.prismaarcanum.block;
 
 import com.mojang.serialization.MapCodec;
+import com.teamsimplyrs.prismaarcanum.block.blockentity.PrismaFocusBenchBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
@@ -31,5 +33,14 @@ public class PrismaFocusBenchBlock extends BaseEntityBlock {
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return null;
+    }
+
+    @Override
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+        if (state.getBlock() != newState.getBlock() && level.getBlockEntity(pos) instanceof PrismaFocusBenchBlockEntity prismaFocusBenchBE) {
+            prismaFocusBenchBE.dropContents();
+            level.updateNeighbourForOutputSignal(pos, this);
+        }
+        super.onRemove(state, level, pos, newState, movedByPiston);
     }
 }

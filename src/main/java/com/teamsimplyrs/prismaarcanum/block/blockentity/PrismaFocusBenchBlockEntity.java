@@ -5,6 +5,8 @@ import com.teamsimplyrs.prismaarcanum.registry.PABlockEntityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.Containers;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -35,13 +37,24 @@ public class PrismaFocusBenchBlockEntity extends BlockEntity {
         super(PABlockEntityRegistry.PRISMA_FOCUS_BENCH.get(), pos, blockState);
     }
 
+    public void dropContents() {
+        SimpleContainer container = new SimpleContainer(inventory.getSlots());
+        for (int i = 0; i < inventory.getSlots(); i++) {
+            container.setItem(i, inventory.getStackInSlot(i));
+        }
+
+        Containers.dropContents(this.level, this.worldPosition, container);
+    }
+
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
+        tag.put("inventory", inventory.serializeNBT(registries));
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-            super.loadAdditional(tag, registries);
+        super.loadAdditional(tag, registries);
+        inventory.deserializeNBT(registries, tag.getCompound("inventory"));
     }
 }

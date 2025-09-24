@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "prismaarcanum:block/prisma_focus_bench"
+    }
+  }
+}
