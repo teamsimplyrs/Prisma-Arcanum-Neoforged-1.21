@@ -1,8 +1,10 @@
 package com.teamsimplyrs.prismaarcanum.client.menu.container;
 
 import com.teamsimplyrs.prismaarcanum.block.blockentity.PrismaFocusBenchBlockEntity;
+import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
 import com.teamsimplyrs.prismaarcanum.registry.PABlockRegistry;
 import com.teamsimplyrs.prismaarcanum.registry.PAMenuTypesRegistry;
+import com.teamsimplyrs.prismaarcanum.system.castingsystem.interfaces.IMultiSpellHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -37,13 +39,19 @@ public class PrismaFocusBenchMenu extends AbstractContainerMenu {
         addPrismFocusBenchSlots();
     }
 
-    public static PrismaFocusBenchMenu createFromNetwork(int id, Inventory playerInv, FriendlyByteBuf data) {
-        BlockPos pos = data.readBlockPos();
-        var level = playerInv.player.level();
-        var be = (PrismaFocusBenchBlockEntity) level.getBlockEntity(pos);
-        return new PrismaFocusBenchMenu(id, playerInv, be);
-    }
+    private boolean isSlotValidForItem(int slotIndex, ItemStack stack) {
+        boolean isValid;
+        switch (slotIndex) {
+            case 0:
+                isValid = stack.getItem() instanceof IMultiSpellHolder;
+                break;
+            default:
+                isValid = stack.getItem() instanceof SpellPrismItem;
+                break;
+        }
 
+        return isValid;
+    }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
     // must assign a slot number to each of the slots used by the GUI.
@@ -72,8 +80,8 @@ public class PrismaFocusBenchMenu extends AbstractContainerMenu {
         // Check if the slot clicked is one of the vanilla container slots
         if (pIndex < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT) {
             // This is a vanilla container slot so merge the stack into the tile inventory
-            if (!moveItemStackTo(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX
-                    + TE_INVENTORY_SLOT_COUNT, false)) {
+            if (!isSlotValidForItem(pIndex, sourceStack)
+                    || !moveItemStackTo(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT, false)) {
                 return ItemStack.EMPTY;  // EMPTY_ITEM
             }
         } else if (pIndex < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT) {
@@ -100,26 +108,34 @@ public class PrismaFocusBenchMenu extends AbstractContainerMenu {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()), player, PABlockRegistry.PRISMA_FOCUS_BENCH.get());
     }
 
-    private void addPrismFocusBenchSlots() {
-        addSlot(new SlotItemHandler(this.blockEntity.inventory, 0, 81, 27));
+    @Override
+    protected boolean moveItemStackTo(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection) {
+        if (!isSlotValidForItem(endIndex, stack)) {
+            return false;
+        }
+        return super.moveItemStackTo(stack, startIndex, endIndex, reverseDirection);
+    }
 
-        addSlot(new SlotItemHandler(this.blockEntity.inventory, 1, 57, 3));
-        addSlot(new SlotItemHandler(this.blockEntity.inventory, 2, 105, 3));
-        addSlot(new SlotItemHandler(this.blockEntity.inventory, 3, 57, 51));
-        addSlot(new SlotItemHandler(this.blockEntity.inventory, 4, 105, 51));
+    private void addPrismFocusBenchSlots() {
+        addSlot(new SlotItemHandler(this.blockEntity.inventory, 0, 80, 20));
+
+        addSlot(new SlotItemHandler(this.blockEntity.inventory, 1, 53, -7));
+        addSlot(new SlotItemHandler(this.blockEntity.inventory, 2, 108, -7));
+        addSlot(new SlotItemHandler(this.blockEntity.inventory, 3, 53, 47));
+        addSlot(new SlotItemHandler(this.blockEntity.inventory, 4, 108, 47));
     }
 
     private void addPlayerInventory(Inventory playerInv) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {
-                addSlot(new Slot(playerInv, j + (i*9) + 9, 13 + (j * 17), 108 + (i*18)));
+                addSlot(new Slot(playerInv, j + (i*9) + 9, 12 + (j * 17), 117 + (i*18)));
             }
         }
     }
 
     private void addPlayerHotbar (Inventory playerInv) {
         for (int i = 0; i < 9; i++) {
-            addSlot(new Slot(playerInv, i, 13 + (i*17), 167));
+            addSlot(new Slot(playerInv, i, 12 + (i*17), 176));
         }
     }
 }

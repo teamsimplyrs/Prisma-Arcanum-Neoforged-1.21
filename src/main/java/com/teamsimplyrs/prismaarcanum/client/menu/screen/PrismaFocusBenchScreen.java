@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Inventory;
 public class PrismaFocusBenchScreen extends AbstractContainerScreen<PrismaFocusBenchMenu> {
 
     private static final ResourceLocation GUI_TEX = ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "textures/gui/prisma_focus_bench_gui.png");
+    private int texW, texH;
 
     public PrismaFocusBenchScreen(PrismaFocusBenchMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -23,10 +24,14 @@ public class PrismaFocusBenchScreen extends AbstractContainerScreen<PrismaFocusB
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, GUI_TEX);
-        int x = (width - 158) / 2;
-        int y = (height - 238) / 2;
 
-        guiGraphics.blit(GUI_TEX, x, y, 0, 0, 159, 238, 256, 256);
+        texW = 256;
+        texH = 256;
+
+        int x = (width - texW) / 2;
+        int y = (height - texH) / 2;
+
+        guiGraphics.blit(GUI_TEX, x, y, 0, 0, texW, texH, 256, 256);
     }
 
     @Override
