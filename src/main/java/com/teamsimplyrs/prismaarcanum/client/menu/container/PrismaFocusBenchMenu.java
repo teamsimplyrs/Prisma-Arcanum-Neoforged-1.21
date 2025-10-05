@@ -117,12 +117,37 @@ public class PrismaFocusBenchMenu extends AbstractContainerMenu {
     }
 
     private void addPrismFocusBenchSlots() {
-        addSlot(new SlotItemHandler(this.blockEntity.inventory, 0, 80, 20));
+        addSlot(new SlotItemHandler(this.blockEntity.inventory, 0, 80, 20){
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return isSlotValidForItem(0, stack) && super.mayPlace(stack);
+            }
+        });
 
-        addSlot(new SlotItemHandler(this.blockEntity.inventory, 1, 53, -7));
-        addSlot(new SlotItemHandler(this.blockEntity.inventory, 2, 108, -7));
-        addSlot(new SlotItemHandler(this.blockEntity.inventory, 3, 53, 47));
-        addSlot(new SlotItemHandler(this.blockEntity.inventory, 4, 108, 47));
+        addSlot(new SlotItemHandler(this.blockEntity.inventory, 1, 53, -7){
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return isSlotValidForItem(1, stack) && super.mayPlace(stack);
+            }
+        });
+        addSlot(new SlotItemHandler(this.blockEntity.inventory, 2, 108, -7){
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return isSlotValidForItem(2, stack) && super.mayPlace(stack);
+            }
+        });
+        addSlot(new SlotItemHandler(this.blockEntity.inventory, 3, 53, 47){
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return isSlotValidForItem(3, stack) && super.mayPlace(stack);
+            }
+        });
+        addSlot(new SlotItemHandler(this.blockEntity.inventory, 4, 108, 47){
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return isSlotValidForItem(4, stack) && super.mayPlace(stack);
+            }
+        });
     }
 
     private void addPlayerInventory(Inventory playerInv) {
