@@ -1,5 +1,6 @@
 package com.teamsimplyrs.prismaarcanum;
 
+import com.teamsimplyrs.prismaarcanum.client.menu.screen.PrismaFocusBenchScreen;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.entity.client.ManaPelletRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.custom.ManaPelletProjectile;
@@ -8,6 +9,7 @@ import com.teamsimplyrs.prismaarcanum.system.spellsystem.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.system.spellsystem_deprecated.data.SpellDataLoader;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import org.slf4j.Logger;
 
@@ -51,6 +53,7 @@ public class PrismaArcanum
         PAItemRegistry.register(modEventBus);
         PAEntityRegistry.register(modEventBus);
         PABlockEntityRegistry.register(modEventBus);
+        PAMenuTypesRegistry.register(modEventBus);
         PADataComponents.register(modEventBus);
         PACreativeTabsRegistry.register(modEventBus);
 
@@ -90,6 +93,11 @@ public class PrismaArcanum
         public static void onClientSetup(FMLClientSetupEvent event)
         {
             EntityRenderers.register(PAEntityRegistry.MANA_PELLET_PROJECTILE.get(), ManaPelletRenderer::new);
+        }
+
+        @SubscribeEvent
+        public static void registerScreens(RegisterMenuScreensEvent event) {
+            event.register(PAMenuTypesRegistry.PRISMA_FOCUS_BENCH_MENU.get(), PrismaFocusBenchScreen::new);
         }
     }
 }

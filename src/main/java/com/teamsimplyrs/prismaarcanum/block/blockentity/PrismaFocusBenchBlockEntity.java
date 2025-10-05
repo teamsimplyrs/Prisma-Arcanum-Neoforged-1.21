@@ -1,12 +1,18 @@
 package com.teamsimplyrs.prismaarcanum.block.blockentity;
 
 import com.mojang.serialization.MapCodec;
+import com.teamsimplyrs.prismaarcanum.client.menu.container.PrismaFocusBenchMenu;
 import com.teamsimplyrs.prismaarcanum.registry.PABlockEntityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.Containers;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -15,7 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class PrismaFocusBenchBlockEntity extends BlockEntity {
+public class PrismaFocusBenchBlockEntity extends BlockEntity implements MenuProvider {
     public static final String name = "prisma_focus_bench_be";
     public final ItemStackHandler inventory = new ItemStackHandler(5) {
         @Override
@@ -56,5 +62,15 @@ public class PrismaFocusBenchBlockEntity extends BlockEntity {
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         inventory.deserializeNBT(registries, tag.getCompound("inventory"));
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return Component.translatable("menu.prismaarcanum.prisma_focus_bench");
+    }
+
+    @Override
+    public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+        return new PrismaFocusBenchMenu(i, inventory, this);
     }
 }
