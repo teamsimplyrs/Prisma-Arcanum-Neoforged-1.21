@@ -4,21 +4,17 @@ import com.teamsimplyrs.prismaarcanum.block.blockentity.PrismaFocusBenchBlockEnt
 import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
 import com.teamsimplyrs.prismaarcanum.registry.PABlockRegistry;
 import com.teamsimplyrs.prismaarcanum.registry.PAMenuTypesRegistry;
-import com.teamsimplyrs.prismaarcanum.system.castingsystem.interfaces.IMultiSpellHolder;
-import net.minecraft.core.BlockPos;
+import com.teamsimplyrs.prismaarcanum.api.casting.interfaces.IMultiSpellHolder;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
-import org.jetbrains.annotations.Nullable;
 
 public class PrismaFocusBenchMenu extends AbstractContainerMenu {
     public final PrismaFocusBenchBlockEntity blockEntity;
@@ -106,14 +102,6 @@ public class PrismaFocusBenchMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player player) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()), player, PABlockRegistry.PRISMA_FOCUS_BENCH.get());
-    }
-
-    @Override
-    protected boolean moveItemStackTo(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection) {
-        if (!isSlotValidForItem(endIndex, stack)) {
-            return false;
-        }
-        return super.moveItemStackTo(stack, startIndex, endIndex, reverseDirection);
     }
 
     private void addPrismFocusBenchSlots() {

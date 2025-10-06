@@ -1,7 +1,7 @@
 package com.teamsimplyrs.prismaarcanum.item;
 
 import com.mojang.logging.LogUtils;
-import com.teamsimplyrs.prismaarcanum.system.utils.Element;
+import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import net.minecraft.world.item.Item;
 import org.slf4j.Logger;
 

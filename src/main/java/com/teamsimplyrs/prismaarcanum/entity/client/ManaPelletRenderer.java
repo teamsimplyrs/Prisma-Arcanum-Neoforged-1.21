@@ -5,14 +5,13 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.entity.custom.ManaPelletProjectile;
-import com.teamsimplyrs.prismaarcanum.system.spellsystem.spells.mentis.ManaPellet;
-import com.teamsimplyrs.prismaarcanum.system.utils.Element;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.ManaPellet;
+import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 
 public class ManaPelletRenderer extends EntityRenderer<ManaPelletProjectile> {

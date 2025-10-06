@@ -3,8 +3,9 @@ package com.teamsimplyrs.prismaarcanum.registry;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
-import com.teamsimplyrs.prismaarcanum.system.spellsystem.registry.SpellRegistry;
-import com.teamsimplyrs.prismaarcanum.system.spellsystem.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.item.debug.DebugWand;
+import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -23,8 +24,11 @@ public class PACreativeTabsRegistry {
             .icon(() -> new ItemStack(PAItemRegistry.DEBUG_WAND.get()))
             .title(Component.translatable("creativetab.prismaarcanum.prismatic_tools"))
             .displayItems((itemDisplayParameters, output) -> {
-                output.accept(PAItemRegistry.DEBUG_WAND);
-                output.accept(PAItemRegistry.SPELL_PRISM_ITEM);
+                DebugWand debugWand = (DebugWand)PAItemRegistry.DEBUG_WAND.get();
+                debugWand.loadSpells();
+                output.accept(debugWand);
+
+                output.accept(PAItemRegistry.IGNIS_WAND);
 
                 for (AbstractSpell spell : SpellRegistry.getAllSpells()) {
                     ItemStack spellPrismItemInstance = new ItemStack(PAItemRegistry.SPELL_PRISM_ITEM.get());

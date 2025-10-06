@@ -2,7 +2,7 @@ package com.teamsimplyrs.prismaarcanum.event;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.entity.client.ManaPelletModel;
-import com.teamsimplyrs.prismaarcanum.system.spellsystem.registry.SpellRegistry;
+import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
