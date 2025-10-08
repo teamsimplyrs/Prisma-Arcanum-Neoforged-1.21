@@ -12,6 +12,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -32,7 +33,24 @@ public class SpellRegistry {
         return SPELL_REGISTRY.stream().toList();
     }
 
+    public static List<ResourceLocation> getAllSpellIDs() {
+        return SPELL_REGISTRY.keySet().stream().toList();
+    }
+
     public static AbstractSpell getSpell(ResourceLocation id) {
         return SPELL_REGISTRY.get(id);
+    }
+
+    public static List<AbstractSpell> getSpells(List<ResourceLocation> spellIDs) {
+        if (spellIDs == null || spellIDs.isEmpty()) {
+            return null;
+        }
+
+        List<AbstractSpell> result = new ArrayList<>();
+        for (var id: spellIDs) {
+            result.add(getSpell(id));
+        }
+
+        return result;
     }
 }

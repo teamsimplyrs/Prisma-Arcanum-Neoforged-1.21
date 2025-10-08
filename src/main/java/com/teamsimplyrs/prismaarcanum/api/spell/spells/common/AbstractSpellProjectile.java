@@ -3,6 +3,7 @@ package com.teamsimplyrs.prismaarcanum.api.spell.spells.common;
 import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.api.utils.ProjectileMotionType;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -15,10 +16,11 @@ import net.minecraft.world.phys.Vec3;
 import org.slf4j.Logger;
 
 public abstract class AbstractSpellProjectile extends Projectile {
-    private static final Logger LOGGER = LogUtils.getLogger();
+    protected static final Logger LOGGER = LogUtils.getLogger();
     protected float damage = 1f;
     protected float lifetime = 100f;
     protected float velocity = 5f;
+    protected ResourceLocation parentSpellID;
     protected ProjectileMotionType motionType = ProjectileMotionType.NONE;
 
     public AbstractSpellProjectile(EntityType<? extends Projectile> entityType, Level level) {
@@ -33,6 +35,10 @@ public abstract class AbstractSpellProjectile extends Projectile {
         this.lifetime = lifetime;
         this.velocity = velocity;
         this.motionType = motionType;
+    }
+
+    protected void setParentSpell(ResourceLocation spellID) {
+        this.parentSpellID = spellID;
     }
 
     protected void launch(Vec3 rot) {
@@ -68,11 +74,11 @@ public abstract class AbstractSpellProjectile extends Projectile {
         moveDefault();
     }
 
-    protected abstract void particlesOnLaunch(Vec3 rot);
+    public abstract void startLaunchFX(Vec3 rot);
 
-    protected abstract void particlesTrailing();
+    public abstract void startTrailFX();
 
-    protected abstract void particlesOnHit();
+    public abstract void startHitFX();
 
     @Override
     public void tick() {

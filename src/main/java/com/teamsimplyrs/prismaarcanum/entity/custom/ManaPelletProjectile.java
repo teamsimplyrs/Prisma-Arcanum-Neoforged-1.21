@@ -10,6 +10,7 @@ import com.teamsimplyrs.prismaarcanum.registry.PAEntityRegistry;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpellProjectile;
 import com.teamsimplyrs.prismaarcanum.api.utils.ProjectileMotionType;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -21,28 +22,20 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.joml.Vector3f;
 import org.slf4j.Logger;
 
 public class ManaPelletProjectile extends AbstractSpellProjectile {
-    private static final Logger LOGGER = LogUtils.getLogger();
-
-    private float damage;
-    private float lifetime;
-    private AbstractSpell parentSpell;
-    private Level world;
-
     public ManaPelletProjectile(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
     }
 
-    public ManaPelletProjectile(LivingEntity caster, Level level, AbstractSpell spell) {
+    public ManaPelletProjectile(LivingEntity caster, Level level, ResourceLocation spellID) {
         super(PAEntityRegistry.MANA_PELLET_PROJECTILE.get(), level);
         this.setNoGravity(true);
         this.setOwner(caster);
-
-
-        this.world = level;
-        this.parentSpell = spell;
+        this.setLevel(level);
+        this.setParentSpell(spellID);
     }
 
     @Override
@@ -54,24 +47,25 @@ public class ManaPelletProjectile extends AbstractSpellProjectile {
     public void launch(Vec3 rot) {
         super.launch(rot);
         this.refreshDimensions();
-
-        particlesOnLaunch(rot);
     }
 
     @Override
-    protected void particlesOnLaunch(Vec3 rot) {
-        FX manaPelletTrail = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "mana_pellet_trail"));
-        EntityEffectExecutor entityFX = new EntityEffectExecutor(manaPelletTrail, world, this, EntityEffectExecutor.AutoRotate.NONE);
-        entityFX.start();
+    public void startLaunchFX(Vec3 rot) {
     }
 
     @Override
-    protected void particlesTrailing() {
-
+    public void startTrailFX() {
+        if (level().isClientSide) {
+            FX manaPelletTrail = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "mana_pellet_trail"));
+            EntityEffectExecutor entityFX = new EntityEffectExecutor(manaPelletTrail, level(), this, EntityEffectExecutor.AutoRotate.LOOK);
+            entityFX.setOffset(this.position().toVector3f());
+//            entityFX.setOffset();
+            entityFX.start();
+        }
     }
 
     @Override
-    protected void particlesOnHit() {
+    public void startHitFX() {
 
     }
 
@@ -109,8 +103,8 @@ public class ManaPelletProjectile extends AbstractSpellProjectile {
     public void onRemovedFromLevel() {
         super.onRemovedFromLevel();
         Entity owner = this.getOwner();
-        if (this.world != null && !this.world.isClientSide && owner != null) {
-            PacketDistributor.sendToPlayersNear((ServerLevel)world, null, owner.getX(), owner.getY(), owner.getZ(), 15, new OnCastingFinishedPayload(owner.getUUID(), this.parentSpell.getResourceLocation()));
+        if (level() != null && !level().isClientSide && owner != null) {
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(this, new OnCastingFinishedPayload(owner.getUUID(), parentSpellID));
         }
     }
 

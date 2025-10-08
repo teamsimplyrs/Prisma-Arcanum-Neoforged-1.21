@@ -2,10 +2,14 @@ package com.teamsimplyrs.prismaarcanum.client.menu.container;
 
 import com.teamsimplyrs.prismaarcanum.block.blockentity.PrismaFocusBenchBlockEntity;
 import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
+import com.teamsimplyrs.prismaarcanum.network.payload.CastPayload;
+import com.teamsimplyrs.prismaarcanum.network.payload.OnPrismConvergePayload;
 import com.teamsimplyrs.prismaarcanum.registry.PABlockRegistry;
 import com.teamsimplyrs.prismaarcanum.registry.PAMenuTypesRegistry;
 import com.teamsimplyrs.prismaarcanum.api.casting.interfaces.IMultiSpellHolder;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -15,10 +19,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.network.PacketDistributor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PrismaFocusBenchMenu extends AbstractContainerMenu {
     public final PrismaFocusBenchBlockEntity blockEntity;
     private final Level level;
+
+    private static final int WAND_SLOT_INDEX = 0, MAX_SPELL_SLOTS = 5;
 
     public PrismaFocusBenchMenu(int containerId, Inventory playerInv, FriendlyByteBuf extraData) {
         this(containerId, playerInv, playerInv.player.level().getBlockEntity(extraData.readBlockPos()));
@@ -150,5 +160,22 @@ public class PrismaFocusBenchMenu extends AbstractContainerMenu {
         for (int i = 0; i < 9; i++) {
             addSlot(new Slot(playerInv, i, 12 + (i*17), 176));
         }
+    }
+
+    public void onConvergePress() {
+        List<ResourceLocation> spellIDs = new ArrayList<>();
+        for (int i = WAND_SLOT_INDEX + 1; i < this.slots.size(); i++) {
+            if (!this.getSlot(i).hasItem()) {
+                continue;
+            }
+
+            if (this.getSlot(i).getItem().getItem() instanceof SpellPrismItem prism) {
+                ResourceLocation spellID = prism.checkAndGetSpellID();
+                if (spellID != null) {
+                    spellIDs.add(spellID);
+                }
+            }
+        }
+        PacketDistributor.sendToServer(new OnPrismConvergePayload(WAND_SLOT_INDEX, spellIDs));
     }
 }

@@ -2,7 +2,8 @@ package com.teamsimplyrs.prismaarcanum.item.debug;
 
 import com.teamsimplyrs.prismaarcanum.api.casting.AbstractCastable;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.api.utils.SpellUtils;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -20,8 +21,7 @@ public class DebugWand extends AbstractCastable {
     }
 
     public void loadSpells() {
-        var allSpells = SpellRegistry.getAllSpells();
-        setSpells(allSpells);
+        spells = SpellRegistry.getAllSpellIDs();
     }
 
     @Override
@@ -40,8 +40,8 @@ public class DebugWand extends AbstractCastable {
     }
 
     @Override
-    public void cast(Level world, Player player, AbstractSpell spell) {
-        super.cast(world, player, spell);
+    public void cast(Level world, Player player, ResourceLocation spellID) {
+        super.cast(world, player, spellID);
     }
 
     @Override

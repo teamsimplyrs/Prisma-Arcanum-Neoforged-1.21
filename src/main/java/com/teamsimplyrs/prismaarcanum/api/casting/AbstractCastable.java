@@ -3,9 +3,13 @@ package com.teamsimplyrs.prismaarcanum.api.casting;
 import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.api.casting.interfaces.ICastable;
 import com.teamsimplyrs.prismaarcanum.api.casting.interfaces.IMultiSpellHolder;
+import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.slf4j.Logger;
 
@@ -13,16 +17,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AbstractCastable extends Item implements ICastable, IMultiSpellHolder {
-    protected List<AbstractSpell> spells;
+    protected List<ResourceLocation> spells;
     protected int currentSpellIndex;
     protected static final Logger LOGGER = LogUtils.getLogger();
+    protected int maxSpells = 5;
 
     public AbstractCastable(Properties properties) {
         super(properties);
     }
 
     @Override
-    public void cast(Level world, Player player, AbstractSpell spell) {
+    public void cast(Level world, Player player, ResourceLocation spellID) {
+        AbstractSpell spell = SpellRegistry.getSpell(spellID);
+        if (spell == null) {
+            LOGGER.error("[Prisma Arcanum] User tried to cast a null spell: Spell was not found in the reigstry");
+        }
         spell.tryCast(world, player);
     }
 
@@ -60,7 +69,7 @@ public class AbstractCastable extends Item implements ICastable, IMultiSpellHold
     }
 
     @Override
-    public AbstractSpell getCurrentSpell() {
+    public ResourceLocation getCurrentSpell() {
         if (spells == null || spells.isEmpty()) {
             return null;
         }
@@ -73,23 +82,16 @@ public class AbstractCastable extends Item implements ICastable, IMultiSpellHold
     }
 
     @Override
-    public void setSpell(AbstractSpell spell, int index) {
-        if (spells == null || spells.isEmpty()) {
+    public void setSpell(ResourceLocation spell, int index) {
+        if (spells == null) {
+            spells = new ArrayList<>(maxSpells);
+        }
+
+        if (spells.isEmpty()) {
             spells.add(spell);
             return;
         }
 
         spells.set(index, spell);
-    }
-
-    @Override
-    public void setSpells(List<AbstractSpell> spellsList) {
-        if (spells == null) {
-            spells = new ArrayList<>();
-        } else {
-            spells.clear();
-        }
-
-        spells.addAll(spellsList);
     }
 }

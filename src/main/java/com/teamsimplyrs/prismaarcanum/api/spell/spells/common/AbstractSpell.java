@@ -63,7 +63,7 @@ public abstract class AbstractSpell implements ISpell {
 
     public void cast(ServerPlayer player, Level world) {
         ResourceLocation resLoc = getResourceLocation();
-        PacketDistributor.sendToPlayer(player, new OnCastingStartedPayload(player.getUUID(), resLoc));
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, new OnCastingStartedPayload(player.getUUID(), resLoc));
     }
 
     public void onCastingStarted(Player player, Level world) {

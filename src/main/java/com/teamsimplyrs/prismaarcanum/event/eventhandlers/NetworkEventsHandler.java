@@ -1,9 +1,7 @@
 package com.teamsimplyrs.prismaarcanum.event.eventhandlers;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
-import com.teamsimplyrs.prismaarcanum.network.payload.CastPayload;
-import com.teamsimplyrs.prismaarcanum.network.payload.OnCastingFinishedPayload;
-import com.teamsimplyrs.prismaarcanum.network.payload.OnCastingStartedPayload;
+import com.teamsimplyrs.prismaarcanum.network.payload.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -22,11 +20,13 @@ public class NetworkEventsHandler {
 
     private static void PlayToServer(PayloadRegistrar registrar) {
         registrar.playToServer(CastPayload.PAYLOAD_TYPE, CastPayload.CODEC, CastPayload::handle);
+        registrar.playToServer(OnPrismConvergePayload.PAYLOAD_TYPE, OnPrismConvergePayload.CODEC, OnPrismConvergePayload::handle);
     }
 
     private static void PlayToClient(PayloadRegistrar registrar) {
         registrar.playToClient(OnCastingStartedPayload.PAYLOAD_TYPE, OnCastingStartedPayload.CODEC, OnCastingStartedPayload::handle);
         registrar.playToClient(OnCastingFinishedPayload.PAYLOAD_TYPE, OnCastingFinishedPayload.CODEC, OnCastingFinishedPayload::handle);
+        registrar.playToClient(OnCustomProjectileSpawnedPayload.PAYLOAD_TYPE, OnCustomProjectileSpawnedPayload.CODEC, OnCustomProjectileSpawnedPayload::handle);
     }
 
     private static void PlayBidirectional(PayloadRegistrar registrar) {
