@@ -1,4 +1,4 @@
-package com.teamsimplyrs.prismaarcanum.api.casting;
+package com.teamsimplyrs.prismaarcanum.api.spell_deprecated;
 
 import com.teamsimplyrs.prismaarcanum.api.spell_deprecated.actions.GenericAction;
 import com.teamsimplyrs.prismaarcanum.api.spell_deprecated.data.model.SpellDataModel;
@@ -8,6 +8,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.*;
 
+@Deprecated
 public class CastingEngine {
     private Queue<GenericAction> actionQueue;
     private GenericAction currentAction;

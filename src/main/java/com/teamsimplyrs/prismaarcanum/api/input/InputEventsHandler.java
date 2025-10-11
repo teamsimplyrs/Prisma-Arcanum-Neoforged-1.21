@@ -2,6 +2,7 @@ package com.teamsimplyrs.prismaarcanum.api.input;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.casting.interfaces.IMultiSpellHolder;
+import com.teamsimplyrs.prismaarcanum.api.utils.WandUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
@@ -18,13 +19,11 @@ public class InputEventsHandler {
         Player player = mc.player;
         if (player == null) return;
 
-        double scrollDelta = event.getScrollDeltaY();
-
         if (player.isShiftKeyDown() && player.getMainHandItem().getItem() instanceof IMultiSpellHolder spellHoldingItem) {
             float scrollDeltaX = (float)event.getScrollDeltaX();
             float scrollDeltaY = (float)event.getScrollDeltaY();
 
-            spellHoldingItem.handleScrollCycling(scrollDeltaX, scrollDeltaY);
+            WandUtils.cycleSpellsOnScroll(player.getMainHandItem(), scrollDeltaX, scrollDeltaY);
 
             event.setCanceled(true); // stop hotbar from scrolling
         }

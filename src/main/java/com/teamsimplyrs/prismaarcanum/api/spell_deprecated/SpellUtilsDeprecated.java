@@ -1,4 +1,4 @@
-package com.teamsimplyrs.prismaarcanum.api.utils;
+package com.teamsimplyrs.prismaarcanum.api.spell_deprecated;
 
 @Deprecated
 public class SpellUtilsDeprecated {

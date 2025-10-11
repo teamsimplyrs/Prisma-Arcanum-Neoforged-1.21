@@ -1,4 +1,4 @@
-package com.teamsimplyrs.prismaarcanum.api.casting;
+package com.teamsimplyrs.prismaarcanum.api.spell_deprecated;
 
 import net.minecraft.server.MinecraftServer;
 
@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Deprecated
 public class CastingEngineManager {
     private static final List<CastingEngine> ACTIVE_ENGINES = new ArrayList<>();
 

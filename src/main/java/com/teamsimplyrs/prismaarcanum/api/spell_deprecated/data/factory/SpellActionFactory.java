@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.teamsimplyrs.prismaarcanum.api.spell_deprecated.actions.*;
-import com.teamsimplyrs.prismaarcanum.api.utils.SpellUtilsDeprecated;
+import com.teamsimplyrs.prismaarcanum.api.spell_deprecated.SpellUtilsDeprecated;
 
 import java.util.ArrayList;
 

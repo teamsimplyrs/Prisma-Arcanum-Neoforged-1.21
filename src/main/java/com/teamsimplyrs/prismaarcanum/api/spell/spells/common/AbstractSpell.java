@@ -16,25 +16,28 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import org.slf4j.Logger;
 
 public abstract class AbstractSpell implements ISpell {
-    protected static String spellID;
-    protected static Element element;
-    protected static School school;
+    protected String spellID;
+    protected Element element;
+    protected School school;
 
-    protected static int tier;
-    protected static float basicManaCost;
-    protected static float basicCooldown;
+    protected int tier;
+    protected float basicManaCost;
+    protected float basicCooldown;
 
-    protected static boolean hasEvolution;
-    protected static String prevolutionSpellID;
-    protected static String evolutionSpellID;
+    protected boolean hasEvolution;
 
-    protected static final Logger LOGGER = LogUtils.getLogger();
+    protected final Logger LOGGER = LogUtils.getLogger();
 
     protected AbstractSpell() {
 
     }
 
-    protected AbstractSpell(String spellID, Element element, School school, int tier, float basicManaCost, float basicCooldown, boolean hasEvolution, String prevolutionSpellID, String evolutionSpellID) {
+    public AbstractSpell(String spellID) {
+        this.spellID = spellID;
+    }
+
+
+    protected AbstractSpell(String spellID, Element element, School school, int tier, float basicManaCost, float basicCooldown, boolean hasEvolution) {
         this.spellID = spellID;
         this.element = element;
         this.school = school;
@@ -42,8 +45,6 @@ public abstract class AbstractSpell implements ISpell {
         this.basicManaCost = basicManaCost;
         this.basicCooldown = basicCooldown;
         this.hasEvolution = hasEvolution;
-        this.prevolutionSpellID = prevolutionSpellID;
-        this.evolutionSpellID = evolutionSpellID;
     }
 
     public boolean tryCast(Level world, Player player) {

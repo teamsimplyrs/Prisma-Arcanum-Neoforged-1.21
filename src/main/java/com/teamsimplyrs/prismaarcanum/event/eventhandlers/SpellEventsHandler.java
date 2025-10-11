@@ -15,7 +15,6 @@ public class SpellEventsHandler {
 
     @SubscribeEvent
     public static void onSpellsLoaded(SpellsLoadedEvent event) {
-        DebugWand debugWand = (DebugWand)PAItemRegistry.DEBUG_WAND.get();
-        debugWand.loadSpells();
+
     }
 }

@@ -35,8 +35,6 @@ public class ManaPellet extends AbstractSpell {
     public static final float basicCooldown = 0.5f;
 
     public static final boolean hasEvolution = true;
-    public static final String prevolutionSpellID = null;
-    public static final String evolutionSpellID = MagicBullet.spellID;
 
     private static final float baseDamage = 1.5f;
     private static final float baseSpeed = 80f;
@@ -44,7 +42,7 @@ public class ManaPellet extends AbstractSpell {
     private static final float baseLifetime = 50f;
 
     public ManaPellet() {
-        super(spellID, element, school, tier, basicManaCost, basicCooldown, hasEvolution, prevolutionSpellID, evolutionSpellID);
+        super(spellID, element, school, tier, basicManaCost, basicCooldown, hasEvolution);
     }
 
     @Override

@@ -7,6 +7,8 @@ import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -14,11 +16,8 @@ import net.minecraft.world.level.Level;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AbstractCastable extends Item implements ICastable, IMultiSpellHolder {
-    protected List<ResourceLocation> spells;
-    protected int currentSpellIndex;
     protected static final Logger LOGGER = LogUtils.getLogger();
     protected int maxSpells = 5;
 
@@ -26,11 +25,32 @@ public class AbstractCastable extends Item implements ICastable, IMultiSpellHold
         super(properties);
     }
 
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+        ItemStack stack = player.getItemInHand(usedHand);
+        var spells = stack.get(PADataComponents.SPELLS_BOUND.get());
+        Integer currentSpellIndex = stack.get(PADataComponents.CURRENT_SPELL_INDEX.get());
+
+        if (!level.isClientSide()) {
+            if (spells == null || spells.isEmpty() || currentSpellIndex == null || currentSpellIndex >= spells.size()) {
+                LOGGER.error("[Prisma Arcanum / Exception]: (Wand) Spells list is null or empty, or spell index is greater than list size");
+                return super.use(level, player, usedHand);
+            }
+
+            cast(level, player, spells.get(currentSpellIndex));
+        }
+
+        return super.use(level, player, usedHand);
+    }
+
+    public int getMaxSpells() {
+        return maxSpells;
+    }
+
     @Override
     public void cast(Level world, Player player, ResourceLocation spellID) {
         AbstractSpell spell = SpellRegistry.getSpell(spellID);
         if (spell == null) {
-            LOGGER.error("[Prisma Arcanum] User tried to cast a null spell: Spell was not found in the reigstry");
+            LOGGER.error("[Prisma Arcanum] User tried to cast a null spell: Spell was not found in the registry");
         }
         spell.tryCast(world, player);
     }
@@ -38,60 +58,5 @@ public class AbstractCastable extends Item implements ICastable, IMultiSpellHold
     @Override
     public void upgrade() {
 
-    }
-
-    @Override
-    public void cycleSpells(int skip) {
-        if (spells == null || spells.size() <= 1) {
-            return;
-        }
-
-        currentSpellIndex = (currentSpellIndex + skip) % spells.size();
-    }
-
-    @Override
-    public void nextSpell() {
-        cycleSpells(1);
-    }
-
-    @Override
-    public void previousSpell() {
-        cycleSpells(-1);
-    }
-
-    @Override
-    public void handleScrollCycling(float scrollDeltaX, float scrollDeltaY) {
-        if (scrollDeltaY > 0) {
-            nextSpell();
-        } else if (scrollDeltaY < 0) {
-            previousSpell();
-        }
-    }
-
-    @Override
-    public ResourceLocation getCurrentSpell() {
-        if (spells == null || spells.isEmpty()) {
-            return null;
-        }
-
-        if (currentSpellIndex >= spells.size() || currentSpellIndex < 0) {
-            LOGGER.error("[Prisma Arcanum] Spell Index of given spell holding item is invalid.");
-        }
-
-        return spells.get(currentSpellIndex);
-    }
-
-    @Override
-    public void setSpell(ResourceLocation spell, int index) {
-        if (spells == null) {
-            spells = new ArrayList<>(maxSpells);
-        }
-
-        if (spells.isEmpty()) {
-            spells.add(spell);
-            return;
-        }
-
-        spells.set(index, spell);
     }
 }

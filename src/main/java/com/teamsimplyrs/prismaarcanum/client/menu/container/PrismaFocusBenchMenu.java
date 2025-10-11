@@ -1,5 +1,6 @@
 package com.teamsimplyrs.prismaarcanum.client.menu.container;
 
+import com.teamsimplyrs.prismaarcanum.api.utils.SpellUtils;
 import com.teamsimplyrs.prismaarcanum.block.blockentity.PrismaFocusBenchBlockEntity;
 import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
 import com.teamsimplyrs.prismaarcanum.network.payload.CastPayload;
@@ -28,7 +29,7 @@ public class PrismaFocusBenchMenu extends AbstractContainerMenu {
     public final PrismaFocusBenchBlockEntity blockEntity;
     private final Level level;
 
-    private static final int WAND_SLOT_INDEX = 0, MAX_SPELL_SLOTS = 5;
+    private static final int WAND_SLOT_INDEX = 36, MAX_SPELL_SLOTS = 5;
 
     public PrismaFocusBenchMenu(int containerId, Inventory playerInv, FriendlyByteBuf extraData) {
         this(containerId, playerInv, playerInv.player.level().getBlockEntity(extraData.readBlockPos()));
@@ -109,6 +110,8 @@ public class PrismaFocusBenchMenu extends AbstractContainerMenu {
         return copyOfSourceStack;
     }
 
+    // TO DO: FIX THIS ^^ it doesn't work as intended.
+
     @Override
     public boolean stillValid(Player player) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()), player, PABlockRegistry.PRISMA_FOCUS_BENCH.get());
@@ -169,8 +172,9 @@ public class PrismaFocusBenchMenu extends AbstractContainerMenu {
                 continue;
             }
 
-            if (this.getSlot(i).getItem().getItem() instanceof SpellPrismItem prism) {
-                ResourceLocation spellID = prism.checkAndGetSpellID();
+            ItemStack stackInSlot = this.getSlot(i).getItem();
+            if (stackInSlot.getItem() instanceof SpellPrismItem) {
+                ResourceLocation spellID = SpellUtils.checkPrismItemStackForSpell(stackInSlot);
                 if (spellID != null) {
                     spellIDs.add(spellID);
                 }

@@ -3,7 +3,7 @@ package com.teamsimplyrs.prismaarcanum.api.spell_deprecated.data.factory;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.teamsimplyrs.prismaarcanum.api.spell_deprecated.data.model.SpellDataModel;
-import com.teamsimplyrs.prismaarcanum.api.utils.SpellUtilsDeprecated;
+import com.teamsimplyrs.prismaarcanum.api.spell_deprecated.SpellUtilsDeprecated;
 
 @Deprecated
 public class SpellFactory {

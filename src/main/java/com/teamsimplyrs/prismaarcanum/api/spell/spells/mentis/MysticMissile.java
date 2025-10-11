@@ -1,4 +1,31 @@
 package com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis;
 
-public class MysticMissile {
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.api.utils.Element;
+import com.teamsimplyrs.prismaarcanum.api.utils.School;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
+
+public class MysticMissile extends AbstractSpell {
+    public static final String spellID = "mystic_missile";
+    public static final Element element = Element.Mentis;
+    public static final School school = School.Occult;
+
+    public static final int tier = 3;
+    public static final float basicManaCost = 10f;
+    public static final float basicCooldown = 2f;
+
+    public static final boolean hasEvolution = false;
+
+    private static final float baseDamage = 3f;
+
+    public MysticMissile() {
+        super(spellID, element, school, tier, basicManaCost, basicCooldown, hasEvolution);
+    }
+
+    @Override
+    public void cast(ServerPlayer player, Level world) {
+
+    }
 }

@@ -19,16 +19,4 @@ public class SpellPrismItem extends Item {
     public SpellPrismItem() {
         super(PROPERTIES);
     }
-
-    public boolean hasSpell() {
-        return this.components().has(PADataComponents.SPELL_ID.get());
-    }
-
-    public ResourceLocation checkAndGetSpellID() {
-        if (this.hasSpell()) {
-            return this.components().get(PADataComponents.SPELL_ID.get());
-        }
-
-        return null;
-    }
 }

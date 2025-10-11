@@ -1,6 +1,8 @@
 package com.teamsimplyrs.prismaarcanum.api.spell.registry;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.MagicBullet;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.MysticMissile;
 import com.teamsimplyrs.prismaarcanum.event.SpellsLoadedEvent;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.ManaPellet;
@@ -20,13 +22,19 @@ public class SpellRegistry {
     public static final ResourceKey<Registry<AbstractSpell>> SPELL_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "spells"));
     public static final Registry<AbstractSpell> SPELL_REGISTRY = new RegistryBuilder<>(SPELL_REGISTRY_KEY).sync(true).create();
 
-    public static final DeferredRegister<AbstractSpell> SPELLS = DeferredRegister.create(SPELL_REGISTRY_KEY, PrismaArcanum.MOD_ID);
+    public static final DeferredRegister<AbstractSpell> SPELLS = DeferredRegister.create(SPELL_REGISTRY, PrismaArcanum.MOD_ID);
+
+    /// ==== All spells go here for registration ====
 
     public static final Supplier<ManaPellet> MANA_PELLET = SPELLS.register(ManaPellet.spellID, ManaPellet::new);
+    public static final Supplier<MagicBullet> MAGIC_BULLET = SPELLS.register(MagicBullet.spellID, MagicBullet::new);
+    public static final Supplier<MysticMissile> MYSTIC_MISSILE = SPELLS.register(MysticMissile.spellID, MysticMissile::new);
+
+    // ==============================================
 
     public static void register(IEventBus eventBus) {
         SPELLS.register(eventBus);
-        NeoForge.EVENT_BUS.post(new SpellsLoadedEvent(getAllSpells().size()));
+//        NeoForge.EVENT_BUS.post(new SpellsLoadedEvent(getAllSpells().size()));
     }
 
     public static List<AbstractSpell> getAllSpells() {

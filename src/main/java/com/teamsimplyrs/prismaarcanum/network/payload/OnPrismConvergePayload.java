@@ -2,9 +2,9 @@ package com.teamsimplyrs.prismaarcanum.network.payload;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.casting.AbstractCastable;
-import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.api.utils.PlayerUtils;
 import com.teamsimplyrs.prismaarcanum.api.utils.SpellUtils;
+import com.teamsimplyrs.prismaarcanum.api.utils.WandUtils;
 import com.teamsimplyrs.prismaarcanum.client.menu.container.PrismaFocusBenchMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -12,7 +12,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
@@ -55,7 +54,12 @@ public record OnPrismConvergePayload(int castableItemSlotIndex, List<ResourceLoc
             if (sender.containerMenu instanceof PrismaFocusBenchMenu focusBenchMenu) {
                 ItemStack stack  = focusBenchMenu.getSlot(payload.castableItemSlotIndex).getItem();
                 if (stack.getItem() instanceof AbstractCastable castable) {
-                    SpellUtils.applySpellsToCastableItem(stack, payload.spellIDs, false);
+                    SpellUtils.writeSpellsToCastableItem(stack, payload.spellIDs);
+                    WandUtils.resetCurrentSpellIndex(stack, true);
+                    PlayerUtils.moveItemStackToPlayerInventory(sender, stack, focusBenchMenu, payload.castableItemSlotIndex);
+                    focusBenchMenu.broadcastChanges();
+                    focusBenchMenu.blockEntity.setChanged();
+                    sender.getInventory().setChanged();
                 }
             }
         });
