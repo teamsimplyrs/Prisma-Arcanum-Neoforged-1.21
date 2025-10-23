@@ -1,6 +1,7 @@
 package com.teamsimplyrs.prismaarcanum.api.spell.registry;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.ignis.FireballSpell;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.MagicBullet;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.MysticMissile;
 import com.teamsimplyrs.prismaarcanum.event.SpellsLoadedEvent;
@@ -29,6 +30,8 @@ public class SpellRegistry {
     public static final Supplier<ManaPellet> MANA_PELLET = SPELLS.register(ManaPellet.spellID, ManaPellet::new);
     public static final Supplier<MagicBullet> MAGIC_BULLET = SPELLS.register(MagicBullet.spellID, MagicBullet::new);
     public static final Supplier<MysticMissile> MYSTIC_MISSILE = SPELLS.register(MysticMissile.spellID, MysticMissile::new);
+
+    public static final Supplier<FireballSpell> FIREBALL = SPELLS.register(FireballSpell.spellID, FireballSpell::new);
 
     // ==============================================
 

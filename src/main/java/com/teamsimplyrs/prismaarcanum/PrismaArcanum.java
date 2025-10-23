@@ -2,6 +2,7 @@ package com.teamsimplyrs.prismaarcanum;
 
 import com.teamsimplyrs.prismaarcanum.client.menu.screen.PrismaFocusBenchScreen;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
+import com.teamsimplyrs.prismaarcanum.entity.client.FireballSpellProjectileRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.client.ManaPelletRenderer;
 import com.teamsimplyrs.prismaarcanum.registry.*;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
@@ -90,6 +91,7 @@ public class PrismaArcanum
         public static void onClientSetup(FMLClientSetupEvent event)
         {
             EntityRenderers.register(PAEntityRegistry.MANA_PELLET_PROJECTILE.get(), ManaPelletRenderer::new);
+            EntityRenderers.register(PAEntityRegistry.FIREBALL_SPELL_PROJECTILE.get(), FireballSpellProjectileRenderer::new);
         }
 
         @SubscribeEvent

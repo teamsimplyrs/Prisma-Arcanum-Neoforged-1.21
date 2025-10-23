@@ -1,6 +1,8 @@
 package com.teamsimplyrs.prismaarcanum.event;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.ignis.FireballSpell;
+import com.teamsimplyrs.prismaarcanum.entity.client.FireballSpellProjectileModel;
 import com.teamsimplyrs.prismaarcanum.entity.client.ManaPelletModel;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -13,6 +15,7 @@ public class ModBusEvents {
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ManaPelletModel.LAYER_LOCATION, ManaPelletModel::createBodyLayer);
+        event.registerLayerDefinition(FireballSpellProjectileModel.LAYER_LOCATION, FireballSpellProjectileModel::createBodyLayer);
     }
 
     @SubscribeEvent

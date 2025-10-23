@@ -83,7 +83,7 @@ public abstract class AbstractSpellProjectile extends Projectile {
     @Override
     public void tick() {
         super.tick();
-        if (tickCount > lifetime) {
+        if (lifetime >= 0 && tickCount > lifetime) {
             discard();
             return;
         }
