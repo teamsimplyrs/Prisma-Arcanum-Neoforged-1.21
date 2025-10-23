@@ -2,9 +2,12 @@ package com.teamsimplyrs.prismaarcanum.entity.custom;
 
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpellProjectile;
 import com.teamsimplyrs.prismaarcanum.registry.PAEntityRegistry;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
@@ -58,36 +61,27 @@ public class FireballSpellProjectile extends AbstractSpellProjectile {
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
         Entity owner = getOwner();
-        if (owner == null) {
+        Entity target = result.getEntity();
+
+        if (owner == null || target == null) {
             return;
         }
 
-        if (result.getEntity() != owner) {
-            kill();
+        if (target != owner) {
+            target.hurt(this.damageSources().magic(), damage);
+            discard();
         }
     }
 
     @Override
-    protected void onHitBlock(BlockHitResult result) {
-        super.onHitBlock(result);
-        Entity owner = getOwner();
-        if (owner == null) {
-            return;
-        }
-
-        if (bounceCount <= 0) {
-            kill();
-            return;
-        }
-
-        bounceCount--;
-        Vec3 delta = getDeltaMovement();
-        Vec3i normal = result.getDirection().getNormal();
+    public void tick() {
+        super.tick();
+//        setRot(getYRot() + 10, getXRot() + 10);
     }
 
     @Override
     protected double getDefaultGravity() {
-        return 2.0;
+        return 0.05;
     }
 
     @Override

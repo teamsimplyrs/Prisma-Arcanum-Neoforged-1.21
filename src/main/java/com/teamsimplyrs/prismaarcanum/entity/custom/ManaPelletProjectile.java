@@ -39,11 +39,6 @@ public class ManaPelletProjectile extends AbstractSpellProjectile {
     }
 
     @Override
-    public void setSpellData(float damage, float lifetime, float velocity, ProjectileMotionType motionType) {
-        super.setSpellData(damage, lifetime, velocity, motionType);
-    }
-
-    @Override
     public void launch(Vec3 rot) {
         super.launch(rot);
         this.refreshDimensions();
@@ -83,7 +78,6 @@ public class ManaPelletProjectile extends AbstractSpellProjectile {
             entity.hurt(this.damageSources().magic(), damage);
         }
         if (!this.level().isClientSide) {
-            this.level().broadcastEntityEvent(this, (byte)3);
             this.discard();
         }
     }
@@ -91,7 +85,7 @@ public class ManaPelletProjectile extends AbstractSpellProjectile {
     @Override
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
-        kill();
+        this.discard();
     }
 
     @Override

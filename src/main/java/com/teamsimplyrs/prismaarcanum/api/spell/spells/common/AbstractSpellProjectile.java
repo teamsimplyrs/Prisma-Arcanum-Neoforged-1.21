@@ -2,6 +2,7 @@ package com.teamsimplyrs.prismaarcanum.api.spell.spells.common;
 
 import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.api.utils.ProjectileMotionType;
+import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -10,6 +11,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -20,6 +22,8 @@ public abstract class AbstractSpellProjectile extends Projectile {
     protected float damage = 1f;
     protected float lifetime = 100f;
     protected float velocity = 5f;
+    protected int bounceCount = 0;
+    protected boolean shouldBounce = false;
     protected ResourceLocation parentSpellID;
     protected ProjectileMotionType motionType = ProjectileMotionType.NONE;
 
@@ -30,11 +34,13 @@ public abstract class AbstractSpellProjectile extends Projectile {
     // Data that is passed here is supposed to be final data.
     // the projectile itself shouldn't be concerned with calculating
     // the final values based on modifiers and other factors.
-    public void setSpellData(float damage, float lifetime, float velocity, ProjectileMotionType motionType) {
+    public void setSpellData(float damage, float lifetime, float velocity, int bounceCount, boolean shouldBounce, ProjectileMotionType motionType) {
         this.damage = damage;
         this.lifetime = lifetime;
         this.velocity = velocity;
         this.motionType = motionType;
+        this.bounceCount = bounceCount;
+        this.shouldBounce = shouldBounce;
     }
 
     protected void setParentSpell(ResourceLocation spellID) {
@@ -55,6 +61,11 @@ public abstract class AbstractSpellProjectile extends Projectile {
             setDeltaMovement(gravDelta);
         }
     }
+
+    // THE BELOW "MOVE" METHODS ARE OBSOLETE
+    // AND NEED TO BE REWRITTEN TO SUPPORT
+    // ALL TYPES OF MOTIONS
+    // AND ROTATIONS DYNAMICALLY
 
     // not really "random", just spinny.
     protected void moveWithRandomizedRotation() {
@@ -106,6 +117,14 @@ public abstract class AbstractSpellProjectile extends Projectile {
         }
     }
 
+    public int getBounceCount() {
+        return bounceCount;
+    }
+
+    public boolean shouldBounce() {
+        return shouldBounce;
+    }
+
     @Override
     protected double getDefaultGravity() {
         return 0;
@@ -124,6 +143,30 @@ public abstract class AbstractSpellProjectile extends Projectile {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
+    }
+
+    @Override
+    protected void onHitBlock(BlockHitResult result) {
+        super.onHitBlock(result);
+        if (shouldBounce) {
+            if (bounceCount <= 0) {
+                discard();
+            }
+            else {
+                Vec3 v = getDeltaMovement();
+                Direction dir = result.getDirection();
+                Vec3 n = new Vec3(dir.getStepX(), dir.getStepY(), dir.getStepZ());
+                double dot = v.dot(n);
+                Vec3 scaledNorm = n.scale(2.0 * dot);
+                Vec3 vReflected = v.subtract(scaledNorm);
+
+                // movement error correction (if any)
+                this.position().add(n.scale(0.01));
+
+                setDeltaMovement(vReflected);
+                bounceCount--;
+            }
+        }
     }
 
     @Override

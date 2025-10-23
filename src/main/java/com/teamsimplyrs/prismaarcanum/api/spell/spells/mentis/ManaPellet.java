@@ -51,7 +51,7 @@ public class ManaPellet extends AbstractSpell {
             player.sendSystemMessage(Component.literal("Mana Pellet: Server Cast called"));
             ManaPelletProjectile projectile = new ManaPelletProjectile(player, world, this.getResourceLocation());
             Vec3 offset = player.position().add(0, player.getEyeHeight() - projectile.getBoundingBox().getYsize() * 0.5F, 0);
-            projectile.setSpellData(getDamage(), getLifetime(), getVelocity(), getProjectileMotionType());
+            projectile.setSpellData(getDamage(), getLifetime(), getVelocity(), getBounceCount(), shouldBounce(), getProjectileMotionType());
             projectile.setPos(offset);
             projectile.launch(player.getLookAngle());
 
@@ -103,6 +103,14 @@ public class ManaPellet extends AbstractSpell {
 
     public float getVelocity() {
         return (1 + (tier - 1) * 0.5f) * baseSpeed;
+    }
+
+    public int getBounceCount() {
+        return 0;
+    }
+
+    public boolean shouldBounce() {
+        return false;
     }
 
     public ProjectileMotionType getProjectileMotionType() {
