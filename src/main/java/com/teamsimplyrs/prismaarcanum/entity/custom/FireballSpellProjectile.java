@@ -1,5 +1,9 @@
 package com.teamsimplyrs.prismaarcanum.entity.custom;
 
+import com.lowdragmc.photon.client.fx.EntityEffectExecutor;
+import com.lowdragmc.photon.client.fx.FX;
+import com.lowdragmc.photon.client.fx.FXHelper;
+import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpellProjectile;
 import com.teamsimplyrs.prismaarcanum.registry.PAEntityRegistry;
 import net.minecraft.core.Direction;
@@ -14,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 
 public class FireballSpellProjectile extends AbstractSpellProjectile {
 
@@ -49,7 +54,12 @@ public class FireballSpellProjectile extends AbstractSpellProjectile {
 
     @Override
     public void startTrailFX() {
-
+        if (level().isClientSide) {
+            FX fireballFX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "fireball_main_fx"));
+            EntityEffectExecutor entityFX = new EntityEffectExecutor(fireballFX, level(), this, EntityEffectExecutor.AutoRotate.NONE);
+            entityFX.setOffset(new Vector3f(0f, 0f, 0f));
+            entityFX.start();
+        }
     }
 
     @Override
