@@ -17,9 +17,12 @@ public class WandUtils {
         }
 
         Integer curIndex = castable.get(PADataComponents.CURRENT_SPELL_INDEX.get());
+
         if (curIndex != null && curIndex >= 0 && scrollDY != 0) {
-            curIndex = (scrollDY > 0 ? curIndex + 1 : curIndex - 1) % spells.size();
+            // for whatever reason, Java returns negative values for ~negative % positive~. clamp to 0 before applying the index
+            curIndex = Math.max(0, (scrollDY > 0 ? curIndex + 1 : curIndex - 1)) % spells.size();
             castable.set(PADataComponents.CURRENT_SPELL_INDEX, curIndex);
+
         }
     }
 

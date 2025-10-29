@@ -11,7 +11,6 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void onServerTick(ServerTickEvent.Post event) {
-        MinecraftServer server = event.getServer();
-//        CastingEngineManager.tickAll(server);
+
     }
 }
