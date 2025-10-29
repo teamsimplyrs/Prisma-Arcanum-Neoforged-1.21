@@ -3,8 +3,9 @@ package com.teamsimplyrs.prismaarcanum.registry;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
-import com.teamsimplyrs.prismaarcanum.system.spellsystem.data.model.SpellDataModel;
-import com.teamsimplyrs.prismaarcanum.system.spellsystem.registry.SpellRegistry;
+import com.teamsimplyrs.prismaarcanum.item.debug.DebugWand;
+import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -13,9 +14,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import org.spongepowered.asm.mixin.injection.struct.InjectorGroupInfo;
 
-import java.util.Map;
 import java.util.function.Supplier;
 
 public class PACreativeTabsRegistry {
@@ -25,23 +24,40 @@ public class PACreativeTabsRegistry {
             .icon(() -> new ItemStack(PAItemRegistry.DEBUG_WAND.get()))
             .title(Component.translatable("creativetab.prismaarcanum.prismatic_tools"))
             .displayItems((itemDisplayParameters, output) -> {
-                output.accept(PAItemRegistry.DEBUG_WAND);
-                output.accept(PAItemRegistry.SPELL_PRISM_ITEM);
+                ItemStack debugWandInstance = new ItemStack((DebugWand)PAItemRegistry.DEBUG_WAND.get());
+                debugWandInstance.set(PADataComponents.SPELLS_BOUND, SpellRegistry.getAllSpellIDs());
+                debugWandInstance.set(PADataComponents.CURRENT_SPELL_INDEX, 0);
+                output.accept(debugWandInstance);
 
-                for (SpellDataModel spellData : SpellRegistry.getAllSpellData()) {
+                output.accept(PAItemRegistry.IGNIS_WAND);
+
+                for (ResourceLocation spellID : SpellRegistry.getAllSpellIDs()) {
                     ItemStack spellPrismItemInstance = new ItemStack(PAItemRegistry.SPELL_PRISM_ITEM.get());
                     // Set bound spell ID resource location
-                    spellPrismItemInstance.set(PADataComponents.SPELL_ID, spellData.id);
+                    spellPrismItemInstance.set(PADataComponents.SPELL_ID, spellID);
                     // Set display name; in the format: Spell Prism (Spell Name)
                     spellPrismItemInstance.set(
                             DataComponents.ITEM_NAME,
                             Component.literal(String.format("%s (%s)",
                                     Component.translatable(String.format("item.%s.%s", PrismaArcanum.MOD_ID, SpellPrismItem.NAME)).getString(),
-                                    spellData.spell_display_name))
+                                    SpellRegistry.getSpell(spellID).getDisplayName()
+                            ))
                     );
                     output.accept(spellPrismItemInstance);
                 }
-            }).build());
+            })
+            .build());
+
+
+    public static final Supplier<CreativeModeTab> PA_PRISMATIC_BLOCKS_TAB = CREATIVE_TAB_REGISTRY.register("prismatic_blocks_tab", () -> CreativeModeTab.builder()
+            .icon(() -> new ItemStack(PABlockRegistry.PRISMA_FOCUS_BENCH))
+            .withTabsBefore(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "prismatic_tools_tab"))
+            .title(Component.translatable("creativetab.prismaarcanum.prismatic_blocks"))
+            .displayItems(((itemDisplayParameters, output) -> {
+                output.accept(PABlockRegistry.PRISMA_FOCUS_BENCH.get());
+            }))
+            .build());
+
     public static void register(IEventBus eventBus) {
         CREATIVE_TAB_REGISTRY.register(eventBus);
     }

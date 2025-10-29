@@ -1,14 +1,20 @@
 package com.teamsimplyrs.prismaarcanum.component;
 
+import com.mojang.serialization.Codec;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.minecraft.network.codec.StreamCodec;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class PADataComponents {
@@ -32,6 +38,44 @@ public class PADataComponents {
                     builder -> builder
                             .persistent(ResourceLocation.CODEC)
                             .networkSynchronized(RESOURCE_LOCATION_STREAM_CODEC)
+            );
+
+    public static final Supplier<DataComponentType<List<ResourceLocation>>> SPELLS_BOUND =
+            DATA_COMPONENTS.registerComponentType(
+                    "spells_bound",
+                    builder -> builder
+                            .persistent(Codec.list(ResourceLocation.CODEC))
+                            .networkSynchronized(StreamCodec.of(
+                                    // write entries
+                                    (RegistryFriendlyByteBuf buf, List<ResourceLocation> list) -> {
+                                        buf.writeVarInt(list.size());
+                                        for (var resLoc: list) {
+                                            buf.writeResourceLocation(resLoc);
+                                        }
+                                    },
+
+                                    // read entries
+                                    (RegistryFriendlyByteBuf buf) -> {
+                                        int size = buf.readVarInt();
+                                        List<ResourceLocation> result = new ArrayList<>(size);
+                                        for (int i = 0; i < size; i++) {
+                                            result.add(buf.readResourceLocation());
+                                        }
+
+                                        return Collections.unmodifiableList(result);
+                                    }
+                            ))
+            );
+
+    public static final Supplier<DataComponentType<Integer>> CURRENT_SPELL_INDEX =
+            DATA_COMPONENTS.registerComponentType(
+                    "current_spell_index",
+                    builder -> builder
+                            .persistent(Codec.INT)
+                            .networkSynchronized(StreamCodec.of(
+                                    FriendlyByteBuf::writeVarInt,
+                                    FriendlyByteBuf::readVarInt
+                            ))
             );
 
     public static void register(IEventBus bus) {

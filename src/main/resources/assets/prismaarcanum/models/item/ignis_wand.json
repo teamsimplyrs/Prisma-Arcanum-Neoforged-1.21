@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "prismaarcanum:item/ignis_wand"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "vertex": "prismaarcanum:wave_shader",
+  "fragment": "prismaarcanum:wave_shader",
+
+  "samplers": [
+    { "name": "BaseTexture" },
+    {"name" : "Sampler2"}
+  ],
+  "uniforms": [
+    { "name": "ModelViewMat", "type": "matrix4x4", "count": 16, "values": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1] },
+    { "name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1] },
+    { "name": "FogShape", "type": "int", "count": 1, "values": [0] },
+    { "name": "GameTime", "type": "float", "count": 1, "values": [0.0] },
+    { "name" : "u_AmplitudeMajorX", "type": "float", "count": 1, "values": [0.0]},
+    { "name" : "u_WaveFrequencyMajorX", "type": "float", "count": 1, "values": [0.0]},
+    { "name" : "u_AmplitudeMinorX", "type": "float", "count": 1, "values": [0.0]},
+    { "name" : "u_WaveFrequencyMinorX", "type": "float", "count": 1, "values": [0.0]},
+    { "name" : "u_AmplitudeMajorY", "type": "float", "count": 1, "values": [0.0]},
+    { "name" : "u_WaveFrequencyMajorY", "type": "float", "count": 1, "values": [0.0]},
+    { "name" : "u_AmplitudeMinorY", "type": "float", "count": 1, "values": [0.0]},
+    { "name" : "u_WaveFrequencyMinorY", "type": "float", "count": 1, "values": [0.0]},
+    { "name" : "u_TimeScaleFactorMajorX", "type": "float", "count": 1, "values": [0.0]},
+    { "name" : "u_TimeScaleFactorMinorX", "type": "float", "count": 1, "values": [0.0]},
+    { "name" : "u_TimeScaleFactorMajorY", "type": "float", "count": 1, "values": [0.0]},
+    { "name" : "u_TimeScaleFactorMinorY", "type": "float", "count": 1, "values": [0.0]}
+  ]
+}

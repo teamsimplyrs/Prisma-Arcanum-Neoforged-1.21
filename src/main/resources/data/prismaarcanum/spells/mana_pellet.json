@@ -1,0 +1,27 @@
+{
+  "spell_display_name": "Mana Pellet",
+  "spell_description": "A tiny projectile made of trace amounts of mana. Does little damage, but is the foundational cornerstone for any rookie mage.",
+  "tier": 1,
+  "base_mana_cost": 5,
+  "cooldown": 0.5,
+  "element": "mentis",
+  "school": "occult",
+  "has_evolution": true,
+  "spell_actions": [
+    {
+      "type": "projectile",
+      "speed": 3,
+      "lifetime": -1,
+      "width": 1,
+      "height": 1,
+      "effect_dropoff": 0,
+      "has_gravity": true,
+      "hit_action": {
+        "type": "damage_instant",
+        "amount": 1.5,
+        "is_blocking": false
+      },
+      "is_blocking": false
+    }
+  ]
+}

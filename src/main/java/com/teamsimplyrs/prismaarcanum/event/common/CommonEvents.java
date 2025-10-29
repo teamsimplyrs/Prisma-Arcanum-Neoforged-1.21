@@ -1,0 +1,16 @@
+package com.teamsimplyrs.prismaarcanum.event.common;
+
+import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
+import net.minecraft.server.MinecraftServer;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
+
+@EventBusSubscriber(modid = PrismaArcanum.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+public class CommonEvents {
+
+    @SubscribeEvent
+    public static void onServerTick(ServerTickEvent.Post event) {
+
+    }
+}
