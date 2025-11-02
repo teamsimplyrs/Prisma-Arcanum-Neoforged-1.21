@@ -21,7 +21,7 @@ public abstract class AbstractSpell implements ISpell {
     protected School school;
 
     protected int tier;
-    protected float basicManaCost;
+    protected int basicManaCost;
     protected float basicCooldown;
 
     protected boolean hasEvolution;
@@ -37,7 +37,7 @@ public abstract class AbstractSpell implements ISpell {
     }
 
 
-    protected AbstractSpell(String spellID, Element element, School school, int tier, float basicManaCost, float basicCooldown, boolean hasEvolution) {
+    protected AbstractSpell(String spellID, Element element, School school, int tier, int basicManaCost, float basicCooldown, boolean hasEvolution) {
         this.spellID = spellID;
         this.element = element;
         this.school = school;
@@ -75,12 +75,20 @@ public abstract class AbstractSpell implements ISpell {
 //        player.sendSystemMessage(Component.literal(String.format("%s: OnCastingFinished called", getDisplayName())));
     }
 
+    public int getManaCost() {
+        return basicManaCost;
+    }
+
     public MutableComponent getDisplayNameComponent() {
         return Component.translatable(getTranslatableComponent());
     }
 
     public String getDisplayName() {
         return getDisplayNameComponent().getString();
+    }
+
+    public Element getElement() {
+        return element;
     }
 
     public String getElementAsString() {

@@ -55,7 +55,6 @@ public record OnPrismConvergePayload(int castableItemSlotIndex, List<ResourceLoc
                 ItemStack stack  = focusBenchMenu.getSlot(payload.castableItemSlotIndex).getItem();
                 if (stack.getItem() instanceof AbstractCastable castable) {
                     SpellUtils.writeSpellsToCastableItem(stack, payload.spellIDs);
-                    WandUtils.resetCurrentSpellIndex(stack, true);
                     PlayerUtils.moveItemStackToPlayerInventory(sender, stack, focusBenchMenu, payload.castableItemSlotIndex);
                     focusBenchMenu.broadcastChanges();
                     focusBenchMenu.blockEntity.setChanged();

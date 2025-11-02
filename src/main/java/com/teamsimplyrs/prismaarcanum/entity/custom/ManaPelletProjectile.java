@@ -53,7 +53,6 @@ public class ManaPelletProjectile extends AbstractSpellProjectile {
         if (level().isClientSide) {
             FX manaPelletTrail = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "mana_pellet_trail"));
             EntityEffectExecutor entityFX = new EntityEffectExecutor(manaPelletTrail, level(), this, EntityEffectExecutor.AutoRotate.LOOK);
-            entityFX.setOffset(new Vector3f(0f, -0.75f, 0f));
 //            entityFX.setOffset();
             entityFX.start();
         }

@@ -45,7 +45,7 @@ public class PrismaArcanum
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
 
-        // Call all registers here
+        // Call all registries here
         SpellRegistry.register(modEventBus);
         PABlockRegistry.register(modEventBus);
         PAItemRegistry.register(modEventBus);
@@ -54,6 +54,7 @@ public class PrismaArcanum
         PAMenuTypesRegistry.register(modEventBus);
         PADataComponents.register(modEventBus);
         PACreativeTabsRegistry.register(modEventBus);
+        PADataAttachmentsRegistry.register(modEventBus);
 
         modEventBus.addListener(this::addCreative);
 

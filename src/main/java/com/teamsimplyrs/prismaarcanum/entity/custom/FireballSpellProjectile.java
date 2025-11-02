@@ -44,6 +44,7 @@ public class FireballSpellProjectile extends AbstractSpellProjectile {
 
     @Override
     public void launch(Vec3 rot) {
+
         super.launch(rot);
     }
 

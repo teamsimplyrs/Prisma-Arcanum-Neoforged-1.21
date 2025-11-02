@@ -27,7 +27,7 @@ public class PADataComponents {
     public static final DeferredRegister.DataComponents DATA_COMPONENTS =
             DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, PrismaArcanum.MOD_ID);
 
-    /**
+    /*
      * Stores the spell ID (ResourceLocation) for any item that a spell can be bound to.
      * Persistent: saves to NBT in world/loot tables.
      * Network-synchronized: auto-syncs server→client on changes.

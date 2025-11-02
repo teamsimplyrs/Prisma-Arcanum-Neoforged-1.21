@@ -31,7 +31,7 @@ public class ManaPellet extends AbstractSpell {
     public static final School school = School.Occult;
 
     public static final int tier = 1;
-    public static final float basicManaCost = 1.5f;
+    public static final int basicManaCost = 3;
     public static final float basicCooldown = 0.5f;
 
     public static final boolean hasEvolution = true;
