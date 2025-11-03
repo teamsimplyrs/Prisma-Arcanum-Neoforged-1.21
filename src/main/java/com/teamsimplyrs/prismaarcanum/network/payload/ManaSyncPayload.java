@@ -34,14 +34,14 @@ public record ManaSyncPayload(UUID playerUUID, PlayerChromana mana) implements C
         buf.writeVarInt(m.getCurrent());
         buf.writeVarInt(m.getMax());
         buf.writeFloat(m.getRegen());
-        buf.writeFloat(m.getRegenCooldown());
+        buf.writeVarInt(m.getRegenCooldown());
     }
 
     private static PlayerChromana readMana(RegistryFriendlyByteBuf buf) {
         int cur = buf.readVarInt();
         int max = buf.readVarInt();
         float regen = buf.readFloat();
-        float regenCooldown = buf.readFloat();
+        int regenCooldown = buf.readVarInt();
 
         return new PlayerChromana(cur, max, regen, regenCooldown);
     }

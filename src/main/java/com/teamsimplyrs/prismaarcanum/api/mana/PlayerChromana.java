@@ -6,12 +6,15 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 public class PlayerChromana {
     public static final int BASE_MAX = 100;
     public static final float BASE_REGEN = 0.25f; // per tick
-    public static final float BASE_REGEN_COOLDOWN = 2.5f; // seconds
+    public static final int BASE_REGEN_COOLDOWN = 50; // ticks
 
     public int current;
     public int max;
     public float regen; // per tick
-    public float regenCooldown;
+    public int regenCooldown;
+
+    private float accumulatedFractionalMana = 0;
+    private int regenCooldownActiveTicks = 0;
 
     public PlayerChromana() {
         current = BASE_MAX;
@@ -20,7 +23,7 @@ public class PlayerChromana {
         regenCooldown = BASE_REGEN_COOLDOWN;
     }
 
-    public PlayerChromana(int current, int max, float regen, float regenCooldown) {
+    public PlayerChromana(int current, int max, float regen, int regenCooldown) {
         this.current = current;
         this.max = max;
         this.regen = regen;
@@ -31,9 +34,30 @@ public class PlayerChromana {
             Codec.INT.fieldOf("current").forGetter(PlayerChromana::getCurrent),
             Codec.INT.fieldOf("max").forGetter(PlayerChromana::getMax),
             Codec.FLOAT.fieldOf("regen").forGetter(PlayerChromana::getRegen),
-            Codec.FLOAT.fieldOf("regen_cooldown").forGetter(PlayerChromana::getRegenCooldown)
+            Codec.INT.fieldOf("regen_cooldown").forGetter(PlayerChromana::getRegenCooldown)
     ).apply(i, PlayerChromana::new));
 
+
+    // server tick to perform mana operations
+    public boolean tick() {
+        boolean changed = false;
+        final int before = this.current;
+        final int max = getMax();
+
+        if (regenCooldownActiveTicks > 0) {
+            regenCooldownActiveTicks--;
+        } else {
+
+            if (before < max) {
+                regenMana();
+                if (this.current != before) {
+                    changed = true;
+                }
+            }
+        }
+
+        return changed;
+    }
 
     // --- GETTERS ---
 
@@ -49,7 +73,7 @@ public class PlayerChromana {
         return regen;
     }
 
-    public float getRegenCooldown() {
+    public int getRegenCooldown() {
         return regenCooldown;
     }
 
@@ -57,6 +81,11 @@ public class PlayerChromana {
 
     public void addMana(int toAdd) {
         current = Math.clamp(current + toAdd, 0, getMax());
+    }
+
+    public void useMana(int toUse, boolean applyPreRegenCooldown) {
+        addMana(-toUse);
+        regenCooldownActiveTicks = applyPreRegenCooldown ? getRegenCooldown() : 0;
     }
 
     public void setCurrent(int newCurrent) {
@@ -71,7 +100,7 @@ public class PlayerChromana {
         regen = newRegen;
     }
 
-    public void setRegenCooldown(float newRegenCooldown) {
+    public void setRegenCooldown(int newRegenCooldown) {
         regenCooldown = newRegenCooldown;
     }
 
@@ -82,7 +111,12 @@ public class PlayerChromana {
     }
 
     public void regenMana(int ticks) {
-        int toAdd = (int)Math.floor(regen * ticks);
-        addMana(toAdd);
+        accumulatedFractionalMana += regen * ticks;
+        int flooredAccumulated = (int)Math.floor(accumulatedFractionalMana);
+
+        if (flooredAccumulated != 0) {
+            addMana(flooredAccumulated);
+            accumulatedFractionalMana -= flooredAccumulated;
+        }
     }
 }
