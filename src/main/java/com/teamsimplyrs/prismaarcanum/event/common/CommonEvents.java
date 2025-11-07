@@ -25,7 +25,7 @@ public class CommonEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             PlayerChromana manaData = player.getData(PADataAttachmentsRegistry.CHROMANA.get());
             if (manaData.tick()) {
-                if (player.tickCount % 5 == 0) {
+                if (player.tickCount % 5 == 0  || manaData.getCurrent() == manaData.getMax()) {
                     PacketDistributor.sendToPlayer(player, new ManaSyncPayload(player.getUUID(), manaData));
                 }
             }

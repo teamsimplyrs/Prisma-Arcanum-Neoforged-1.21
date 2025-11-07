@@ -4,14 +4,15 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 public class PlayerChromana {
-    public static final int BASE_MAX = 100;
-    public static final float BASE_REGEN = 0.25f; // per tick
-    public static final int BASE_REGEN_COOLDOWN = 50; // ticks
+    public final int BASE_MAX = 100;
+    public final float BASE_REGEN = 0.25f; // per tick
+    public final int BASE_REGEN_COOLDOWN = 50; // ticks
 
-    public int current;
-    public int max;
-    public float regen; // per tick
-    public int regenCooldown;
+    protected int current;
+    protected int max;
+    protected float regen; // per tick
+    protected int regenCooldown;
+
 
     private float accumulatedFractionalMana = 0;
     private int regenCooldownActiveTicks = 0;
