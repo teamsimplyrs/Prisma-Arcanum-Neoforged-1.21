@@ -2,6 +2,7 @@ package com.teamsimplyrs.prismaarcanum.api.spell.spells.common;
 
 import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
+import com.teamsimplyrs.prismaarcanum.api.casting.PlayerSpellCooldowns;
 import com.teamsimplyrs.prismaarcanum.api.mana.PlayerChromana;
 import com.teamsimplyrs.prismaarcanum.network.payload.CastPayload;
 import com.teamsimplyrs.prismaarcanum.network.payload.ManaSyncPayload;
@@ -26,7 +27,7 @@ public abstract class AbstractSpell implements ISpell {
 
     protected int tier;
     protected int basicManaCost;
-    protected float basicCooldown;
+    protected int basicCooldown;
 
     protected boolean hasEvolution;
 
@@ -41,7 +42,7 @@ public abstract class AbstractSpell implements ISpell {
     }
 
 
-    protected AbstractSpell(String spellID, Element element, School school, int tier, int basicManaCost, float basicCooldown, boolean hasEvolution) {
+    protected AbstractSpell(String spellID, Element element, School school, int tier, int basicManaCost, int basicCooldown, boolean hasEvolution) {
         this.spellID = spellID;
         this.element = element;
         this.school = school;
@@ -68,7 +69,18 @@ public abstract class AbstractSpell implements ISpell {
             return false;
         }
 
+        PlayerSpellCooldowns cooldowns = serverPlayer.getData(PADataAttachmentsRegistry.SPELL_COOLDOWNS.get());
+        ResourceLocation spellID = getResourceLocation();
+
+        if (cooldowns.isOnCooldown(spellID)) {
+            float cooldownSecs = cooldowns.getCooldownSeconds(spellID);
+            player.sendSystemMessage(Component.literal(String.format("%s is on cooldown for %.2f seconds", getDisplayName(), cooldownSecs)));
+            return false;
+        }
+
         chromana.useMana(getManaCost(), true);
+        cooldowns.setCooldown(getResourceLocation(), getCooldownTicks());
+
         PacketDistributor.sendToPlayer(serverPlayer, new ManaSyncPayload(serverPlayer.getUUID(), chromana));
 
         PacketDistributor.sendToServer(new CastPayload(serverPlayer.getUUID(), getResourceLocation()));
@@ -90,6 +102,10 @@ public abstract class AbstractSpell implements ISpell {
 
     public int getManaCost() {
         return basicManaCost;
+    }
+
+    public int getCooldownTicks() {
+        return basicCooldown;
     }
 
     public MutableComponent getDisplayNameComponent() {

@@ -14,7 +14,7 @@ public class MysticMissile extends AbstractSpell {
 
     public static final int tier = 3;
     public static final int basicManaCost = 15;
-    public static final float basicCooldown = 2f;
+    public static final int basicCooldown = 40;
 
     public static final boolean hasEvolution = false;
 

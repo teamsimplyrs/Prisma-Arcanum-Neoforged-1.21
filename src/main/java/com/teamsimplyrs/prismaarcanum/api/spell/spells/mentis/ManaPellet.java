@@ -32,7 +32,7 @@ public class ManaPellet extends AbstractSpell {
 
     public static final int tier = 1;
     public static final int basicManaCost = 3;
-    public static final float basicCooldown = 0.5f;
+    public static final int basicCooldown = 10;
 
     public static final boolean hasEvolution = true;
 

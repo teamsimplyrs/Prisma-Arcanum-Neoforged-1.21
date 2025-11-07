@@ -24,7 +24,7 @@ public class FireballSpell extends AbstractSpell {
 
     public static final int tier = 1;
     public static final int basicManaCost = 10;
-    public static final float basicCooldown = 1f;
+    public static final int basicCooldown = 60;
 
     public static final boolean hasEvolution = true;
 

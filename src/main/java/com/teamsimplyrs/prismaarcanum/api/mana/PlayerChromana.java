@@ -17,6 +17,13 @@ public class PlayerChromana {
     private float accumulatedFractionalMana = 0;
     private int regenCooldownActiveTicks = 0;
 
+    public static final Codec<PlayerChromana> CODEC = RecordCodecBuilder.create(i -> i.group(
+            Codec.INT.fieldOf("current").forGetter(PlayerChromana::getCurrent),
+            Codec.INT.fieldOf("max").forGetter(PlayerChromana::getMax),
+            Codec.FLOAT.fieldOf("regen").forGetter(PlayerChromana::getRegen),
+            Codec.INT.fieldOf("regen_cooldown").forGetter(PlayerChromana::getRegenCooldown)
+    ).apply(i, PlayerChromana::new));
+
     public PlayerChromana() {
         current = BASE_MAX;
         max = BASE_MAX;
@@ -30,14 +37,6 @@ public class PlayerChromana {
         this.regen = regen;
         this.regenCooldown = regenCooldown;
     }
-
-    public static final Codec<PlayerChromana> CODEC = RecordCodecBuilder.create(i -> i.group(
-            Codec.INT.fieldOf("current").forGetter(PlayerChromana::getCurrent),
-            Codec.INT.fieldOf("max").forGetter(PlayerChromana::getMax),
-            Codec.FLOAT.fieldOf("regen").forGetter(PlayerChromana::getRegen),
-            Codec.INT.fieldOf("regen_cooldown").forGetter(PlayerChromana::getRegenCooldown)
-    ).apply(i, PlayerChromana::new));
-
 
     // server tick to perform mana operations
     public boolean tick() {
