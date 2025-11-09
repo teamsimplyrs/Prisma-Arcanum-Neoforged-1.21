@@ -13,6 +13,7 @@
 
 
   "spells.prismaarcanum.ignis.fireball_spell": "Fireball",
+  "spells.prismaarcanum.ignis.napalm_spray_spell": "Napalm Spray",
 
   "spells.prismaarcanum.mentis.mana_pellet": "Mana Pellet",
   "spells.prismaarcanum.mentis.mana_pellet.description": "Basic mana pellet stuff tbh",
@@ -20,6 +21,4 @@
   "spells.prismaarcanum.mentis.magic_bullet.description": "Basic magic bullet stuff tbh",
   "spells.prismaarcanum.mentis.mystic_missile": "Mystic Missile",
   "spells.prismaarcanum.mentis.mystic_missile.description": "Basic mystic missile stuff tbh"
-
-
 }

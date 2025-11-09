@@ -36,7 +36,8 @@ public record CastPayload(UUID uuid, ResourceLocation spellID) implements Custom
             Level world = player.level();
             if (player instanceof ServerPlayer) {
                 AbstractSpell spell = SpellRegistry.getSpell(spellID);
-                spell.cast((ServerPlayer)player, world);
+                Player caster = world.getPlayerByUUID(payload.uuid);
+                spell.cast((ServerPlayer)caster, world);
             }
         });
     }

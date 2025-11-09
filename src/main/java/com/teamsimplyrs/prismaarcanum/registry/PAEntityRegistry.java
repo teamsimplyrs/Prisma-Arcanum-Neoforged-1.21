@@ -4,6 +4,7 @@ package com.teamsimplyrs.prismaarcanum.registry;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.entity.custom.FireballSpellProjectile;
 import com.teamsimplyrs.prismaarcanum.entity.custom.ManaPelletProjectile;
+import com.teamsimplyrs.prismaarcanum.entity.custom.NapalmShootBlankProjectile;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -28,6 +29,14 @@ public class PAEntityRegistry {
                             FireballSpellProjectile::new, MobCategory.MISC)
                             .sized(0.75f, 0.75f)
                             .build("fireball_spell_projectile"));
+
+    public static final Supplier<EntityType<NapalmShootBlankProjectile>> NAPALM_BLANK =
+            ENTITY_TYPES.register("napalm_blank",
+                    () -> EntityType.Builder.<NapalmShootBlankProjectile>of(
+                            NapalmShootBlankProjectile::new, MobCategory.MISC)
+                            .sized(0.2f,0.2f)
+                            .build("napalm_blank"
+                    ));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

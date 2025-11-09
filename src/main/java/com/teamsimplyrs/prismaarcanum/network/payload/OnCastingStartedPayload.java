@@ -31,10 +31,12 @@ public record OnCastingStartedPayload(UUID uuid, ResourceLocation spellID) imple
     public static void handle(OnCastingStartedPayload payload, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
             Player player = ctx.player();
+
             AbstractSpell spell = SpellRegistry.getSpell(payload.spellID);
             Level world = player.level();
+            Player caster = world.getPlayerByUUID(payload.uuid);
 
-            spell.onCastingStarted(player, world);
+            spell.onCastingStarted(caster, world);
         });
     }
     @Override

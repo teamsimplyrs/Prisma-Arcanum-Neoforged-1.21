@@ -1,17 +1,16 @@
 package com.teamsimplyrs.prismaarcanum.api.spell.registry;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.ignis.FireballSpell;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.MagicBullet;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.MysticMissile;
-import com.teamsimplyrs.prismaarcanum.event.SpellsLoadedEvent;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.ignis.FireballSpell;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.ignis.NapalmSpraySpell;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.MagicBullet;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.ManaPellet;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.MysticMissile;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 
@@ -32,6 +31,7 @@ public class SpellRegistry {
     public static final Supplier<MysticMissile> MYSTIC_MISSILE = SPELLS.register(MysticMissile.spellID, MysticMissile::new);
 
     public static final Supplier<FireballSpell> FIREBALL = SPELLS.register(FireballSpell.spellID, FireballSpell::new);
+    public static final Supplier<NapalmSpraySpell> NAPALM_SPRAY = SPELLS.register(NapalmSpraySpell.spellID, NapalmSpraySpell::new);
 
     // ==============================================
 
