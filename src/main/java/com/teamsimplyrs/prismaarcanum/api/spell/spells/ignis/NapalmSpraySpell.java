@@ -4,6 +4,7 @@ import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import com.teamsimplyrs.prismaarcanum.api.utils.School;
 import com.teamsimplyrs.prismaarcanum.entity.custom.NapalmShootBlankProjectile;
+import com.teamsimplyrs.prismaarcanum.entity.custom.SpellEffectAreaEntity;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCustomProjectileSpawnedPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
@@ -42,7 +43,7 @@ public class NapalmSpraySpell extends AbstractSpell {
             double baseSpeed = 0.6;
 
             for (int i = 0; i < count; i++) {
-                NapalmShootBlankProjectile projectile = new NapalmShootBlankProjectile(player, world);
+                NapalmShootBlankProjectile projectile = new NapalmShootBlankProjectile(player, world, this.getResourceLocation());
 
                 // Map i -> angle along the arc, from -π/4 (left) to +π/4 (right)
                 double angleRange = Math.PI / 4;
@@ -79,4 +80,8 @@ public class NapalmSpraySpell extends AbstractSpell {
         }
     }
 
+    @Override
+    public void hitboxTick(SpellEffectAreaEntity hitbox) {
+        super.hitboxTick(hitbox);
+    }
 }

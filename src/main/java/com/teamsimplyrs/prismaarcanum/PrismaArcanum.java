@@ -5,6 +5,7 @@ import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.entity.client.FireballSpellProjectileRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.client.ManaPelletRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.client.NapalmBlankRenderer;
+import com.teamsimplyrs.prismaarcanum.entity.client.SpellEffectAreaRenderer;
 import com.teamsimplyrs.prismaarcanum.registry.*;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -96,6 +97,7 @@ public class PrismaArcanum
             EntityRenderers.register(PAEntityRegistry.MANA_PELLET_PROJECTILE.get(), ManaPelletRenderer::new);
             EntityRenderers.register(PAEntityRegistry.FIREBALL_SPELL_PROJECTILE.get(), FireballSpellProjectileRenderer::new);
             EntityRenderers.register(PAEntityRegistry.NAPALM_BLANK.get(), NapalmBlankRenderer::new);
+            EntityRenderers.register(PAEntityRegistry.SPELL_EFFECT_AREA.get(), SpellEffectAreaRenderer::new);
         }
 
         @SubscribeEvent

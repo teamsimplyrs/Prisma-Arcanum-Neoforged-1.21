@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import java.util.List;
 
 public abstract class AbstractStatusEffect extends MobEffect {
-    private static final Logger LOGGER = LogUtils.getLogger();
+    protected static final Logger LOGGER = LogUtils.getLogger();
 
     protected AbstractStatusEffect(MobEffectCategory category, int color) {
         super(category, color);
@@ -57,7 +57,6 @@ public abstract class AbstractStatusEffect extends MobEffect {
             if(exec.fx.getFxLocation().equals(fxId)){
                 var runtime = exec.getRuntime();
                 runtime.destroy(true);
-                LOGGER.info("removeFX: removed effect");
                 iterator.remove();
             }
         }

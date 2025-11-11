@@ -29,6 +29,7 @@ public class NetworkEventsHandler {
         registrar.playToClient(OnCastingFinishedPayload.PAYLOAD_TYPE, OnCastingFinishedPayload.CODEC, OnCastingFinishedPayload::handle);
         registrar.playToClient(OnCustomProjectileSpawnedPayload.PAYLOAD_TYPE, OnCustomProjectileSpawnedPayload.CODEC, OnCustomProjectileSpawnedPayload::handle);
         registrar.playToClient(ManaSyncPayload.PAYLOAD_TYPE, ManaSyncPayload.CODEC, ManaSyncPayload::handle);
+        registrar.playToClient(OnStatusEffectAppliedPayload.PAYLOAD_TYPE, OnStatusEffectAppliedPayload.CODEC, OnStatusEffectAppliedPayload::handle);
     }
 
     private static void PlayBidirectional(PayloadRegistrar registrar) {

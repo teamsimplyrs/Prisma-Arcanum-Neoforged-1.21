@@ -9,7 +9,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record OnCustomProjectileSpawnedPayload(int projectileID) implements CustomPacketPayload {
