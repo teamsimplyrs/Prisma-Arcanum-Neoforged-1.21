@@ -1,35 +1,39 @@
 package com.teamsimplyrs.prismaarcanum.entity.custom;
 
-import com.lowdragmc.photon.client.fx.BlockEffectExecutor;
-import com.lowdragmc.photon.client.fx.FX;
-import com.lowdragmc.photon.client.fx.FXHelper;
-import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
-import com.teamsimplyrs.prismaarcanum.registry.PASpellEffectRegistry;
+import com.mojang.logging.LogUtils;
+import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
+import org.slf4j.Logger;
 
 public class SpellEffectAreaEntity extends Entity {
 
-    private int lifetime;
+    public int lifetime;
     private ResourceLocation spellID;
     private float size;
-    private int effectDuration = 60; // default 2 seconds status effect
-    private int amplifier = 0;
-    private boolean particleEmitted = false;
-    private boolean refreshedDimensionsOnce = false;
+    public int effectDuration = 60; // default 2 seconds status effect
+    public int amplifier = 0;
+    public boolean particleEmitted = false;
+
+    protected static final Logger LOGGER = LogUtils.getLogger();
 
     private static final EntityDataAccessor<Float> DATA_WIDTH =
             SynchedEntityData.defineId(SpellEffectAreaEntity.class, EntityDataSerializers.FLOAT);
 
     private static final EntityDataAccessor<Float> DATA_HEIGHT =
             SynchedEntityData.defineId(SpellEffectAreaEntity.class, EntityDataSerializers.FLOAT);
+
+    private static final EntityDataAccessor<String> DATA_SPELL_ID =
+            SynchedEntityData.defineId(SpellEffectAreaEntity.class, EntityDataSerializers.STRING);
 
     public SpellEffectAreaEntity(EntityType<?> type, Level level) {
         super(type, level);
@@ -41,45 +45,27 @@ public class SpellEffectAreaEntity extends Entity {
         this.lifetime = lifetime;
         this.entityData.set(DATA_WIDTH, width);
         this.entityData.set(DATA_HEIGHT, height);
+        this.entityData.set(DATA_SPELL_ID, spellID.toString());
         this.refreshDimensions(); // update server BB; client updates via onSyncedDataUpdated
     }
 
+    /**
+     * Implement hitbox tick function by overriding AbstractSpell.hitboxTick in your own spell
+     */
     @Override
     public void tick() {
         super.tick();
 
-        // CLIENT: one-shot FX (don’t decrement lifetime here)
-        if (level().isClientSide) {
-            if (!particleEmitted) {
-                FX napalmSprout = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(
-                        PrismaArcanum.MOD_ID, "napalm_sprout"));
-                particleEmitted = true;
-                new BlockEffectExecutor(napalmSprout, level(), blockPosition()).start();
-            }
-            return; // client stops here; server continues below
+        if (spellID == null || spellID.toString().isEmpty()) {
+            spellID = ResourceLocation.tryParse(this.entityData.get(DATA_SPELL_ID));
         }
 
-        // SERVER: apply effect & own the lifetime
-        AABB box = this.getBoundingBox();
-        for (Entity e : level().getEntities(this, box)) {
-            if (e instanceof LivingEntity living && living.isAlive()) {
-                // Only add if missing
-                if (!living.hasEffect((PASpellEffectRegistry.NAPALM_BURN))) {
-                    living.addEffect(new MobEffectInstance(
-                            PASpellEffectRegistry.NAPALM_BURN, // Holder#get() returns the effect
-                            effectDuration, amplifier,
-                            false, // ambient
-                            false, // show vanilla particles
-                            true   // show icon
-                    ));
-                }
-            }
-        }
+        AbstractSpell spell = SpellRegistry.getSpell(spellID);
+        if (spell != null) spell.hitboxTick(this);
 
-        // lifetime only on server
-        lifetime--;
-        if (lifetime <= 0) {
-            this.discard(); // server-side discard; clients follow via destroy packet
+        if (!level().isClientSide) {
+            lifetime--;
+            if (lifetime <= 0) discard();
         }
     }
 
@@ -87,6 +73,7 @@ public class SpellEffectAreaEntity extends Entity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(DATA_WIDTH, 1.0f);  // default width
         builder.define(DATA_HEIGHT, 1.0f); // default height
+        builder.define(DATA_SPELL_ID, "");
     }
 
     /** When the DATA_SIZE changes, update the client’s bounding box */
@@ -103,7 +90,7 @@ public class SpellEffectAreaEntity extends Entity {
         tag.putFloat("Width", this.entityData.get(DATA_WIDTH));
         tag.putFloat("Height", this.entityData.get(DATA_HEIGHT));
         tag.putInt("Lifetime", this.lifetime);
-        if (this.spellID != null) tag.putString("SpellID", this.spellID.toString());
+        tag.putString("SpellID", this.entityData.get(DATA_SPELL_ID));
     }
 
     @Override
@@ -111,7 +98,11 @@ public class SpellEffectAreaEntity extends Entity {
         if (tag.contains("Width")) this.entityData.set(DATA_WIDTH, tag.getFloat("Width"));
         if (tag.contains("Height")) this.entityData.set(DATA_HEIGHT, tag.getFloat("Height"));
         this.lifetime = tag.getInt("Lifetime");
-        if (tag.contains("SpellID")) this.spellID = ResourceLocation.tryParse(tag.getString("SpellID"));
+        if (tag.contains("SpellID")) {
+            String id = tag.getString("SpellID");
+            this.entityData.set(DATA_SPELL_ID, id);
+        }
+        this.spellID = ResourceLocation.tryParse(this.entityData.get(DATA_SPELL_ID));
     }
 
     @Override

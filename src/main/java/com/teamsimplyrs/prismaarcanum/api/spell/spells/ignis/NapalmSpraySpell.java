@@ -1,13 +1,23 @@
 package com.teamsimplyrs.prismaarcanum.api.spell.spells.ignis;
 
+import com.lowdragmc.photon.client.fx.BlockEffectExecutor;
+import com.lowdragmc.photon.client.fx.FX;
+import com.lowdragmc.photon.client.fx.FXHelper;
+import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import com.teamsimplyrs.prismaarcanum.api.utils.School;
 import com.teamsimplyrs.prismaarcanum.entity.custom.NapalmShootBlankProjectile;
 import com.teamsimplyrs.prismaarcanum.entity.custom.SpellEffectAreaEntity;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCustomProjectileSpawnedPayload;
+import com.teamsimplyrs.prismaarcanum.registry.PASpellEffectRegistry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -82,6 +92,34 @@ public class NapalmSpraySpell extends AbstractSpell {
 
     @Override
     public void hitboxTick(SpellEffectAreaEntity hitbox) {
-        super.hitboxTick(hitbox);
+        // CLIENT: one-shot FX (don’t decrement lifetime here)
+        if (hitbox.level().isClientSide) {
+            if (!hitbox.particleEmitted) {
+                FX napalmSprout = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(
+                        PrismaArcanum.MOD_ID, "napalm_sprout"));
+                hitbox.particleEmitted = true;
+                new BlockEffectExecutor(napalmSprout, hitbox.level(), hitbox.blockPosition()).start();
+            }
+            return; // client stops here; server continues below
+        }
+
+        // SERVER: apply effect & own the lifetime
+        AABB box = hitbox.getBoundingBox();
+        for (Entity e : hitbox.level().getEntities(hitbox, box)) {
+            if (e instanceof LivingEntity living && living.isAlive()) {
+                // Only add if missing
+                if (!living.hasEffect((PASpellEffectRegistry.NAPALM_BURN))) {
+                    living.addEffect(new MobEffectInstance(
+                            PASpellEffectRegistry.NAPALM_BURN, // Holder#get() returns the effect
+                            hitbox.effectDuration, hitbox.amplifier,
+                            false, // ambient
+                            false, // show vanilla particles
+                            true   // show icon
+                    ));
+                }
+            }
+        }
+
+
     }
 }
