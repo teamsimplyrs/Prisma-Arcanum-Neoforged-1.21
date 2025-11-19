@@ -1,7 +1,7 @@
 package com.teamsimplyrs.prismaarcanum.block;
 
 import com.mojang.serialization.MapCodec;
-import com.teamsimplyrs.prismaarcanum.block.blockentity.PrismaFocusBenchBlockEntity;
+import com.teamsimplyrs.prismaarcanum.block.blockentity.PrismFocusBenchBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,21 +10,25 @@ import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class PrismaFocusBenchBlock extends BaseEntityBlock {
-    public static final String name = "prisma_focus_bench";
-    public static final MapCodec<PrismaFocusBenchBlock> CODEC = simpleCodec(PrismaFocusBenchBlock::new);
+public class PrismFocusBenchBlock extends BaseEntityBlock {
+    public static final String name = "prism_focus_bench";
+    public static final MapCodec<PrismFocusBenchBlock> CODEC = simpleCodec(PrismFocusBenchBlock::new);
 
-    public PrismaFocusBenchBlock(Properties properties) {
+    public PrismFocusBenchBlock(Properties properties) {
         super(properties);
     }
 
@@ -39,13 +43,18 @@ public class PrismaFocusBenchBlock extends BaseEntityBlock {
     }
 
     @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.join(Block.box(1, 0, 1, 15, 10, 15), Block.box(0, 10, 0, 16, 12, 16), BooleanOp.OR);
+    }
+
+    @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new PrismaFocusBenchBlockEntity(blockPos, blockState);
+        return new PrismFocusBenchBlockEntity(blockPos, blockState);
     }
 
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        if (state.getBlock() != newState.getBlock() && level.getBlockEntity(pos) instanceof PrismaFocusBenchBlockEntity prismaFocusBenchBE) {
+        if (state.getBlock() != newState.getBlock() && level.getBlockEntity(pos) instanceof PrismFocusBenchBlockEntity prismaFocusBenchBE) {
             prismaFocusBenchBE.dropContents();
             level.updateNeighbourForOutputSignal(pos, this);
         }
@@ -55,7 +64,7 @@ public class PrismaFocusBenchBlock extends BaseEntityBlock {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 
-        if (level.getBlockEntity(pos) instanceof PrismaFocusBenchBlockEntity prismaFocusBenchBE) {
+        if (level.getBlockEntity(pos) instanceof PrismFocusBenchBlockEntity prismaFocusBenchBE) {
             if (!level.isClientSide) {
                 ((ServerPlayer)player).openMenu(new SimpleMenuProvider(prismaFocusBenchBE, Component.translatable("menu.prismaarcanum.prisma_focus_bench")), pos);
                 return ItemInteractionResult.SUCCESS;

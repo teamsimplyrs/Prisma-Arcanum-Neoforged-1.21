@@ -4,8 +4,7 @@ import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.casting.AbstractCastable;
 import com.teamsimplyrs.prismaarcanum.api.utils.PlayerUtils;
 import com.teamsimplyrs.prismaarcanum.api.utils.SpellUtils;
-import com.teamsimplyrs.prismaarcanum.api.utils.WandUtils;
-import com.teamsimplyrs.prismaarcanum.client.menu.container.PrismaFocusBenchMenu;
+import com.teamsimplyrs.prismaarcanum.client.menu.container.PrismFocusBenchMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -51,7 +50,7 @@ public record OnPrismConvergePayload(int castableItemSlotIndex, List<ResourceLoc
                 return;
             }
 
-            if (sender.containerMenu instanceof PrismaFocusBenchMenu focusBenchMenu) {
+            if (sender.containerMenu instanceof PrismFocusBenchMenu focusBenchMenu) {
                 ItemStack stack  = focusBenchMenu.getSlot(payload.castableItemSlotIndex).getItem();
                 if (stack.getItem() instanceof AbstractCastable castable) {
                     SpellUtils.writeSpellsToCastableItem(stack, payload.spellIDs);

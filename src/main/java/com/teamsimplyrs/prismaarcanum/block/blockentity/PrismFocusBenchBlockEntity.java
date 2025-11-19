@@ -1,7 +1,6 @@
 package com.teamsimplyrs.prismaarcanum.block.blockentity;
 
-import com.mojang.serialization.MapCodec;
-import com.teamsimplyrs.prismaarcanum.client.menu.container.PrismaFocusBenchMenu;
+import com.teamsimplyrs.prismaarcanum.client.menu.container.PrismFocusBenchMenu;
 import com.teamsimplyrs.prismaarcanum.registry.PABlockEntityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -14,14 +13,12 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class PrismaFocusBenchBlockEntity extends BlockEntity implements MenuProvider {
+public class PrismFocusBenchBlockEntity extends BlockEntity implements MenuProvider {
     public static final String name = "prisma_focus_bench_be";
     public final ItemStackHandler inventory = new ItemStackHandler(5) {
         @Override
@@ -39,7 +36,7 @@ public class PrismaFocusBenchBlockEntity extends BlockEntity implements MenuProv
     };
 
 
-    public PrismaFocusBenchBlockEntity(BlockPos pos, BlockState blockState) {
+    public PrismFocusBenchBlockEntity(BlockPos pos, BlockState blockState) {
         super(PABlockEntityRegistry.PRISMA_FOCUS_BENCH.get(), pos, blockState);
     }
 
@@ -71,6 +68,6 @@ public class PrismaFocusBenchBlockEntity extends BlockEntity implements MenuProv
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-        return new PrismaFocusBenchMenu(i, inventory, this);
+        return new PrismFocusBenchMenu(i, inventory, this);
     }
 }

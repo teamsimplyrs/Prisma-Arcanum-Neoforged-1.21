@@ -1,13 +1,14 @@
 package com.teamsimplyrs.prismaarcanum.api.spell.spells.common;
 
 import com.mojang.logging.LogUtils;
+import com.teamsimplyrs.prismaarcanum.api.utils.PhysicsUtils;
 import com.teamsimplyrs.prismaarcanum.api.utils.ProjectileMotionType;
 import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
@@ -21,11 +22,12 @@ public abstract class AbstractSpellProjectile extends Projectile {
     protected static final Logger LOGGER = LogUtils.getLogger();
     protected float damage = 1f;
     protected float lifetime = 100f;
-    protected float velocity = 5f;
+    protected float velocity = 1f;
     protected int bounceCount = 0;
     protected boolean shouldBounce = false;
     protected ResourceLocation parentSpellID;
-    protected ProjectileMotionType motionType = ProjectileMotionType.NONE;
+    protected ProjectileMotionType motionType = ProjectileMotionType.DEFAULT;
+    protected LivingEntity target;
 
     public AbstractSpellProjectile(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
@@ -34,7 +36,7 @@ public abstract class AbstractSpellProjectile extends Projectile {
     // Data that is passed here is supposed to be final data.
     // the projectile itself shouldn't be concerned with calculating
     // the final values based on modifiers and other factors.
-    public void setSpellData(float damage, float lifetime, float velocity, int bounceCount, boolean shouldBounce, ProjectileMotionType motionType) {
+    public void setProjectileParameters(float damage, float lifetime, float velocity, int bounceCount, boolean shouldBounce, ProjectileMotionType motionType) {
         this.damage = damage;
         this.lifetime = lifetime;
         this.velocity = velocity;
@@ -47,8 +49,14 @@ public abstract class AbstractSpellProjectile extends Projectile {
         this.parentSpellID = spellID;
     }
 
-    protected void launch(Vec3 rot) {
-        Vec3 delta = rot.scale(1);
+    public void setTarget(LivingEntity entity) {
+        if (entity.isAlive()) {
+            target = entity;
+        }
+    }
+
+    public void launch(Vec3 rot) {
+        Vec3 delta = rot.scale(velocity);
         setDeltaMovement(delta);
     }
 
@@ -62,27 +70,14 @@ public abstract class AbstractSpellProjectile extends Projectile {
         }
     }
 
-    // THE BELOW "MOVE" METHODS ARE OBSOLETE
-    // AND NEED TO BE REWRITTEN TO SUPPORT
-    // ALL TYPES OF MOTIONS
-    // AND ROTATIONS DYNAMICALLY
-
-    // not really "random", just spinny.
-    protected void moveWithRandomizedRotation() {
-        moveDefault();
-        float newXRot = getXRot() + 2;
-        float newYRot = getYRot() + 2;
-        setXRot(Mth.wrapDegrees(newXRot));
-        setYRot(Mth.wrapDegrees(newYRot));
-    }
-
-    protected void moveFacingTrajectory() {
-        moveDefault();
-
-    }
-
     protected void moveHomingTarget() {
-        moveDefault();
+        if (target != null && target.isAlive() && !target.isInvisible()) {
+            Vec3 delta = getDeltaMovement();
+            Vec3 newVelocity = PhysicsUtils.getHomingDirectionVector(delta, this.position(), target.position(), 1.0472f).scale(delta.length()); // 1.0472 rad = 60 deg
+            setDeltaMovement(newVelocity);
+        } else {
+            moveDefault();
+        }
     }
 
     public abstract void startLaunchFX(Vec3 rot);
@@ -100,9 +95,7 @@ public abstract class AbstractSpellProjectile extends Projectile {
         }
 
         switch(motionType) {
-            case NONE -> moveDefault();
-            case ROTATE_RANDOM -> moveWithRandomizedRotation();
-            case FACE_TRAJECTORY -> moveFacingTrajectory();
+            case DEFAULT -> moveDefault();
             case HOMING -> moveHomingTarget();
         }
 
@@ -153,6 +146,8 @@ public abstract class AbstractSpellProjectile extends Projectile {
                 discard();
             }
             else {
+
+                // TO DO: Move this to PhysicsUtils::getReflectedVector
                 Vec3 v = getDeltaMovement();
                 Direction dir = result.getDirection();
                 Vec3 n = new Vec3(dir.getStepX(), dir.getStepY(), dir.getStepZ());

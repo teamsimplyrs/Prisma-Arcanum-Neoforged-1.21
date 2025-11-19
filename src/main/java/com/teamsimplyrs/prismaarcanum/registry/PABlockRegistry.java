@@ -1,7 +1,7 @@
 package com.teamsimplyrs.prismaarcanum.registry;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
-import com.teamsimplyrs.prismaarcanum.block.PrismaFocusBenchBlock;
+import com.teamsimplyrs.prismaarcanum.block.PrismFocusBenchBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -11,17 +11,16 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class PABlockRegistry {
     public static final DeferredRegister.Blocks PA_BLOCKS = DeferredRegister.createBlocks(PrismaArcanum.MOD_ID);
 
-    public static final DeferredBlock<Block> PRISMA_FOCUS_BENCH = registerBlock(PrismaFocusBenchBlock.name, () -> new PrismaFocusBenchBlock(BlockBehaviour.Properties.of()
+    public static final DeferredBlock<Block> PRISM_FOCUS_BENCH = registerBlock(PrismFocusBenchBlock.name, () -> new PrismFocusBenchBlock(BlockBehaviour.Properties.of()
             .destroyTime(2.0f)
             .explosionResistance(10.0f)
             .sound(SoundType.GILDED_BLACKSTONE)
-            .lightLevel(state -> 7)
+            .lightLevel(state -> 1)
             .noOcclusion()));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {

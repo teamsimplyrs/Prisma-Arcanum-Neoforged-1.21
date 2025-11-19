@@ -2,25 +2,21 @@ package com.teamsimplyrs.prismaarcanum.client.menu.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
-import com.teamsimplyrs.prismaarcanum.client.menu.container.PrismaFocusBenchMenu;
+import com.teamsimplyrs.prismaarcanum.client.menu.container.PrismFocusBenchMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-import java.util.function.Supplier;
+public class PrismFocusBenchScreen extends AbstractContainerScreen<PrismFocusBenchMenu> {
 
-public class PrismaFocusBenchScreen extends AbstractContainerScreen<PrismaFocusBenchMenu> {
-
-    private static final ResourceLocation GUI_TEX = ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "textures/gui/prisma_focus_bench_gui.png");
+    private static final ResourceLocation GUI_TEX = ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "textures/gui/prism_focus_bench_gui.png");
     private int texW, texH;
 
-    public PrismaFocusBenchScreen(PrismaFocusBenchMenu menu, Inventory playerInventory, Component title) {
+    public PrismFocusBenchScreen(PrismFocusBenchMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
     }
 

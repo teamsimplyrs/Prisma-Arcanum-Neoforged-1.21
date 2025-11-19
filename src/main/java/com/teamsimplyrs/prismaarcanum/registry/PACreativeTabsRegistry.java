@@ -5,7 +5,6 @@ import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
 import com.teamsimplyrs.prismaarcanum.item.debug.DebugWand;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -50,12 +49,21 @@ public class PACreativeTabsRegistry {
 
 
     public static final Supplier<CreativeModeTab> PA_PRISMATIC_BLOCKS_TAB = CREATIVE_TAB_REGISTRY.register("prismatic_blocks_tab", () -> CreativeModeTab.builder()
-            .icon(() -> new ItemStack(PABlockRegistry.PRISMA_FOCUS_BENCH))
+            .icon(() -> new ItemStack(PABlockRegistry.PRISM_FOCUS_BENCH))
             .withTabsBefore(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "prismatic_tools_tab"))
             .title(Component.translatable("creativetab.prismaarcanum.prismatic_blocks"))
             .displayItems(((itemDisplayParameters, output) -> {
-                output.accept(PABlockRegistry.PRISMA_FOCUS_BENCH.get());
+                output.accept(PABlockRegistry.PRISM_FOCUS_BENCH.get());
             }))
+            .build());
+
+    public static final Supplier<CreativeModeTab> PA_MONSTERS_TAB = CREATIVE_TAB_REGISTRY.register("pristmatic_mobs_tab", () -> CreativeModeTab.builder()
+            .icon(() -> new ItemStack(PAItemRegistry.RIPPLE_SEEKER_SPAWN_EGG.get()))
+            .withTabsBefore(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "prismatic_mobs_tab"))
+            .title(Component.translatable("creativetab.prismaarcanum.prismatic_mobs"))
+            .displayItems(((itemDisplayParameters, output) -> {
+                output.accept(PAItemRegistry.RIPPLE_SEEKER_SPAWN_EGG.get());
+            } ))
             .build());
 
     public static void register(IEventBus eventBus) {

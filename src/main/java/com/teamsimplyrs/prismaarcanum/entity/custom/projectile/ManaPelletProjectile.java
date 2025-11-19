@@ -1,19 +1,14 @@
-package com.teamsimplyrs.prismaarcanum.entity.custom;
+package com.teamsimplyrs.prismaarcanum.entity.custom.projectile;
 
 import com.lowdragmc.photon.client.fx.EntityEffectExecutor;
 import com.lowdragmc.photon.client.fx.FX;
 import com.lowdragmc.photon.client.fx.FXHelper;
-import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCastingFinishedPayload;
 import com.teamsimplyrs.prismaarcanum.registry.PAEntityRegistry;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpellProjectile;
-import com.teamsimplyrs.prismaarcanum.api.utils.ProjectileMotionType;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
@@ -22,8 +17,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
-import org.joml.Vector3f;
-import org.slf4j.Logger;
 
 public class ManaPelletProjectile extends AbstractSpellProjectile {
     public ManaPelletProjectile(EntityType<? extends Projectile> entityType, Level level) {
