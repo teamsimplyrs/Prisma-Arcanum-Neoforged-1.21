@@ -2,7 +2,7 @@ package com.teamsimplyrs.prismaarcanum.client.menu.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
-import com.teamsimplyrs.prismaarcanum.client.menu.container.PrismaFocusBenchMenu;
+import com.teamsimplyrs.prismaarcanum.client.menu.container.PrismFocusBenchMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -11,12 +11,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class PrismaFocusBenchScreen extends AbstractContainerScreen<PrismaFocusBenchMenu> {
+public class PrismFocusBenchScreen extends AbstractContainerScreen<PrismFocusBenchMenu> {
 
-    private static final ResourceLocation GUI_TEX = ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "textures/gui/prisma_focus_bench_gui.png");
+    private static final ResourceLocation GUI_TEX = ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "textures/gui/prism_focus_bench_gui.png");
     private int texW, texH;
 
-    public PrismaFocusBenchScreen(PrismaFocusBenchMenu menu, Inventory playerInventory, Component title) {
+    public PrismFocusBenchScreen(PrismFocusBenchMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         this.titleLabelX = this.leftPos+8;
         this.titleLabelY = (this.height - this.texH)/2-55;

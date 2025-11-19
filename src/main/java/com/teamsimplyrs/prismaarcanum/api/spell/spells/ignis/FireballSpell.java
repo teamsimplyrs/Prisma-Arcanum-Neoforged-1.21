@@ -1,19 +1,13 @@
 package com.teamsimplyrs.prismaarcanum.api.spell.spells.ignis;
 
-import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import com.teamsimplyrs.prismaarcanum.api.utils.ProjectileMotionType;
 import com.teamsimplyrs.prismaarcanum.api.utils.School;
-import com.teamsimplyrs.prismaarcanum.entity.custom.FireballSpellProjectile;
-import com.teamsimplyrs.prismaarcanum.entity.custom.ManaPelletProjectile;
+import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.FireballSpellProjectile;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCustomProjectileSpawnedPayload;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -24,12 +18,12 @@ public class FireballSpell extends AbstractSpell {
 
     public static final int tier = 1;
     public static final int basicManaCost = 10;
-    public static final float basicCooldown = 1f;
+    public static final int basicCooldown = 60;
 
     public static final boolean hasEvolution = true;
 
     private static final float baseDamage = 50f;
-    private static final float baseSpeed = 2f;
+    private static final float baseSpeed = 0.1f;
 
     private static final int maxBounceCount = 3;
 
@@ -49,7 +43,7 @@ public class FireballSpell extends AbstractSpell {
 
             projectile.setPos(offset);
             projectile.setYRot(player.getYRot());
-            projectile.setSpellData(getDamage(), getLifetime(), getVelocity(), getBounceCount(), true, getProjectileMotionType());
+            projectile.setProjectileParameters(getDamage(), getLifetime(), getVelocity(), getBounceCount(), true, getProjectileMotionType());
             projectile.setData(3);
 
             projectile.launch(player.getLookAngle());
@@ -57,10 +51,6 @@ public class FireballSpell extends AbstractSpell {
             world.addFreshEntity(projectile);
             PacketDistributor.sendToPlayersTrackingEntityAndSelf(projectile, new OnCustomProjectileSpawnedPayload(projectile.getId()));
         }
-    }
-
-    public float getSpeed() {
-        return ((float)tier / 2f) * baseSpeed;
     }
 
     public float getDamage() {
@@ -84,6 +74,6 @@ public class FireballSpell extends AbstractSpell {
     }
 
     public ProjectileMotionType getProjectileMotionType() {
-        return ProjectileMotionType.NONE;
+        return ProjectileMotionType.DEFAULT;
     }
 }

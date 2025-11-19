@@ -5,7 +5,10 @@ import com.teamsimplyrs.prismaarcanum.api.casting.interfaces.ICastable;
 import com.teamsimplyrs.prismaarcanum.api.casting.interfaces.IMultiSpellHolder;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.api.utils.SpellUtils;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
+import com.teamsimplyrs.prismaarcanum.registry.PADataAttachmentsRegistry;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -51,7 +54,9 @@ public class AbstractCastable extends Item implements ICastable, IMultiSpellHold
         AbstractSpell spell = SpellRegistry.getSpell(spellID);
         if (spell == null) {
             LOGGER.error("[Prisma Arcanum] User tried to cast a null spell: Spell was not found in the registry");
+            return;
         }
+
         spell.tryCast(world, player);
     }
 

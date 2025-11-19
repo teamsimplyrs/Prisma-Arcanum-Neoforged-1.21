@@ -2,6 +2,8 @@ package com.teamsimplyrs.prismaarcanum.client.overlay;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.casting.AbstractCastable;
+import com.teamsimplyrs.prismaarcanum.api.casting.ClientCooldownManager;
+import com.teamsimplyrs.prismaarcanum.api.casting.PlayerSpellCooldowns;
 import com.teamsimplyrs.prismaarcanum.api.mana.PlayerChromana;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
@@ -25,6 +27,7 @@ import java.util.List;
 @EventBusSubscriber(modid = PrismaArcanum.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
 public class ChromanaHUDOverlayRenderer {
 
+
     @SubscribeEvent
     public static void onRenderOverlay(RenderGuiLayerEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
@@ -37,23 +40,37 @@ public class ChromanaHUDOverlayRenderer {
         int height = event.getGuiGraphics().guiHeight();
 
         PlayerChromana manaData = player.getData(PADataAttachmentsRegistry.CHROMANA.get());
+        var cooldowns = ClientCooldownManager.get();
+
         ItemStack handItem = player.getMainHandItem();
 
-        Component toDisplay = Component.literal(String.format("Chromana: %d / %d", manaData.getCurrent(), manaData.getMax()));
+        Component manaDisplay = Component.literal(String.format("Chromana: %d / %d", manaData.getCurrent(), manaData.getMax()));
+        Component cooldownDisplay = null;
 
-        int x = 10;
-        int y = height - 10;
+        int manaX = 10;
+        int manaY = height - 10;
+        int cooldownX = 10;
+        int cooldownY = height - 20;
+
         int color;
         AbstractSpell spell = null;
+        ResourceLocation currentSpellRL = null;
+
         if (handItem.getItem() instanceof AbstractCastable) {
-          ResourceLocation currentSpellRL = WandUtils.getCurrentSpell(handItem);
+          currentSpellRL = WandUtils.getCurrentSpell(handItem);
           if (currentSpellRL != null) {
               spell = SpellRegistry.getSpell(currentSpellRL);
+
+              if (cooldowns.isOnCooldown(currentSpellRL)) {
+                  cooldownDisplay = Component.literal(String.format("%s Cooldown: %.2f", spell.getDisplayName(), cooldowns.getCooldownSeconds(currentSpellRL)));
+              }
           }
+
+            color = spell != null ? GuiUtils.getTextColorForElement(spell.getElement()) : 0xFFFFFF;
+            event.getGuiGraphics().drawString(mc.font, manaDisplay, manaX, manaY, color, true);
+            if (cooldownDisplay != null) {
+                event.getGuiGraphics().drawString(mc.font, cooldownDisplay, cooldownX, cooldownY, color, true);
+            }
         }
-
-        color = spell != null ? GuiUtils.getTextColorForElement(spell.getElement()) : 0xFFFFFF;
-
-        event.getGuiGraphics().drawString(mc.font, toDisplay, x, y, color, true);
     }
 }

@@ -4,17 +4,25 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 public class PlayerChromana {
-    public static final int BASE_MAX = 100;
-    public static final float BASE_REGEN = 0.25f; // per tick
-    public static final int BASE_REGEN_COOLDOWN = 50; // ticks
+    public final int BASE_MAX = 100;
+    public final float BASE_REGEN = 0.25f; // per tick
+    public final int BASE_REGEN_COOLDOWN = 50; // ticks
 
-    public int current;
-    public int max;
-    public float regen; // per tick
-    public int regenCooldown;
+    protected int current;
+    protected int max;
+    protected float regen; // per tick
+    protected int regenCooldown;
+
 
     private float accumulatedFractionalMana = 0;
     private int regenCooldownActiveTicks = 0;
+
+    public static final Codec<PlayerChromana> CODEC = RecordCodecBuilder.create(i -> i.group(
+            Codec.INT.fieldOf("current").forGetter(PlayerChromana::getCurrent),
+            Codec.INT.fieldOf("max").forGetter(PlayerChromana::getMax),
+            Codec.FLOAT.fieldOf("regen").forGetter(PlayerChromana::getRegen),
+            Codec.INT.fieldOf("regen_cooldown").forGetter(PlayerChromana::getRegenCooldown)
+    ).apply(i, PlayerChromana::new));
 
     public PlayerChromana() {
         current = BASE_MAX;
@@ -29,14 +37,6 @@ public class PlayerChromana {
         this.regen = regen;
         this.regenCooldown = regenCooldown;
     }
-
-    public static final Codec<PlayerChromana> CODEC = RecordCodecBuilder.create(i -> i.group(
-            Codec.INT.fieldOf("current").forGetter(PlayerChromana::getCurrent),
-            Codec.INT.fieldOf("max").forGetter(PlayerChromana::getMax),
-            Codec.FLOAT.fieldOf("regen").forGetter(PlayerChromana::getRegen),
-            Codec.INT.fieldOf("regen_cooldown").forGetter(PlayerChromana::getRegenCooldown)
-    ).apply(i, PlayerChromana::new));
-
 
     // server tick to perform mana operations
     public boolean tick() {

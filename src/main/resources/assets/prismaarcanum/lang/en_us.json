@@ -3,14 +3,16 @@
   "item.prismaarcanum.spell_prism": "Spell Prism",
   "item.prismaarcanum.ignis_wand": "Ignis Wand",
 
+  "item.prismaarcanum.ripple_seeker_spawn_egg" : "Ripple Seeker Spawn Egg",
 
-  "block.prismaarcanum.prisma_focus_bench": "Prisma Focus Bench",
+  "block.prismaarcanum.prism_focus_bench": "Prism Focus Bench",
 
 
-  "menu.prismaarcanum.prisma_focus_bench" : "Prisma Focus Bench",
+  "menu.prismaarcanum.prism_focus_bench" : "Prism Focus Bench",
 
-  "creativetab.prismaarcanum.prismatic_tools": "Prisma Arcanum: Prismatic Tools",
-  "creativetab.prismaarcanum.prismatic_blocks": "Prisma Arcanum: Prismatic Blocks",
+  "creativetab.prismaarcanum.prismatic_tools": "Prisma Arcanum: Tools",
+  "creativetab.prismaarcanum.prismatic_blocks": "Prisma Arcanum: Blocks",
+  "creativetab.prismaarcanum.prismatic_mobs" : "Prisma Arcanum: Mobs",
 
 
   "spells.prismaarcanum.ignis.fireball_spell": "Fireball",
@@ -26,5 +28,4 @@
   "spells.prismaarcanum.mentis.magic_bullet.description": "Basic magic bullet stuff tbh",
   "spells.prismaarcanum.mentis.mystic_missile": "Mystic Missile",
   "spells.prismaarcanum.mentis.mystic_missile.description": "Basic mystic missile stuff tbh"
-
 }

@@ -2,11 +2,12 @@ package com.teamsimplyrs.prismaarcanum.client.menu.container;
 
 import com.teamsimplyrs.prismaarcanum.api.casting.AbstractCastable;
 import com.teamsimplyrs.prismaarcanum.api.utils.SpellUtils;
-import com.teamsimplyrs.prismaarcanum.block.blockentity.PrismaFocusBenchBlockEntity;
+import com.teamsimplyrs.prismaarcanum.block.blockentity.PrismFocusBenchBlockEntity;
 import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnPrismConvergePayload;
 import com.teamsimplyrs.prismaarcanum.registry.PABlockRegistry;
 import com.teamsimplyrs.prismaarcanum.registry.PAMenuTypesRegistry;
+import com.teamsimplyrs.prismaarcanum.api.casting.interfaces.IMultiSpellHolder;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -23,20 +24,20 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrismaFocusBenchMenu extends AbstractContainerMenu {
-    public final PrismaFocusBenchBlockEntity blockEntity;
+public class PrismFocusBenchMenu extends AbstractContainerMenu {
+    public final PrismFocusBenchBlockEntity blockEntity;
     private final Level level;
 
     private static final int WAND_SLOT_INDEX = 36, MAX_SPELL_SLOTS = 5;
 
-    public PrismaFocusBenchMenu(int containerId, Inventory playerInv, FriendlyByteBuf extraData) {
+    public PrismFocusBenchMenu(int containerId, Inventory playerInv, FriendlyByteBuf extraData) {
         this(containerId, playerInv, playerInv.player.level().getBlockEntity(extraData.readBlockPos()));
     }
 
-    public PrismaFocusBenchMenu(int containerId, Inventory playerInv, BlockEntity blockEntity) {
+    public PrismFocusBenchMenu(int containerId, Inventory playerInv, BlockEntity blockEntity) {
         super(PAMenuTypesRegistry.PRISMA_FOCUS_BENCH_MENU.get(), containerId);
 
-        this.blockEntity = (PrismaFocusBenchBlockEntity) blockEntity;
+        this.blockEntity = (PrismFocusBenchBlockEntity) blockEntity;
         this.level = playerInv.player.level();
 
         addPlayerInventory(playerInv);
@@ -109,7 +110,7 @@ public class PrismaFocusBenchMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()), player, PABlockRegistry.PRISMA_FOCUS_BENCH.get());
+        return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()), player, PABlockRegistry.PRISM_FOCUS_BENCH.get());
     }
 
     private void addPrismFocusBenchSlots() {

@@ -1,7 +1,11 @@
 package com.teamsimplyrs.prismaarcanum;
 
-import com.teamsimplyrs.prismaarcanum.client.menu.screen.PrismaFocusBenchScreen;
+import com.teamsimplyrs.prismaarcanum.client.menu.screen.PrismFocusBenchScreen;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
+import com.teamsimplyrs.prismaarcanum.entity.client.projectile.FireballSpellProjectileRenderer;
+import com.teamsimplyrs.prismaarcanum.entity.client.projectile.ManaPelletRenderer;
+import com.teamsimplyrs.prismaarcanum.entity.client.projectile.RippleSeekerProjectileRenderer;
+import com.teamsimplyrs.prismaarcanum.entity.client.monster.RippleSeekerRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.client.*;
 import com.teamsimplyrs.prismaarcanum.registry.*;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
@@ -97,11 +101,13 @@ public class PrismaArcanum
             EntityRenderers.register(PAEntityRegistry.SPELL_EFFECT_AREA.get(), SpellEffectAreaRenderer::new);
             EntityRenderers.register(PAEntityRegistry.WINDPOOL_BLANK.get(), ctx -> new GenericEmptyRenderer<>(ctx));
             EntityRenderers.register(PAEntityRegistry.BOUNCEZAP_PROJECTILE.get(), ctx -> new GenericEmptyRenderer<>(ctx));
+            EntityRenderers.register(PAEntityRegistry.RIPPLE_SEEKER.get(), RippleSeekerRenderer::new);
+            EntityRenderers.register(PAEntityRegistry.RIPPLE_SEEKER_PROJECTILE.get(), RippleSeekerProjectileRenderer::new);
         }
 
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
-            event.register(PAMenuTypesRegistry.PRISMA_FOCUS_BENCH_MENU.get(), PrismaFocusBenchScreen::new);
+            event.register(PAMenuTypesRegistry.PRISMA_FOCUS_BENCH_MENU.get(), PrismFocusBenchScreen::new);
         }
     }
 }
