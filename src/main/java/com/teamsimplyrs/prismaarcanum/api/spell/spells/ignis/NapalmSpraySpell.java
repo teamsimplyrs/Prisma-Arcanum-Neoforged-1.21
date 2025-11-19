@@ -119,7 +119,5 @@ public class NapalmSpraySpell extends AbstractSpell {
                 }
             }
         }
-
-
     }
 }

@@ -2,11 +2,13 @@ package com.teamsimplyrs.prismaarcanum.api.spell.registry;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.fulgur.BounceZap;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.ignis.FireballSpell;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.ignis.NapalmSpraySpell;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.MagicBullet;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.ManaPellet;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.MysticMissile;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.ventus.WindPool;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -26,12 +28,20 @@ public class SpellRegistry {
 
     /// ==== All spells go here for registration ====
 
+    /// ==Mentis Spells==
     public static final Supplier<ManaPellet> MANA_PELLET = SPELLS.register(ManaPellet.spellID, ManaPellet::new);
     public static final Supplier<MagicBullet> MAGIC_BULLET = SPELLS.register(MagicBullet.spellID, MagicBullet::new);
     public static final Supplier<MysticMissile> MYSTIC_MISSILE = SPELLS.register(MysticMissile.spellID, MysticMissile::new);
 
+    /// == Ignis Spells ==
     public static final Supplier<FireballSpell> FIREBALL = SPELLS.register(FireballSpell.spellID, FireballSpell::new);
     public static final Supplier<NapalmSpraySpell> NAPALM_SPRAY = SPELLS.register(NapalmSpraySpell.spellID, NapalmSpraySpell::new);
+
+    /// == Ventus Spells ==
+    public static final Supplier<WindPool> WINDPOOL = SPELLS.register(WindPool.spellID, WindPool::new);
+
+    ///  == Fulgur Spells ==
+    public static final Supplier<BounceZap> BOUNCEZAP = SPELLS.register(BounceZap.spellID, BounceZap::new);
 
     // ==============================================
 

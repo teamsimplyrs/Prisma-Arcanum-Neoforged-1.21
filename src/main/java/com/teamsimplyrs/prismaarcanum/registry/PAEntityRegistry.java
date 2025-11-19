@@ -2,10 +2,7 @@ package com.teamsimplyrs.prismaarcanum.registry;
 
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
-import com.teamsimplyrs.prismaarcanum.entity.custom.FireballSpellProjectile;
-import com.teamsimplyrs.prismaarcanum.entity.custom.ManaPelletProjectile;
-import com.teamsimplyrs.prismaarcanum.entity.custom.NapalmShootBlankProjectile;
-import com.teamsimplyrs.prismaarcanum.entity.custom.SpellEffectAreaEntity;
+import com.teamsimplyrs.prismaarcanum.entity.custom.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -47,6 +44,22 @@ public class PAEntityRegistry {
                             .updateInterval(2)                // how often to sync
                             .build("spell_effect_area"
                     ));
+
+    public static final Supplier<EntityType<WindPoolBlankProjectile>> WINDPOOL_BLANK =
+            ENTITY_TYPES.register("windpool_blank",
+                    () -> EntityType.Builder.<WindPoolBlankProjectile>of(WindPoolBlankProjectile::new, MobCategory.MISC)
+                            .sized(1.0f,1.0f)
+                            .clientTrackingRange(64)
+                            .updateInterval(2)
+                            .build("windpool_blank"
+                    ));
+
+    public static final Supplier<EntityType<BounceZapProjectile>> BOUNCEZAP_PROJECTILE =
+            ENTITY_TYPES.register("bouncezap_projectile",
+                    () -> EntityType.Builder.<BounceZapProjectile>of(
+                                    BounceZapProjectile::new, MobCategory.MISC)
+                            .sized(0.75f, 0.75f)
+                            .build("bouncezap_projectile"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

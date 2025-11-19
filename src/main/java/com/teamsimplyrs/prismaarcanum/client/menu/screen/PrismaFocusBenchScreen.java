@@ -5,15 +5,11 @@ import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.client.menu.container.PrismaFocusBenchMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-
-import java.util.function.Supplier;
 
 public class PrismaFocusBenchScreen extends AbstractContainerScreen<PrismaFocusBenchMenu> {
 
@@ -22,6 +18,10 @@ public class PrismaFocusBenchScreen extends AbstractContainerScreen<PrismaFocusB
 
     public PrismaFocusBenchScreen(PrismaFocusBenchMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
+        this.titleLabelX = this.leftPos+8;
+        this.titleLabelY = (this.height - this.texH)/2-55;
+        this.inventoryLabelX = this.leftPos+8;
+        this.inventoryLabelY = this.topPos + 103;
     }
 
     @Override
@@ -34,7 +34,6 @@ public class PrismaFocusBenchScreen extends AbstractContainerScreen<PrismaFocusB
             Component.literal("Converge"),
             button -> menu.onConvergePress())
             .pos(buttonX, buttonY)
-
             .size(34, 14)
             .build()
         );
@@ -53,6 +52,12 @@ public class PrismaFocusBenchScreen extends AbstractContainerScreen<PrismaFocusB
         int y = (height - texH) / 2;
 
         guiGraphics.blit(GUI_TEX, x, y, 0, 0, texW, texH, 256, 256);
+    }
+
+    @Override
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 0xFFFFFF, false);
+        guiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 0xFFFFFF, false);
     }
 
     @Override
