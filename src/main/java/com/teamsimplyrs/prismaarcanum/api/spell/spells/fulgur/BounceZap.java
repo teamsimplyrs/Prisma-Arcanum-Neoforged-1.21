@@ -18,7 +18,7 @@ public class BounceZap extends AbstractSpell {
 
     public static final int tier = 1;
     public static final int basicManaCost = 0;
-    public static final float basicCooldown = 1f;
+    public static final int basicCooldown = 1;
 
     public static final boolean hasEvolution = true;
 
@@ -41,7 +41,7 @@ public class BounceZap extends AbstractSpell {
 
             projectile.setPos(offset);
             projectile.setYRot(player.getYRot());
-            projectile.setSpellData(getDamage(), getLifetime(), getVelocity(), getBounceCount(), false, getProjectileMotionType());
+            projectile.setProjectileParameters(getDamage(), getLifetime(), getVelocity(), getBounceCount(), false, getProjectileMotionType());
 
             projectile.launch(player.getLookAngle());
 
@@ -75,6 +75,6 @@ public class BounceZap extends AbstractSpell {
     }
 
     public ProjectileMotionType getProjectileMotionType() {
-        return ProjectileMotionType.NONE;
+        return ProjectileMotionType.DEFAULT;
     }
 }

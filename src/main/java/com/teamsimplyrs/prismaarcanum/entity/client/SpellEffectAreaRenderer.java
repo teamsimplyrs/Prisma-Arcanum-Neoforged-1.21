@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.ManaPellet;
+import com.teamsimplyrs.prismaarcanum.entity.client.projectile.ManaPelletModel;
 import com.teamsimplyrs.prismaarcanum.entity.custom.SpellEffectAreaEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
