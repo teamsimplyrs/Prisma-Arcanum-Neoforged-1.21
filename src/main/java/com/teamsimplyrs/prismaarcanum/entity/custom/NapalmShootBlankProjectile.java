@@ -48,7 +48,7 @@ public class NapalmShootBlankProjectile extends AbstractSpellProjectile {
                     this.parentSpellID,  // <-- spellID
                     40,                     // lifetime in ticks (2 seconds)
                     2f,
-                    2f
+                    8f
             );
 
             level().addFreshEntity(aoe);
