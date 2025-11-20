@@ -1,6 +1,7 @@
 {
   "item.prismaarcanum.debug_wand": "Debug Wand",
   "item.prismaarcanum.spell_prism": "Spell Prism",
+  "item.prismaarcanum.ignis_wand": "Ignis Wand",
 
   "item.prismaarcanum.ripple_seeker_spawn_egg" : "Ripple Seeker Spawn Egg",
 
@@ -15,6 +16,11 @@
 
 
   "spells.prismaarcanum.ignis.fireball_spell": "Fireball",
+  "spells.prismaarcanum.ignis.napalm_spray_spell": "Napalm Spray",
+
+  "spells.prismaarcanum.ventus.windpool_spell": "WindPool",
+
+  "spells.prismaarcanum.fulgur.bouncezap_spell": "BounceZap",
 
   "spells.prismaarcanum.mentis.mana_pellet": "Mana Pellet",
   "spells.prismaarcanum.mentis.mana_pellet.description": "Basic mana pellet stuff tbh",

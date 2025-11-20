@@ -18,6 +18,10 @@ public class PrismFocusBenchScreen extends AbstractContainerScreen<PrismFocusBen
 
     public PrismFocusBenchScreen(PrismFocusBenchMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
+        this.titleLabelX = this.leftPos+8;
+        this.titleLabelY = (this.height - this.texH)/2-55;
+        this.inventoryLabelX = this.leftPos+8;
+        this.inventoryLabelY = this.topPos + 103;
     }
 
     @Override
@@ -30,7 +34,6 @@ public class PrismFocusBenchScreen extends AbstractContainerScreen<PrismFocusBen
             Component.literal("Converge"),
             button -> menu.onConvergePress())
             .pos(buttonX, buttonY)
-
             .size(34, 14)
             .build()
         );
@@ -49,6 +52,12 @@ public class PrismFocusBenchScreen extends AbstractContainerScreen<PrismFocusBen
         int y = (height - texH) / 2;
 
         guiGraphics.blit(GUI_TEX, x, y, 0, 0, texW, texH, 256, 256);
+    }
+
+    @Override
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 0xFFFFFF, false);
+        guiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 0xFFFFFF, false);
     }
 
     @Override

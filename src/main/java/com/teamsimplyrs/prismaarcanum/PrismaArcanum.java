@@ -6,6 +6,7 @@ import com.teamsimplyrs.prismaarcanum.entity.client.projectile.FireballSpellProj
 import com.teamsimplyrs.prismaarcanum.entity.client.projectile.ManaPelletRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.client.projectile.RippleSeekerProjectileRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.client.monster.RippleSeekerRenderer;
+import com.teamsimplyrs.prismaarcanum.entity.client.*;
 import com.teamsimplyrs.prismaarcanum.registry.*;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -57,6 +58,7 @@ public class PrismaArcanum
         PADataComponents.register(modEventBus);
         PACreativeTabsRegistry.register(modEventBus);
         PADataAttachmentsRegistry.register(modEventBus);
+        PASpellEffectRegistry.register(modEventBus);
 
         modEventBus.addListener(this::addCreative);
 
@@ -95,6 +97,10 @@ public class PrismaArcanum
         {
             EntityRenderers.register(PAEntityRegistry.MANA_PELLET_PROJECTILE.get(), ManaPelletRenderer::new);
             EntityRenderers.register(PAEntityRegistry.FIREBALL_SPELL_PROJECTILE.get(), FireballSpellProjectileRenderer::new);
+            EntityRenderers.register(PAEntityRegistry.NAPALM_BLANK.get(), NapalmBlankRenderer::new);
+            EntityRenderers.register(PAEntityRegistry.SPELL_EFFECT_AREA.get(), SpellEffectAreaRenderer::new);
+            EntityRenderers.register(PAEntityRegistry.WINDPOOL_BLANK.get(), ctx -> new GenericEmptyRenderer<>(ctx));
+            EntityRenderers.register(PAEntityRegistry.BOUNCEZAP_PROJECTILE.get(), ctx -> new GenericEmptyRenderer<>(ctx));
             EntityRenderers.register(PAEntityRegistry.RIPPLE_SEEKER.get(), RippleSeekerRenderer::new);
             EntityRenderers.register(PAEntityRegistry.RIPPLE_SEEKER_PROJECTILE.get(), RippleSeekerProjectileRenderer::new);
         }
