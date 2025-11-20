@@ -21,12 +21,15 @@ public class NetworkEventsHandler {
     private static void PlayToServer(PayloadRegistrar registrar) {
         registrar.playToServer(CastPayload.PAYLOAD_TYPE, CastPayload.CODEC, CastPayload::handle);
         registrar.playToServer(OnPrismConvergePayload.PAYLOAD_TYPE, OnPrismConvergePayload.CODEC, OnPrismConvergePayload::handle);
+        registrar.playToServer(OnSelectedSpellChangedPayload.PAYLOAD_TYPE, OnSelectedSpellChangedPayload.CODEC, OnSelectedSpellChangedPayload::handle);
     }
 
     private static void PlayToClient(PayloadRegistrar registrar) {
         registrar.playToClient(OnCastingStartedPayload.PAYLOAD_TYPE, OnCastingStartedPayload.CODEC, OnCastingStartedPayload::handle);
         registrar.playToClient(OnCastingFinishedPayload.PAYLOAD_TYPE, OnCastingFinishedPayload.CODEC, OnCastingFinishedPayload::handle);
         registrar.playToClient(OnCustomProjectileSpawnedPayload.PAYLOAD_TYPE, OnCustomProjectileSpawnedPayload.CODEC, OnCustomProjectileSpawnedPayload::handle);
+        registrar.playToClient(ManaSyncPayload.PAYLOAD_TYPE, ManaSyncPayload.CODEC, ManaSyncPayload::handle);
+        registrar.playToClient(PlayerSpellCooldownsSyncPayload.PAYLOAD_TYPE, PlayerSpellCooldownsSyncPayload.CODEC, PlayerSpellCooldownsSyncPayload::handle);
     }
 
     private static void PlayBidirectional(PayloadRegistrar registrar) {

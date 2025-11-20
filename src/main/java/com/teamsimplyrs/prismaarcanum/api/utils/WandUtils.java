@@ -2,8 +2,10 @@ package com.teamsimplyrs.prismaarcanum.api.utils;
 
 import com.teamsimplyrs.prismaarcanum.api.casting.AbstractCastable;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
+import com.teamsimplyrs.prismaarcanum.network.payload.OnSelectedSpellChangedPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class WandUtils {
     public static void cycleSpellsOnScroll(ItemStack castable, float scrollDX, float scrollDY) {
@@ -17,13 +19,18 @@ public class WandUtils {
         }
 
         Integer curIndex = castable.get(PADataComponents.CURRENT_SPELL_INDEX.get());
+        int newIndex = 0;
 
         if (curIndex != null && curIndex >= 0 && scrollDY != 0) {
             // for whatever reason, Java returns negative values for ~negative % positive~. clamp to 0 before applying the index
-            curIndex = Math.max(0, (scrollDY > 0 ? curIndex + 1 : curIndex - 1)) % spells.size();
-            castable.set(PADataComponents.CURRENT_SPELL_INDEX, curIndex);
+            int base = curIndex + (int)Math.signum(scrollDY);
+
+            newIndex = Math.floorMod(base, spells.size());
+            castable.set(PADataComponents.CURRENT_SPELL_INDEX, newIndex);
 
         }
+
+        PacketDistributor.sendToServer(new OnSelectedSpellChangedPayload(newIndex));
     }
 
 
@@ -35,7 +42,7 @@ public class WandUtils {
         Integer curIdx = castable.get(PADataComponents.CURRENT_SPELL_INDEX.get());
         var spells = castable.get(PADataComponents.SPELLS_BOUND.get());
 
-        if (onlyIfComponentMissing && curIdx != null) {
+        if (onlyIfComponentMissing && curIdx != null && curIdx < spells.size()) {
             return;
         }
 

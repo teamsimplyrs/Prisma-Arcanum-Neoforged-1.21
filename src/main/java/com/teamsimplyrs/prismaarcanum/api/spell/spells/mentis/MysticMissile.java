@@ -13,8 +13,8 @@ public class MysticMissile extends AbstractSpell {
     public static final School school = School.Occult;
 
     public static final int tier = 3;
-    public static final float basicManaCost = 10f;
-    public static final float basicCooldown = 2f;
+    public static final int basicManaCost = 15;
+    public static final int basicCooldown = 40;
 
     public static final boolean hasEvolution = false;
 

@@ -1,18 +1,15 @@
-package com.teamsimplyrs.prismaarcanum.entity.client;
+package com.teamsimplyrs.prismaarcanum.entity.client.projectile;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.ignis.FireballSpell;
-import com.teamsimplyrs.prismaarcanum.entity.custom.FireballSpellProjectile;
-import com.teamsimplyrs.prismaarcanum.entity.custom.ManaPelletProjectile;
+import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.FireballSpellProjectile;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 
 public class FireballSpellProjectileModel extends EntityModel<FireballSpellProjectile> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor

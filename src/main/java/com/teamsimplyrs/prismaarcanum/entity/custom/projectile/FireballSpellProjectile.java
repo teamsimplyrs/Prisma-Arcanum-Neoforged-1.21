@@ -1,4 +1,4 @@
-package com.teamsimplyrs.prismaarcanum.entity.custom;
+package com.teamsimplyrs.prismaarcanum.entity.custom.projectile;
 
 import com.lowdragmc.photon.client.fx.EntityEffectExecutor;
 import com.lowdragmc.photon.client.fx.FX;
@@ -6,16 +6,10 @@ import com.lowdragmc.photon.client.fx.FXHelper;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpellProjectile;
 import com.teamsimplyrs.prismaarcanum.registry.PAEntityRegistry;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
@@ -44,6 +38,7 @@ public class FireballSpellProjectile extends AbstractSpellProjectile {
 
     @Override
     public void launch(Vec3 rot) {
+
         super.launch(rot);
     }
 

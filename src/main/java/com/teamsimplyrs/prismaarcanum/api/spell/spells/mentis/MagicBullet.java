@@ -13,8 +13,8 @@ public class MagicBullet extends AbstractSpell {
     public static final School school = School.Occult;
 
     public static final int tier = 2;
-    public static final float basicManaCost = 3f;
-    public static final float basicCooldown = 1f;
+    public static final int basicManaCost = 8;
+    public static final int basicCooldown = 20;
 
     public static final boolean hasEvolution = true;
 

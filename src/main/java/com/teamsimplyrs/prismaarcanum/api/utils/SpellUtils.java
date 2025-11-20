@@ -21,7 +21,7 @@ public class SpellUtils {
     public static void resetCurrentSpellIndexForCastableItem(ItemStack castableItem) {
         if (castableItem.getItem() instanceof AbstractCastable) {
             List<ResourceLocation> spellsBound = castableItem.get(PADataComponents.SPELLS_BOUND.get());
-            int val = (spellsBound == null || spellsBound.isEmpty()) ? -1 : spellsBound.size();
+            int val = (spellsBound == null || spellsBound.isEmpty()) ? -1 : 0;
             castableItem.set(PADataComponents.CURRENT_SPELL_INDEX.get(), val);
         }
     }

@@ -2,14 +2,19 @@ package com.teamsimplyrs.prismaarcanum.api.spell.spells.common;
 
 import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
+import com.teamsimplyrs.prismaarcanum.api.casting.PlayerSpellCooldowns;
+import com.teamsimplyrs.prismaarcanum.api.mana.PlayerChromana;
 import com.teamsimplyrs.prismaarcanum.network.payload.CastPayload;
+import com.teamsimplyrs.prismaarcanum.network.payload.ManaSyncPayload;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCastingStartedPayload;
 import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import com.teamsimplyrs.prismaarcanum.api.utils.School;
+import com.teamsimplyrs.prismaarcanum.registry.PADataAttachmentsRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -21,8 +26,8 @@ public abstract class AbstractSpell implements ISpell {
     protected School school;
 
     protected int tier;
-    protected float basicManaCost;
-    protected float basicCooldown;
+    protected int basicManaCost;
+    protected int basicCooldown;
 
     protected boolean hasEvolution;
 
@@ -37,7 +42,7 @@ public abstract class AbstractSpell implements ISpell {
     }
 
 
-    protected AbstractSpell(String spellID, Element element, School school, int tier, float basicManaCost, float basicCooldown, boolean hasEvolution) {
+    protected AbstractSpell(String spellID, Element element, School school, int tier, int basicManaCost, int basicCooldown, boolean hasEvolution) {
         this.spellID = spellID;
         this.element = element;
         this.school = school;
@@ -57,7 +62,27 @@ public abstract class AbstractSpell implements ISpell {
             return false;
         }
 
-        LOGGER.info("AbstractSpell: Sending Cast Packet");
+        PlayerChromana chromana = serverPlayer.getData(PADataAttachmentsRegistry.CHROMANA.get());
+
+        if (chromana.getCurrent() < getManaCost()) {
+            serverPlayer.sendSystemMessage(Component.literal("Insufficient Chromana"));
+            return false;
+        }
+
+        PlayerSpellCooldowns cooldowns = serverPlayer.getData(PADataAttachmentsRegistry.SPELL_COOLDOWNS.get());
+        ResourceLocation spellID = getResourceLocation();
+
+        if (cooldowns.isOnCooldown(spellID)) {
+            float cooldownSecs = cooldowns.getCooldownSeconds(spellID);
+            player.sendSystemMessage(Component.literal(String.format("%s is on cooldown for %.2f seconds", getDisplayName(), cooldownSecs)));
+            return false;
+        }
+
+        chromana.useMana(getManaCost(), true);
+        cooldowns.setCooldown(getResourceLocation(), getCooldownTicks());
+
+        PacketDistributor.sendToPlayer(serverPlayer, new ManaSyncPayload(serverPlayer.getUUID(), chromana));
+
         PacketDistributor.sendToServer(new CastPayload(serverPlayer.getUUID(), getResourceLocation()));
         return true;
     }
@@ -75,12 +100,24 @@ public abstract class AbstractSpell implements ISpell {
 //        player.sendSystemMessage(Component.literal(String.format("%s: OnCastingFinished called", getDisplayName())));
     }
 
+    public int getManaCost() {
+        return basicManaCost;
+    }
+
+    public int getCooldownTicks() {
+        return basicCooldown;
+    }
+
     public MutableComponent getDisplayNameComponent() {
         return Component.translatable(getTranslatableComponent());
     }
 
     public String getDisplayName() {
         return getDisplayNameComponent().getString();
+    }
+
+    public Element getElement() {
+        return element;
     }
 
     public String getElementAsString() {
