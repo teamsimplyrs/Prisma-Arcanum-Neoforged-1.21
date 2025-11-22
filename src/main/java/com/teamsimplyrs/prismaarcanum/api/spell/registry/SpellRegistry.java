@@ -1,6 +1,7 @@
 package com.teamsimplyrs.prismaarcanum.api.spell.registry;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.aqua.SpringOfDeath;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.fulgur.BounceZap;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.ignis.FireballSpell;
@@ -36,6 +37,9 @@ public class SpellRegistry {
     /// == Ignis Spells ==
     public static final Supplier<FireballSpell> FIREBALL = SPELLS.register(FireballSpell.spellID, FireballSpell::new);
     public static final Supplier<NapalmSpraySpell> NAPALM_SPRAY = SPELLS.register(NapalmSpraySpell.spellID, NapalmSpraySpell::new);
+
+    ///  == Aqua Spells ==
+    public static final Supplier<SpringOfDeath> SPRING_OF_DEATH = SPELLS.register(SpringOfDeath.spellID, SpringOfDeath::new);
 
     /// == Ventus Spells ==
     public static final Supplier<WindPool> WINDPOOL = SPELLS.register(WindPool.spellID, WindPool::new);

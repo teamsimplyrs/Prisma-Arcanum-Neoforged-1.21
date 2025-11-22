@@ -103,6 +103,7 @@ public class PrismaArcanum
             EntityRenderers.register(PAEntityRegistry.BOUNCEZAP_PROJECTILE.get(), ctx -> new GenericEmptyRenderer<>(ctx));
             EntityRenderers.register(PAEntityRegistry.RIPPLE_SEEKER.get(), RippleSeekerRenderer::new);
             EntityRenderers.register(PAEntityRegistry.RIPPLE_SEEKER_PROJECTILE.get(), RippleSeekerProjectileRenderer::new);
+            EntityRenderers.register(PAEntityRegistry.SPRING_DEATH_TRACKER.get(),  ctx -> new GenericEmptyRenderer<>(ctx));
         }
 
         @SubscribeEvent

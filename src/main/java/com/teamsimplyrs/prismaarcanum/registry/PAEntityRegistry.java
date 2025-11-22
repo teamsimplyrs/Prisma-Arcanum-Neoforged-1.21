@@ -74,6 +74,13 @@ public class PAEntityRegistry {
                             .sized(0.75f, 0.75f)
                             .build("ripple_seeker_projectile"));
 
+    public static final Supplier<EntityType<SpringDeathTrackerEntity>> SPRING_DEATH_TRACKER =
+            ENTITY_TYPES.register("spring_death_tracker",
+                    () -> EntityType.Builder.<SpringDeathTrackerEntity>of(
+                            SpringDeathTrackerEntity::new, MobCategory.MISC)
+                            .sized(0.1f,0.1f)
+                            .build("spring_death_tracker"));
+
 
     /* ===== MONSTERS ===== */
 
