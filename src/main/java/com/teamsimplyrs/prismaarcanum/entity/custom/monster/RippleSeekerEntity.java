@@ -44,11 +44,11 @@ public class RippleSeekerEntity extends Monster implements RangedAttackMob {
 
     @Override
     protected PathNavigation createNavigation(Level level) {
-        FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, level);
-        flyingpathnavigation.setCanOpenDoors(false);
-        flyingpathnavigation.setCanFloat(true);
-        flyingpathnavigation.setCanPassDoors(false);
-        return flyingpathnavigation;
+        FlyingPathNavigation flyingPathNavigation = new FlyingPathNavigation(this, level);
+        flyingPathNavigation.setCanOpenDoors(false);
+        flyingPathNavigation.setCanFloat(true);
+        flyingPathNavigation.setCanPassDoors(false);
+        return flyingPathNavigation;
     }
 
     @Override

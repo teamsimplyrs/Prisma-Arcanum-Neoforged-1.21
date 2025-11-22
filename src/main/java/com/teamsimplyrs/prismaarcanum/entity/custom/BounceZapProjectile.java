@@ -72,7 +72,7 @@ public class BounceZapProjectile extends AbstractSpellProjectile {
     @Override
     public void startTrailFX() {
         if (level().isClientSide) {
-            FX lightningFX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "lightning_trail"));
+            FX lightningFX = FXHelper.getFX(getTrailFXid());
             EntityEffectExecutor entityFX = new EntityEffectExecutor(lightningFX, level(), this, EntityEffectExecutor.AutoRotate.NONE);
             entityFX.setOffset(new Vector3f(0f, 0f, 0f));
             entityFX.start();
@@ -82,6 +82,11 @@ public class BounceZapProjectile extends AbstractSpellProjectile {
     @Override
     public void startHitFX() {
 
+    }
+
+    @Override
+    protected ResourceLocation getTrailFXid() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "lightning_trail");
     }
 
     @Override
@@ -142,7 +147,7 @@ public class BounceZapProjectile extends AbstractSpellProjectile {
             }
         }
 
-        discard(); // remove this projectile
+        remove(RemovalReason.DISCARDED);
     }
 
     @Override
@@ -150,7 +155,9 @@ public class BounceZapProjectile extends AbstractSpellProjectile {
         super.tick();
 
         // Self timeout failsafe
-        if (tickCount > 200) discard();
+        if (tickCount > 200) {
+            remove(RemovalReason.DISCARDED);
+        }
     }
 
     @Override

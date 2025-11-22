@@ -50,7 +50,7 @@ public class FireballSpellProjectile extends AbstractSpellProjectile {
     @Override
     public void startTrailFX() {
         if (level().isClientSide) {
-            FX fireballFX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "fireball_main_fx"));
+            FX fireballFX = FXHelper.getFX(getTrailFXid());
             EntityEffectExecutor entityFX = new EntityEffectExecutor(fireballFX, level(), this, EntityEffectExecutor.AutoRotate.NONE);
             entityFX.setOffset(new Vector3f(0f, 0f, 0f));
             entityFX.start();
@@ -60,6 +60,11 @@ public class FireballSpellProjectile extends AbstractSpellProjectile {
     @Override
     public void startHitFX() {
 
+    }
+
+    @Override
+    protected ResourceLocation getTrailFXid() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "fireball_main_fx");
     }
 
     @Override
@@ -74,7 +79,7 @@ public class FireballSpellProjectile extends AbstractSpellProjectile {
 
         if (target != owner) {
             target.hurt(this.damageSources().magic(), damage);
-            discard();
+            remove(RemovalReason.DISCARDED);
         }
     }
 

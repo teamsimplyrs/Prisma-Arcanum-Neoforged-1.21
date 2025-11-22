@@ -54,7 +54,7 @@ public class NapalmShootBlankProjectile extends AbstractSpellProjectile {
             level().addFreshEntity(aoe);
         }
 
-        discard();
+        remove(RemovalReason.DISCARDED);
     }
 
     @Override
@@ -81,5 +81,10 @@ public class NapalmShootBlankProjectile extends AbstractSpellProjectile {
     @Override
     public void startHitFX() {
 
+    }
+
+    @Override
+    protected ResourceLocation getTrailFXid() {
+        return null;
     }
 }

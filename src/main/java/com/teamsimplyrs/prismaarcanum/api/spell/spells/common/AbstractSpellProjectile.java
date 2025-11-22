@@ -1,5 +1,6 @@
 package com.teamsimplyrs.prismaarcanum.api.spell.spells.common;
 
+import com.lowdragmc.photon.client.fx.EntityEffectExecutor;
 import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.api.utils.PhysicsUtils;
 import com.teamsimplyrs.prismaarcanum.api.utils.ProjectileMotionType;
@@ -18,6 +19,8 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.slf4j.Logger;
 
+import java.util.List;
+
 public abstract class AbstractSpellProjectile extends Projectile {
     protected static final Logger LOGGER = LogUtils.getLogger();
     protected float damage = 1f;
@@ -28,6 +31,8 @@ public abstract class AbstractSpellProjectile extends Projectile {
     protected ResourceLocation parentSpellID;
     protected ProjectileMotionType motionType = ProjectileMotionType.DEFAULT;
     protected LivingEntity target;
+
+    protected EntityEffectExecutor activeTrailingEffect;
 
     public AbstractSpellProjectile(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
@@ -86,11 +91,13 @@ public abstract class AbstractSpellProjectile extends Projectile {
 
     public abstract void startHitFX();
 
+    protected abstract ResourceLocation getTrailFXid();
+
     @Override
     public void tick() {
         super.tick();
         if (lifetime >= 0 && tickCount > lifetime) {
-            discard();
+            remove(RemovalReason.DISCARDED);
             return;
         }
 
@@ -143,7 +150,7 @@ public abstract class AbstractSpellProjectile extends Projectile {
         super.onHitBlock(result);
         if (shouldBounce) {
             if (bounceCount <= 0) {
-                discard();
+                remove(RemovalReason.DISCARDED);
             }
             else {
 
@@ -167,5 +174,33 @@ public abstract class AbstractSpellProjectile extends Projectile {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
 
+    }
+
+    @Override
+    public void remove(RemovalReason reason) {
+        ResourceLocation fxId = getTrailFXid();
+        if (fxId == null) return;
+        var CACHE = EntityEffectExecutor.CACHE;
+        List<EntityEffectExecutor> effects = CACHE.get(this);
+        if (effects == null || effects.isEmpty()) {
+            return;
+        }
+        var iterator = effects.iterator();
+
+        while(iterator.hasNext()) {
+            EntityEffectExecutor exec = iterator.next();
+            //Not sure if getFxLocation and getRuntime would become null or not
+            if(exec.fx.getFxLocation().equals(fxId)){
+                var runtime = exec.getRuntime();
+                runtime.destroy(true);
+                iterator.remove();
+            }
+        }
+        if ((CACHE.get(this)).isEmpty()) {
+            CACHE.remove(this);
+        }
+
+        EntityEffectExecutor.CACHE = CACHE;
+        super.remove(reason);
     }
 }

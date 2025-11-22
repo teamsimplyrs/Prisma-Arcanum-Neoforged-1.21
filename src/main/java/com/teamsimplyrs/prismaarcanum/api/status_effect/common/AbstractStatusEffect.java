@@ -22,15 +22,12 @@ public abstract class AbstractStatusEffect extends MobEffect {
         super(category, color);
     }
 
-    /** Override this to provide a Photon2 FX ResourceLocation, or null for none. */
     public abstract ResourceLocation getFX();
 
-    /** Override to customize visual offset. */
     public Vector3f getFXOffset(LivingEntity entity) {
         return new Vector3f(0f, entity.getBbHeight() / 2f, 0f);
     }
 
-    /** Called client-side to render FX each tick. */
     public void renderFX(Level level, LivingEntity entity) {
         ResourceLocation fxId = getFX();
         if (fxId == null) return;

@@ -44,7 +44,7 @@ public class ManaPelletProjectile extends AbstractSpellProjectile {
     @Override
     public void startTrailFX() {
         if (level().isClientSide) {
-            FX manaPelletTrail = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "mana_pellet_trail"));
+            FX manaPelletTrail = FXHelper.getFX(getTrailFXid());
             EntityEffectExecutor entityFX = new EntityEffectExecutor(manaPelletTrail, level(), this, EntityEffectExecutor.AutoRotate.LOOK);
 //            entityFX.setOffset();
             entityFX.start();
@@ -56,6 +56,11 @@ public class ManaPelletProjectile extends AbstractSpellProjectile {
 
     }
 
+    @Override
+    protected ResourceLocation getTrailFXid() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "mana_pellet_trail");
+    }
+
     public void onHit(HitResult result) {
         super.onHit(result);
     }
@@ -63,21 +68,20 @@ public class ManaPelletProjectile extends AbstractSpellProjectile {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
-        LOGGER.info("Mana Pellet Projectile: Entity hit");
         
         Entity entity = result.getEntity();
         if (entity.isAlive()) {
             entity.hurt(this.damageSources().magic(), damage);
         }
         if (!this.level().isClientSide) {
-            this.discard();
+            remove(RemovalReason.DISCARDED);
         }
     }
 
     @Override
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
-        this.discard();
+        remove(RemovalReason.DISCARDED);
     }
 
     @Override
