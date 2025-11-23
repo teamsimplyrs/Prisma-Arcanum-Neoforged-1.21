@@ -31,7 +31,7 @@ public class SpringDeathTrackerEntity extends Entity {
     private final List<LivingEntity> trackedTargets = new ArrayList<>();
     private final Map<LivingEntity, Vec3> basePositions = new HashMap<>();
 
-    private static final int WAIT_DURATION = 100;  // <-- New wait phase
+    private static final int WAIT_DURATION = 60;
     private static final int LAUNCH_DURATION = 10;
     private static final int HOVER_DURATION = 90;
     private static final int TOTAL_TIME = WAIT_DURATION + LAUNCH_DURATION + HOVER_DURATION;
@@ -50,7 +50,6 @@ public class SpringDeathTrackerEntity extends Entity {
         trackedTargets.clear();
         trackedTargets.addAll(list);
 
-        // record original positions
         for (LivingEntity living : trackedTargets) {
             basePositions.put(living, living.position());
         }
@@ -82,56 +81,58 @@ public class SpringDeathTrackerEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
-       // LOGGER.info(String.valueOf(level().isClientSide));
         if (level().isClientSide) return;
 
         int timer = entityData.get(DATA_TIMER);
         entityData.set(DATA_TIMER, timer - 1);
 
-        float t = (TOTAL_TIME - timer); // elapsed time since spawned
+        float t = TOTAL_TIME - timer;
+
+        // ⬇ Only lock positions at the end of WAIT_DURATION
+        if (t == WAIT_DURATION) {
+            for (LivingEntity entity : trackedTargets) {
+                basePositions.put(entity, entity.position());
+            }
+        }
 
         for (LivingEntity entity : trackedTargets) {
             if (!entity.isAlive()) continue;
-
             Vec3 base = basePositions.get(entity);
             if (base == null) continue;
 
             if (t <= WAIT_DURATION) {
-                // During wait: freeze them in original spot
-                teleportAndFreeze(entity, base);
+                // Wait phase: mobs still move normally → do nothing
             }
             else if (t <= WAIT_DURATION + LAUNCH_DURATION) {
-                // launch phase
-
                 if (!launchTriggered) {
                     launchTriggered = true;
-                    // Tell clients to spawn FX for each tracked target
-                    triggerEffect(trackedTargets);
+                    triggerEffect(trackedTargets); // FX timing fixed
                 }
 
+                // BEGIN FREEZE **after** WAIT_DURATION
                 double launchT = (t - WAIT_DURATION) / LAUNCH_DURATION;
                 double height = 4.0 * Math.sin(launchT * Math.PI / 2.0);
+
                 teleportAndFreeze(entity, base.add(0, height, 0));
             }
             else if (t <= TOTAL_TIME) {
-                // hover + wavy float
                 double wobble = Math.sin(entity.tickCount * 0.4) * 0.5;
                 double hoverHeight = 4.0 + wobble;
+
                 teleportAndFreeze(entity, base.add(0, hoverHeight, 0));
 
-                // periodic damage
-                if (entity.tickCount % 20 == 0) {
+                if (entity.tickCount % 10 == 0) {
                     entity.hurt(entity.damageSources().magic(), 1.0F);
                 }
             }
         }
 
-        // End condition
         if (timer - 1 <= 0) {
-            releaseEntities();
+            releaseEntities(); // restore AI + physics
             discard();
         }
     }
+
 
     private void teleportAndFreeze(LivingEntity entity, Vec3 pos) {
         entity.teleportTo(pos.x, pos.y, pos.z);

@@ -1,7 +1,8 @@
-package com.teamsimplyrs.prismaarcanum.entity.custom;
+package com.teamsimplyrs.prismaarcanum.entity.custom.projectile;
 
 import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpellProjectile;
+import com.teamsimplyrs.prismaarcanum.entity.custom.SpellEffectAreaEntity;
 import com.teamsimplyrs.prismaarcanum.registry.PAEntityRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityDimensions;
@@ -45,8 +46,8 @@ public class NapalmShootBlankProjectile extends AbstractSpellProjectile {
             aoe.setPos(result.getBlockPos().getX() + 0.5, result.getBlockPos().getY() + 1, result.getBlockPos().getZ() + 0.5);
 
             aoe.configure(
-                    this.parentSpellID,  // <-- spellID
-                    40,                     // lifetime in ticks (2 seconds)
+                    this.parentSpellID,
+                    40,
                     2f,
                     8f
             );
@@ -59,7 +60,7 @@ public class NapalmShootBlankProjectile extends AbstractSpellProjectile {
 
     @Override
     public @NotNull EntityDimensions getDimensions(@NotNull Pose pose) {
-        return EntityDimensions.fixed(4f, 4f); // small hitbox
+        return EntityDimensions.fixed(4f, 4f);
     }
 
     @Override

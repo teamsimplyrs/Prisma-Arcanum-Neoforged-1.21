@@ -11,7 +11,7 @@ import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import org.slf4j.Logger;
 
 @EventBusSubscriber(modid = PrismaArcanum.MOD_ID, value = Dist.CLIENT)
-public class StatusFXRenderer {
+public class StatusEffectHandler {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     @SubscribeEvent
@@ -19,7 +19,6 @@ public class StatusFXRenderer {
         if(event.getEffectInstance().getEffect().value() instanceof AbstractStatusEffect effect) {
             event.getEffectInstance().visible = false;
             //effect.renderFX(event.getEntity().level(), event.getEntity());
-
         }
     }
 

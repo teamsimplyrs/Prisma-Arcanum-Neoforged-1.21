@@ -20,7 +20,7 @@ public class SpellEffectAreaEntity extends Entity {
     public int lifetime;
     private ResourceLocation spellID;
     private float size;
-    public int effectDuration = 60; // default 2 seconds status effect
+    public int effectDuration = 60;
     public int amplifier = 0;
     public boolean particleEmitted = false;
 
@@ -46,7 +46,7 @@ public class SpellEffectAreaEntity extends Entity {
         this.entityData.set(DATA_WIDTH, width);
         this.entityData.set(DATA_HEIGHT, height);
         this.entityData.set(DATA_SPELL_ID, spellID.toString());
-        this.refreshDimensions(); // update server BB; client updates via onSyncedDataUpdated
+        this.refreshDimensions();
     }
 
     /**
@@ -76,7 +76,6 @@ public class SpellEffectAreaEntity extends Entity {
         builder.define(DATA_SPELL_ID, "");
     }
 
-    /** When the DATA_SIZE changes, update the client’s bounding box */
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
         super.onSyncedDataUpdated(key);

@@ -17,15 +17,13 @@ public class ZappedEffect extends AbstractStatusEffect {
 
     @Override
     public boolean shouldApplyEffectTickThisTick(int tickCount, int amplifier) {
-        return true; // or your custom condition
+        return true;
     }
 
-    /** Called when a tick should deal damage */
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         Level level = entity.level();
         if (!level.isClientSide) {
-            // Wither-like magical damage that bypasses armor and CAN kill
             entity.hurt(entity.damageSources().magic(), 0.5F + (amplifier * 0.3F));
         }
         return true;

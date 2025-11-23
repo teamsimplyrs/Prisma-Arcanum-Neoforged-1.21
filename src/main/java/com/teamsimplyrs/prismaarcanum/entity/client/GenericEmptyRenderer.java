@@ -16,6 +16,7 @@ import net.minecraft.world.entity.Entity;
 /**
  * A generic spell renderer for any simple entity that uses the same ManaPellet model and rendering style.
  * @param <T> The entity type
+ * (ManaPellet model has to be removed later and switched to an invisible entity renderer)
  */
 public class GenericEmptyRenderer<T extends Entity> extends EntityRenderer<T> {
 

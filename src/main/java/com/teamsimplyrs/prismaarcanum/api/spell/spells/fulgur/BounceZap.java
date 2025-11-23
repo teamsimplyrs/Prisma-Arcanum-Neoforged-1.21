@@ -4,7 +4,7 @@ import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import com.teamsimplyrs.prismaarcanum.api.utils.ProjectileMotionType;
 import com.teamsimplyrs.prismaarcanum.api.utils.School;
-import com.teamsimplyrs.prismaarcanum.entity.custom.BounceZapProjectile;
+import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.BounceZapProjectile;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCustomProjectileSpawnedPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;

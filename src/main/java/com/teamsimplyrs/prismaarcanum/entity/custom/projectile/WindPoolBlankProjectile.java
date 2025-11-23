@@ -1,6 +1,7 @@
-package com.teamsimplyrs.prismaarcanum.entity.custom;
+package com.teamsimplyrs.prismaarcanum.entity.custom.projectile;
 
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpellProjectile;
+import com.teamsimplyrs.prismaarcanum.entity.custom.SpellEffectAreaEntity;
 import com.teamsimplyrs.prismaarcanum.registry.PAEntityRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -37,8 +38,8 @@ public class WindPoolBlankProjectile extends AbstractSpellProjectile {
             aoe.setPos(result.getBlockPos().getX() + 0.5, result.getBlockPos().getY() + 1, result.getBlockPos().getZ() + 0.5);
 
             aoe.configure(
-                    this.parentSpellID,  // <-- spellID
-                    100,                     // lifetime in ticks (2 seconds)
+                    this.parentSpellID,
+                    100,
                     4f,
                     2f
             );

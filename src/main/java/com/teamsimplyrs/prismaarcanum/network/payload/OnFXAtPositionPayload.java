@@ -52,7 +52,6 @@ public record OnFXAtPositionPayload(BlockPos pos, ResourceLocation fxId)
                 LOGGER.warn(" Unknown FX ID received: {}", payload.fxId());
                 return;
             }
-            LOGGER.info("network called");
             new BlockEffectExecutor(fx, level, payload.pos()).start();
         });
     }

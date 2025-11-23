@@ -58,14 +58,12 @@ public class SpringOfDeath extends AbstractSpell {
         if (world.isClientSide) return;
         super.cast(player, world);
 
-        // Collect nearby living entities
         List<LivingEntity> targets = world.getEntitiesOfClass(
                 LivingEntity.class,
-                player.getBoundingBox().inflate(20),
+                player.getBoundingBox().inflate(10),
                 e -> e.isAlive() && e != player
         );
 
-        // Spawn our tracker entity with the collected targets
         SpringDeathTrackerEntity tracker = new SpringDeathTrackerEntity(
                 PAEntityRegistry.SPRING_DEATH_TRACKER.get(), world
         );

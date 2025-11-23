@@ -30,7 +30,8 @@ public abstract class AbstractStatusEffect extends MobEffect {
         return new Vector3f(0f, entity.getBbHeight() / 2f, 0f);
     }
 
-    /** Called client-side to render FX each tick. */
+    /** Called client-side to render FX each tick using
+     * {@link com.teamsimplyrs.prismaarcanum.network.payload.OnStatusEffectAppliedPayload}. */
     public void renderFX(Level level, LivingEntity entity) {
         ResourceLocation fxId = getFX();
         if (fxId == null) return;

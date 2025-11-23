@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.ManaPellet;
 import com.teamsimplyrs.prismaarcanum.entity.client.projectile.ManaPelletModel;
-import com.teamsimplyrs.prismaarcanum.entity.custom.NapalmShootBlankProjectile;
+import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.NapalmShootBlankProjectile;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -35,6 +35,6 @@ public class NapalmBlankRenderer extends EntityRenderer<NapalmShootBlankProjecti
 
     @Override
     public ResourceLocation getTextureLocation(NapalmShootBlankProjectile entity) {
-        return null; // no texture
+        return null;
     }
 }

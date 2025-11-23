@@ -8,7 +8,7 @@ import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import com.teamsimplyrs.prismaarcanum.api.utils.School;
 import com.teamsimplyrs.prismaarcanum.entity.custom.SpellEffectAreaEntity;
-import com.teamsimplyrs.prismaarcanum.entity.custom.WindPoolBlankProjectile;
+import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.WindPoolBlankProjectile;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCustomProjectileSpawnedPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -40,10 +40,8 @@ public class WindPool extends AbstractSpell {
         if (!world.isClientSide) {
             super.cast(player, world);
 
-            // Direction from player camera
             Vec3 forward = player.getLookAngle().normalize();
 
-            // Spawn position slightly in front of player's eyes
             double offsetY = player.getEyeHeight();
             Vec3 spawnPos = player.position()
                     .add(forward.scale(1.0))
@@ -55,12 +53,10 @@ public class WindPool extends AbstractSpell {
             projectile.setPos(spawnPos);
             projectile.setYRot(player.getYRot());
 
-            // Basic forward velocity — adjust speed to match your design
             projectile.setDeltaMovement(forward.scale(1.0));
 
             world.addFreshEntity(projectile);
 
-            // Notify client to start visual effects
             PacketDistributor.sendToPlayersTrackingEntityAndSelf(
                     projectile,
                     new OnCustomProjectileSpawnedPayload(projectile.getId())
@@ -71,7 +67,6 @@ public class WindPool extends AbstractSpell {
     @Override
     public void hitboxTick(SpellEffectAreaEntity hitbox) {
 
-        // ================= CLIENT SIDE =================
         if (hitbox.level().isClientSide) {
             if (!hitbox.particleEmitted) {
                 FX fx = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(
@@ -79,28 +74,22 @@ public class WindPool extends AbstractSpell {
                 hitbox.particleEmitted = true;
                 new BlockEffectExecutor(fx, hitbox.level(), hitbox.blockPosition()).start();
             }
-            return; // stop processing further on client
+            return;
         }
 
-        // ================= SERVER SIDE =================
-        // Attraction / suction force
         AABB box = hitbox.getBoundingBox();
 
         for (Entity e : hitbox.level().getEntities(hitbox, box)) {
             if (e instanceof LivingEntity living && living.isAlive()) {
 
-                // compute vector from entity → hitbox center
                 Vec3 center = hitbox.position();
                 Vec3 dirToCenter = center.subtract(living.position()).normalize();
 
-                // pull force strength — tweak if needed
                 double pullStrength = 0.04D;
 
-                // apply attraction
                 Vec3 newMotion = living.getDeltaMovement().add(dirToCenter.scale(pullStrength));
                 living.setDeltaMovement(newMotion);
 
-                // Optional: slow falling / reduce upward escape
                 living.fallDistance = 0F;
             }
         }
