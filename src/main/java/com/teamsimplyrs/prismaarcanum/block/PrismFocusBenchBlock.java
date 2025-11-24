@@ -66,7 +66,7 @@ public class PrismFocusBenchBlock extends BaseEntityBlock {
 
         if (level.getBlockEntity(pos) instanceof PrismFocusBenchBlockEntity prismaFocusBenchBE) {
             if (!level.isClientSide) {
-                ((ServerPlayer)player).openMenu(new SimpleMenuProvider(prismaFocusBenchBE, Component.translatable("menu.prismaarcanum.prisma_focus_bench")), pos);
+                ((ServerPlayer)player).openMenu(new SimpleMenuProvider(prismaFocusBenchBE, Component.translatable("menu.prismaarcanum.prism_focus_bench")), pos);
                 return ItemInteractionResult.SUCCESS;
             }
         }

@@ -30,6 +30,9 @@ public class NetworkEventsHandler {
         registrar.playToClient(OnCustomProjectileSpawnedPayload.PAYLOAD_TYPE, OnCustomProjectileSpawnedPayload.CODEC, OnCustomProjectileSpawnedPayload::handle);
         registrar.playToClient(ManaSyncPayload.PAYLOAD_TYPE, ManaSyncPayload.CODEC, ManaSyncPayload::handle);
         registrar.playToClient(PlayerSpellCooldownsSyncPayload.PAYLOAD_TYPE, PlayerSpellCooldownsSyncPayload.CODEC, PlayerSpellCooldownsSyncPayload::handle);
+        registrar.playToClient(OnStatusEffectAppliedPayload.PAYLOAD_TYPE, OnStatusEffectAppliedPayload.CODEC, OnStatusEffectAppliedPayload::handle);
+        registrar.playToClient(SeekerSyncPayload.PAYLOAD_TYPE,SeekerSyncPayload.CODEC,SeekerSyncPayload::handle);
+        registrar.playToClient(OnFXAtPositionPayload.PAYLOAD_TYPE,OnFXAtPositionPayload.CODEC,OnFXAtPositionPayload::handle);
     }
 
     private static void PlayBidirectional(PayloadRegistrar registrar) {

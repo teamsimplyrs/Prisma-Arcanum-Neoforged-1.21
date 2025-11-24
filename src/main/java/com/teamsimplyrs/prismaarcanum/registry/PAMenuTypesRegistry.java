@@ -15,7 +15,7 @@ public class PAMenuTypesRegistry {
     public static final DeferredRegister<MenuType<?>> PA_MENUS =
             DeferredRegister.create(Registries.MENU, PrismaArcanum.MOD_ID);
 
-    public static final DeferredHolder<MenuType<?>, MenuType<PrismFocusBenchMenu>> PRISMA_FOCUS_BENCH_MENU = registerMenuType("prisma_focus_bench_menu", PrismFocusBenchMenu::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<PrismFocusBenchMenu>> PRISMA_FOCUS_BENCH_MENU = registerMenuType("prism_focus_bench_menu", PrismFocusBenchMenu::new);
 
     private static <T extends AbstractContainerMenu> DeferredHolder<MenuType<?>, MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
         return PA_MENUS.register(name, () -> IMenuTypeExtension.create(factory));

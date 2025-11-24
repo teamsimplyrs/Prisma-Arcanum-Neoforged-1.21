@@ -1,5 +1,6 @@
 package com.teamsimplyrs.prismaarcanum.client.menu.container;
 
+import com.teamsimplyrs.prismaarcanum.api.casting.AbstractCastable;
 import com.teamsimplyrs.prismaarcanum.api.utils.SpellUtils;
 import com.teamsimplyrs.prismaarcanum.block.blockentity.PrismFocusBenchBlockEntity;
 import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
@@ -48,7 +49,7 @@ public class PrismFocusBenchMenu extends AbstractContainerMenu {
         boolean isValid;
         switch (slotIndex) {
             case 0:
-                isValid = stack.getItem() instanceof IMultiSpellHolder;
+                isValid = stack.getItem() instanceof AbstractCastable;
                 break;
             default:
                 isValid = stack.getItem() instanceof SpellPrismItem;
@@ -85,8 +86,7 @@ public class PrismFocusBenchMenu extends AbstractContainerMenu {
         // Check if the slot clicked is one of the vanilla container slots
         if (pIndex < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT) {
             // This is a vanilla container slot so merge the stack into the tile inventory
-            if (!isSlotValidForItem(pIndex, sourceStack)
-                    || !moveItemStackTo(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT, false)) {
+            if (!moveItemStackTo(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT, false)) {
                 return ItemStack.EMPTY;  // EMPTY_ITEM
             }
         } else if (pIndex < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT) {
@@ -107,8 +107,6 @@ public class PrismFocusBenchMenu extends AbstractContainerMenu {
         sourceSlot.onTake(playerIn, sourceStack);
         return copyOfSourceStack;
     }
-
-    // TO DO: FIX THIS ^^ it doesn't work as intended.
 
     @Override
     public boolean stillValid(Player player) {

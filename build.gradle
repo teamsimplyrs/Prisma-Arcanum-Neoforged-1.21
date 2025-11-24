@@ -20,6 +20,7 @@ group = mod_group_id
 repositories {
     mavenLocal()
     maven { url = "https://cursemaven.com" }
+    maven { url = "https://maven.firstdarkdev.xyz/snapshots" }
 }
 
 base {
@@ -115,10 +116,11 @@ configurations {
 
 dependencies {
     // ### Photon VFX and its Libraries ###
-    implementation "curse.maven:photon-871522:6911487"
-    implementation "curse.maven:ldlib-626676:6911394"
+    //implementation "curse.maven:photon-871522:6911487"
+    //implementation "curse.maven:ldlib-626676:6911394"
     // ### ============================ ###
-
+    implementation("com.lowdragmc.ldlib2:ldlib2-neoforge-${minecraft_version}:2.0.4:all") { transitive = false }
+    implementation("com.lowdragmc.photon:photon-neoforge-${minecraft_version}:2.0.6") { transitive = false }
 
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime

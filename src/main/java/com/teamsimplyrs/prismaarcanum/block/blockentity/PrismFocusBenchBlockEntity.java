@@ -19,7 +19,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
 public class PrismFocusBenchBlockEntity extends BlockEntity implements MenuProvider {
-    public static final String name = "prisma_focus_bench_be";
+    public static final String name = "prism_focus_bench_be";
     public final ItemStackHandler inventory = new ItemStackHandler(5) {
         @Override
         protected int getStackLimit(int slot, ItemStack stack) {
@@ -63,7 +63,7 @@ public class PrismFocusBenchBlockEntity extends BlockEntity implements MenuProvi
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("menu.prismaarcanum.prisma_focus_bench");
+        return Component.translatable("menu.prismaarcanum.prism_focus_bench");
     }
 
     @Override

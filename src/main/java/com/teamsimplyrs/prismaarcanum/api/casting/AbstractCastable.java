@@ -5,20 +5,16 @@ import com.teamsimplyrs.prismaarcanum.api.casting.interfaces.ICastable;
 import com.teamsimplyrs.prismaarcanum.api.casting.interfaces.IMultiSpellHolder;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
-import com.teamsimplyrs.prismaarcanum.api.utils.SpellUtils;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
-import com.teamsimplyrs.prismaarcanum.registry.PADataAttachmentsRegistry;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.slf4j.Logger;
-
-import java.util.ArrayList;
 
 public class AbstractCastable extends Item implements ICastable, IMultiSpellHolder {
     protected static final Logger LOGGER = LogUtils.getLogger();
@@ -58,6 +54,15 @@ public class AbstractCastable extends Item implements ICastable, IMultiSpellHold
         }
 
         spell.tryCast(world, player);
+    }
+
+    // TO-DO: Implement spell cast delay. Implement Data Component to store delay and tick down here.
+    @Override
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
+        super.inventoryTick(stack, level, entity, slotId, isSelected);
+        if(isSelected) {
+            //LOGGER.info("Wand selected");
+        }
     }
 
     @Override

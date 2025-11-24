@@ -33,8 +33,8 @@ public record OnCastingFinishedPayload(UUID uuid, ResourceLocation spellID) impl
             Player player = ctx.player();
             AbstractSpell spell = SpellRegistry.getSpell(payload.spellID);
             Level world = player.level();
-
-            spell.onCastingFinished(player, world);
+            Player caster = world.getPlayerByUUID(payload.uuid);
+            spell.onCastingFinished(caster, world);
         });
     }
     @Override
