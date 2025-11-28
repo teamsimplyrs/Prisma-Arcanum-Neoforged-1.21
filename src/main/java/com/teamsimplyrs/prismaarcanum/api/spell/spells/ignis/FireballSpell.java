@@ -19,6 +19,7 @@ public class FireballSpell extends AbstractSpell {
     public static final int tier = 1;
     public static final int basicManaCost = 10;
     public static final int basicCooldown = 60;
+    public static final int spellDelay = 0;
 
     public static final boolean hasEvolution = true;
 
@@ -28,7 +29,7 @@ public class FireballSpell extends AbstractSpell {
     private static final int maxBounceCount = 3;
 
     public FireballSpell() {
-        super(spellID, element, school, tier, basicManaCost, basicCooldown, hasEvolution);
+        super(spellID, element, school, tier, basicManaCost, basicCooldown, spellDelay, hasEvolution);
     }
 
     @Override

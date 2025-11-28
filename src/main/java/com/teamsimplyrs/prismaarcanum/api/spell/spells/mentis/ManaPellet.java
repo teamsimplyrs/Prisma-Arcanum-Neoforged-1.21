@@ -26,6 +26,7 @@ public class ManaPellet extends AbstractSpell {
     public static final int tier = 1;
     public static final int basicManaCost = 3;
     public static final int basicCooldown = 10;
+    public static final int spellDelay = 0;
 
     public static final boolean hasEvolution = true;
 
@@ -35,7 +36,7 @@ public class ManaPellet extends AbstractSpell {
     private static final float baseLifetime = 50f;
 
     public ManaPellet() {
-        super(spellID, element, school, tier, basicManaCost, basicCooldown, hasEvolution);
+        super(spellID, element, school, tier, basicManaCost, basicCooldown, spellDelay, hasEvolution);
     }
 
     @Override

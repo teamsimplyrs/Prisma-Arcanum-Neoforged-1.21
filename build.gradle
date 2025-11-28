@@ -21,6 +21,11 @@ repositories {
     mavenLocal()
     maven { url = "https://cursemaven.com" }
     maven { url = "https://maven.firstdarkdev.xyz/snapshots" }
+    mavenCentral()
+    maven {
+        name = "RedlanceMinecraft"
+        url = "https://repo.redlance.org/public"
+    }
 }
 
 base {
@@ -121,6 +126,8 @@ dependencies {
     // ### ============================ ###
     implementation("com.lowdragmc.ldlib2:ldlib2-neoforge-${minecraft_version}:2.0.4:all") { transitive = false }
     implementation("com.lowdragmc.photon:photon-neoforge-${minecraft_version}:2.0.6") { transitive = false }
+    implementation "com.zigythebird.playeranim:PlayerAnimationLibNeo:$project.pal_version"
+    // additionalRuntimeClasspath "org.javassist:javassist:3.30.2-GA"
 
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
@@ -139,6 +146,16 @@ dependencies {
 
     // Example project dependency using a sister or child project:
     // implementation project(":myproject")
+
+    configurations.all {
+        resolutionStrategy {
+            force 'com.google.code.gson:gson:2.10.1'
+            force 'org.slf4j:slf4j-api:2.0.9'
+            force 'it.unimi.dsi:fastutil:8.5.12'
+            force 'io.netty:netty-buffer:4.1.97.Final'
+            force 'io.netty:netty-common:4.1.97.Final'
+        }
+    }
 
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html

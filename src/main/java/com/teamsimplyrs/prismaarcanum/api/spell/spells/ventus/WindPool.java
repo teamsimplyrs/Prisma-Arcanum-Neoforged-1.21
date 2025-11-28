@@ -27,13 +27,14 @@ public class WindPool extends AbstractSpell {
     public static final int tier = 1;
     public static final int basicManaCost = 0;
     public static final int basicCooldown = 1;
+    public static final int spellDelay = 40;
 
     public static final boolean hasEvolution = true;
 
     private static final float baseDamage = 50f;
     private static final float baseSpeed = 2f;
 
-    public WindPool(){ super(spellID,element,school,tier,basicManaCost,basicCooldown,hasEvolution); }
+    public WindPool(){ super(spellID,element,school,tier,basicManaCost,basicCooldown, spellDelay,hasEvolution); }
 
     @Override
     public void cast(ServerPlayer player, Level world) {
@@ -95,4 +96,8 @@ public class WindPool extends AbstractSpell {
         }
     }
 
+    @Override
+    public ResourceLocation getAnimationLocation() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID,"cast_simple");
+    }
 }

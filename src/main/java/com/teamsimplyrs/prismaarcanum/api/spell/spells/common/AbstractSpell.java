@@ -28,6 +28,7 @@ public abstract class AbstractSpell implements ISpell {
     protected int tier;
     protected int basicManaCost;
     protected int basicCooldown;
+    protected int startDelay;
 
     protected boolean hasEvolution;
 
@@ -42,13 +43,14 @@ public abstract class AbstractSpell implements ISpell {
     }
 
 
-    protected AbstractSpell(String spellID, Element element, School school, int tier, int basicManaCost, int basicCooldown, boolean hasEvolution) {
+    protected AbstractSpell(String spellID, Element element, School school, int tier, int basicManaCost, int basicCooldown, int startDelay, boolean hasEvolution) {
         this.spellID = spellID;
         this.element = element;
         this.school = school;
         this.tier = tier;
         this.basicManaCost = basicManaCost;
         this.basicCooldown = basicCooldown;
+        this.startDelay = startDelay;
         this.hasEvolution = hasEvolution;
     }
 
@@ -133,9 +135,18 @@ public abstract class AbstractSpell implements ISpell {
         return String.format("%s.%s.%s.%s", "spells", getResourceLocation().getNamespace(), getElementAsString(), getResourceLocation().getPath());
     }
 
+    /** Override and specify the animation location using ResourceLocation */
+    public ResourceLocation getAnimationLocation() {
+        return null;
+    }
+
     public void hitboxTick(SpellEffectAreaEntity hitbox){};
 
     public ResourceLocation getResourceLocation() {
         return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, spellID);
+    }
+
+    public int getStartDelay() {
+        return startDelay;
     }
 }

@@ -1,9 +1,6 @@
 package com.teamsimplyrs.prismaarcanum.item.debug;
 
 import com.teamsimplyrs.prismaarcanum.api.casting.AbstractCastable;
-import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
-import com.teamsimplyrs.prismaarcanum.api.utils.SpellUtils;
-import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -11,9 +8,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DebugWand extends AbstractCastable {
     public static final String name = "debug_wand";

@@ -26,6 +26,8 @@ public class PACreativeTabsRegistry {
                 ItemStack debugWandInstance = new ItemStack((DebugWand)PAItemRegistry.DEBUG_WAND.get());
                 debugWandInstance.set(PADataComponents.SPELLS_BOUND, SpellRegistry.getAllSpellIDs());
                 debugWandInstance.set(PADataComponents.CURRENT_SPELL_INDEX, 0);
+                debugWandInstance.set(PADataComponents.SPELL_DELAY,null);
+                debugWandInstance.set(PADataComponents.PENDING_SPELL,null);
                 output.accept(debugWandInstance);
 
                 output.accept(PAItemRegistry.IGNIS_WAND);

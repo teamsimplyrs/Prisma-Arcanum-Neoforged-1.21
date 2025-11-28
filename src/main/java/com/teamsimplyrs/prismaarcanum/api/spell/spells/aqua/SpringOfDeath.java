@@ -26,6 +26,7 @@ public class SpringOfDeath extends AbstractSpell {
     public static final int tier = 2;
     public static final int basicManaCost = 0;
     public static final int basicCooldown = 1;
+    public static final int spellDelay = 0;
 
     public static final boolean hasEvolution = true;
 
@@ -33,7 +34,7 @@ public class SpringOfDeath extends AbstractSpell {
     private static final float baseSpeed = 2f;
 
     public SpringOfDeath() {
-        super(spellID,element,school,tier, basicManaCost,basicCooldown,hasEvolution);
+        super(spellID, element, school, tier, basicManaCost, basicCooldown, spellDelay, hasEvolution);
     }
 
     @Override
