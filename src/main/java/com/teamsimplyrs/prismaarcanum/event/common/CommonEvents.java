@@ -3,10 +3,13 @@ package com.teamsimplyrs.prismaarcanum.event.common;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.casting.AbstractCastable;
 import com.teamsimplyrs.prismaarcanum.api.casting.PlayerSpellCooldowns;
+import com.teamsimplyrs.prismaarcanum.api.casting.SpellLifetimeTracker;
 import com.teamsimplyrs.prismaarcanum.api.mana.PlayerChromana;
 import com.teamsimplyrs.prismaarcanum.network.payload.ManaSyncPayload;
 import com.teamsimplyrs.prismaarcanum.network.payload.PlayerSpellCooldownsSyncPayload;
+import com.teamsimplyrs.prismaarcanum.network.payload.SpellLifetimeSyncPayload;
 import com.teamsimplyrs.prismaarcanum.registry.PADataAttachmentsRegistry;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -30,6 +33,7 @@ public class CommonEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             PlayerChromana manaData = player.getData(PADataAttachmentsRegistry.CHROMANA.get());
             PlayerSpellCooldowns spellCooldowns = player.getData(PADataAttachmentsRegistry.SPELL_COOLDOWNS.get());
+            SpellLifetimeTracker lifetimeTracker = player.getData(PADataAttachmentsRegistry.SPELL_LIFETIMES.get());
 
             if (manaData.tick()) {
                 if (player.tickCount % 5 == 0  || manaData.getCurrent() == manaData.getMax()) {
@@ -43,6 +47,21 @@ public class CommonEvents {
                     PacketDistributor.sendToPlayer(player, new PlayerSpellCooldownsSyncPayload(spellCooldowns.getCooldownMap()));
                 }
             }
+            if (lifetimeTracker.tick(player)) {
+                if(lifetimeTracker.isMarkedDirty()){
+                    lifetimeTracker.unmarkDirty();
+                    PacketDistributor.sendToPlayer(player, new SpellLifetimeSyncPayload(lifetimeTracker.getLifetimesMap()));
+                }
+            }
+        }
+        else if(event.getEntity() instanceof LocalPlayer player) {
+            SpellLifetimeTracker lifetimeTracker = player.getData(PADataAttachmentsRegistry.SPELL_LIFETIMES.get());
+            if (lifetimeTracker.tick(player)) {
+                if(lifetimeTracker.isMarkedDirty()){
+                    lifetimeTracker.unmarkDirty();
+                }
+            }
+
         }
     }
 

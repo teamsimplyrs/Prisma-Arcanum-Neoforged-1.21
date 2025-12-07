@@ -44,6 +44,7 @@ public class AbstractCastable extends Item implements ICastable, IMultiSpellHold
         var currentSpell = SpellRegistry.getSpell(WandUtils.getCurrentSpell(stack));
 
         ResourceLocation spellAnimationLocation = currentSpell.getAnimationLocation();
+
         //Animation player
         if (level.isClientSide() && spellAnimationLocation != null) {
             PlayerAnimationController controller = (PlayerAnimationController) PlayerAnimationAccess.getPlayerAnimationLayer(
@@ -54,6 +55,7 @@ public class AbstractCastable extends Item implements ICastable, IMultiSpellHold
             controller.setFirstPersonConfiguration(config);
             controller.triggerAnimation(spellAnimationLocation);
         }
+
         int spellDelay = currentSpell.getStartDelay();
 
         //Spell delay and casting handler (makes cast redundant)
@@ -100,7 +102,7 @@ public class AbstractCastable extends Item implements ICastable, IMultiSpellHold
             stack.update(PADataComponents.SPELL_DELAY, 0, (d) -> d - 1);
             //stack.set(PADataComponents.SPELL_DELAY.get(), delay - 1);
         } else {
-            // delay expired — perform cast
+            // delay expired —> perform cast
             AbstractSpell spell = SpellRegistry.getSpell(pendingSpell);
             if (spell != null) {
                 spell.tryCast(level, player);

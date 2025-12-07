@@ -4,6 +4,7 @@ import com.lowdragmc.photon.client.fx.BlockEffectExecutor;
 import com.lowdragmc.photon.client.fx.FX;
 import com.lowdragmc.photon.client.fx.FXHelper;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
+import com.teamsimplyrs.prismaarcanum.api.casting.spell_events.PlaySoundSpellEvent;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import com.teamsimplyrs.prismaarcanum.api.utils.School;
@@ -12,6 +13,7 @@ import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.WindPoolBlankProj
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCustomProjectileSpawnedPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -34,7 +36,10 @@ public class WindPool extends AbstractSpell {
     private static final float baseDamage = 50f;
     private static final float baseSpeed = 2f;
 
-    public WindPool(){ super(spellID,element,school,tier,basicManaCost,basicCooldown, spellDelay,hasEvolution); }
+    public WindPool(){
+        super(spellID,element,school,tier,basicManaCost,basicCooldown, spellDelay,hasEvolution);
+        addEvent(0, new PlaySoundSpellEvent(SoundEvents.ELYTRA_FLYING,2f,1f));
+    }
 
     @Override
     public void cast(ServerPlayer player, Level world) {

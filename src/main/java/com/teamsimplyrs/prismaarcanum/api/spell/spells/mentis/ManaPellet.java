@@ -44,7 +44,7 @@ public class ManaPellet extends AbstractSpell {
         if (!world.isClientSide) {
             ManaPelletProjectile projectile = new ManaPelletProjectile(player, world, this.getResourceLocation());
             Vec3 offset = player.position().add(0, player.getEyeHeight() - projectile.getBoundingBox().getYsize() * 0.5F, 0);
-            projectile.setProjectileParameters(getDamage(), getLifetime(), getVelocity(), getBounceCount(), shouldBounce(), getProjectileMotionType());
+            projectile.setProjectileParameters(getDamage(), getProjectileLifetime(), getVelocity(), getBounceCount(), shouldBounce(), getProjectileMotionType());
             projectile.setPos(offset);
             projectile.launch(player.getLookAngle());
 
@@ -90,7 +90,7 @@ public class ManaPellet extends AbstractSpell {
         return (1f / tier) * baseInaccuracy;
     }
 
-    public float getLifetime() {
+    public float getProjectileLifetime() {
         return tier * baseLifetime;
     }
 

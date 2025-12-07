@@ -42,7 +42,7 @@ public class BounceZap extends AbstractSpell {
 
             projectile.setPos(offset);
             projectile.setYRot(player.getYRot());
-            projectile.setProjectileParameters(getDamage(), getLifetime(), getVelocity(), getBounceCount(), false, getProjectileMotionType());
+            projectile.setProjectileParameters(getDamage(), getProjectileLifetime(), getVelocity(), getBounceCount(), false, getProjectileMotionType());
 
             projectile.launch(player.getLookAngle());
 
@@ -63,7 +63,7 @@ public class BounceZap extends AbstractSpell {
         return (1 + (tier - 1) * 0.5f) * baseSpeed;
     }
 
-    public int getLifetime() {
+    public int getProjectileLifetime() {
         return -1;
     }
 
