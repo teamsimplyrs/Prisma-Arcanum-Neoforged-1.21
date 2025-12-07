@@ -1,6 +1,7 @@
 package com.teamsimplyrs.prismaarcanum;
 
 import com.mojang.logging.LogUtils;
+import com.teamsimplyrs.prismaarcanum.animation.FirstPersonTorsoModifier;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.client.menu.screen.PrismFocusBenchScreen;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
@@ -110,9 +111,10 @@ public class PrismaArcanum
             EntityRenderers.register(PAEntityRegistry.RIPPLE_SEEKER_PROJECTILE.get(), RippleSeekerProjectileRenderer::new);
             EntityRenderers.register(PAEntityRegistry.SPRING_DEATH_TRACKER.get(),  ctx -> new GenericEmptyRenderer<>(ctx));
 
+            //todo move this somewhere else
             event.enqueueWork(() -> {
                 PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(ResourceLocation.fromNamespaceAndPath(MOD_ID,"spell_caster"),1000,
-                        player -> new PlayerAnimationController(player,(controller,state,animSetter)-> PlayState.STOP));
+                        player -> new PlayerAnimationController(player,(controller,state,animSetter)-> PlayState.STOP).addModifierBefore(new FirstPersonTorsoModifier()));
             });
 
         }

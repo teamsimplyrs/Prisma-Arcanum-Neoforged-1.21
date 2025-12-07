@@ -9,7 +9,6 @@ import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.WandUtils;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.zigythebird.playeranim.animation.PlayerAnimationController;
-import com.zigythebird.playeranim.animation.layered.modifier.MirrorIfLeftHandModifier;
 import com.zigythebird.playeranim.api.PlayerAnimationAccess;
 import com.zigythebird.playeranimcore.api.firstPerson.FirstPersonConfiguration;
 import com.zigythebird.playeranimcore.api.firstPerson.FirstPersonMode;
@@ -51,9 +50,7 @@ public class AbstractCastable extends Item implements ICastable, IMultiSpellHold
                     (AbstractClientPlayer) player, ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "spell_caster"));
             assert controller != null;
             controller.setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL);
-            controller.addModifier(new MirrorIfLeftHandModifier(), 0);
-
-            FirstPersonConfiguration config = new FirstPersonConfiguration(true, true, true, true, false);
+            FirstPersonConfiguration config = new FirstPersonConfiguration(true, true, true, true, true);
             controller.setFirstPersonConfiguration(config);
             controller.triggerAnimation(spellAnimationLocation);
         }

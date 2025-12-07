@@ -86,7 +86,7 @@ public class WindPool extends AbstractSpell {
                 Vec3 center = hitbox.position();
                 Vec3 dirToCenter = center.subtract(living.position()).normalize();
 
-                double pullStrength = 0.04D;
+                double pullStrength = 0.2D;
 
                 Vec3 newMotion = living.getDeltaMovement().add(dirToCenter.scale(pullStrength));
                 living.setDeltaMovement(newMotion);

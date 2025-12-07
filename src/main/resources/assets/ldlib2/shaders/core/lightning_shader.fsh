@@ -65,14 +65,14 @@ float lightningCore(vec2 p, float time) {
 // -------- Branching Paths --------
 float lightningBranches(vec2 p, float time) {
     float total = 0.0;
-    const int BR = 10;
+    const int BR = 4;
 
     for(int i = 0; i < BR; i++) {
         float seed = float(i)*7.85 + floor(time*2.0);
         float start = hash21(vec2(seed, seed*3.1));
 
         vec2 prev = boltPoint(start, time);
-        for(int j = 1; j < 18; j++) {
+        for(int j = 1; j < 12; j++) {
             float t = start + float(j)*0.05;
             vec2 cur = boltPoint(t, time) + vec2(0.0, fbm(seed+t*6.0)*0.4);
             float d = segmentDist(p, prev, cur);
@@ -85,7 +85,7 @@ float lightningBranches(vec2 p, float time) {
 
 // =================================================
 void main() {
-    float time = GameTime * 5000;
+    float time = GameTime * 0.001;
 
     // remap UV → centered screen-space
     vec2 p = vec2(uv.x * 2.0 - 1.0, uv.y * 2.0 - 1.0);
@@ -100,13 +100,16 @@ void main() {
 
     float glow = exp(-dCore * 40.0) + branchGlow;
 
-    col += vec3(1.0) * glow * 1.2;
-    col += vec3(1.0) * core * 2.0;
+    vec3 boltColor = vec3(0.85, 0.95, 1.0);
+    vec3 glowColor = vec3(0.3, 0.6, 1.0);
+
+    col += glowColor * glow * 1.3;
+    col += boltColor * core * 1.8;
 
     float alpha = clamp(glow * 1.6 + core * 2.2, 0.0, 1.0);
-    col = clamp(col,0.0,1.0);
+
     fragColor = vec4(col, alpha) * vertexColor;
 
     // apply fog — required for MC consistency
-    //fragColor = linear_fog(fragColor);
+    fragColor = linear_fog(fragColor);
 }

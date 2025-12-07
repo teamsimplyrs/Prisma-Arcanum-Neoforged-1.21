@@ -30,7 +30,7 @@ public class NapalmSpraySpell extends AbstractSpell {
     public static final int tier = 1;
     public static final int basicManaCost = 0;
     public static final int basicCooldown = 1;
-    public static final int spellDelay = 0;
+    public static final int spellDelay = 15;
 
     public static final boolean hasEvolution = true;
 
@@ -114,5 +114,10 @@ public class NapalmSpraySpell extends AbstractSpell {
                 }
             }
         }
+    }
+
+    @Override
+    public ResourceLocation getAnimationLocation() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID,"cast_shoot");
     }
 }

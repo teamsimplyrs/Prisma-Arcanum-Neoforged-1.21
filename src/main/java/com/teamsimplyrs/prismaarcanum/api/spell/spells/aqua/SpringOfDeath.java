@@ -26,7 +26,7 @@ public class SpringOfDeath extends AbstractSpell {
     public static final int tier = 2;
     public static final int basicManaCost = 0;
     public static final int basicCooldown = 1;
-    public static final int spellDelay = 0;
+    public static final int spellDelay = 10;
 
     public static final boolean hasEvolution = true;
 
@@ -73,6 +73,11 @@ public class SpringOfDeath extends AbstractSpell {
 
         tracker.setPos(player.position());
         world.addFreshEntity(tracker);
+    }
+
+    @Override
+    public ResourceLocation getAnimationLocation() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID,"bend");
     }
 
 }
