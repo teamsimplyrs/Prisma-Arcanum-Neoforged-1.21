@@ -56,9 +56,15 @@ public class CommonEvents {
         }
         else if(event.getEntity() instanceof LocalPlayer player) {
             SpellLifetimeTracker lifetimeTracker = player.getData(PADataAttachmentsRegistry.SPELL_LIFETIMES.get());
+            PlayerSpellCooldowns spellCooldowns = player.getData(PADataAttachmentsRegistry.SPELL_COOLDOWNS.get());
             if (lifetimeTracker.tick(player)) {
                 if(lifetimeTracker.isMarkedDirty()){
                     lifetimeTracker.unmarkDirty();
+                }
+            }
+            if (spellCooldowns.tick(player)) {
+                if (player.tickCount % 100 == 0 || spellCooldowns.isMarkedDirty()) {
+                    spellCooldowns.unmarkDirty();
                 }
             }
 

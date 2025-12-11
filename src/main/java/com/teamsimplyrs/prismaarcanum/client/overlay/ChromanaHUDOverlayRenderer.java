@@ -2,14 +2,12 @@ package com.teamsimplyrs.prismaarcanum.client.overlay;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.casting.AbstractCastable;
-import com.teamsimplyrs.prismaarcanum.api.casting.ClientCooldownManager;
 import com.teamsimplyrs.prismaarcanum.api.casting.PlayerSpellCooldowns;
 import com.teamsimplyrs.prismaarcanum.api.mana.PlayerChromana;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.GuiUtils;
 import com.teamsimplyrs.prismaarcanum.api.utils.WandUtils;
-import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.registry.PADataAttachmentsRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -20,9 +18,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @EventBusSubscriber(modid = PrismaArcanum.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
 public class ChromanaHUDOverlayRenderer {
@@ -40,7 +35,8 @@ public class ChromanaHUDOverlayRenderer {
         int height = event.getGuiGraphics().guiHeight();
 
         PlayerChromana manaData = player.getData(PADataAttachmentsRegistry.CHROMANA.get());
-        var cooldowns = ClientCooldownManager.get();
+        PlayerSpellCooldowns cooldowns = player.getData(PADataAttachmentsRegistry.SPELL_COOLDOWNS.get());
+        //var cooldowns = ClientCooldownManager.get();
 
         ItemStack handItem = player.getMainHandItem();
 

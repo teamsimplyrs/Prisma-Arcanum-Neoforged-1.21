@@ -1,7 +1,6 @@
 package com.teamsimplyrs.prismaarcanum.network.payload;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
-import com.teamsimplyrs.prismaarcanum.api.casting.ClientCooldownManager;
 import com.teamsimplyrs.prismaarcanum.api.casting.SpellLifetimeTracker;
 import com.teamsimplyrs.prismaarcanum.registry.PADataAttachmentsRegistry;
 import net.minecraft.client.player.LocalPlayer;
@@ -50,7 +49,6 @@ public record SpellLifetimeSyncPayload(Map<ResourceLocation, Integer> lifetimes)
             if (ctx.player() instanceof LocalPlayer clientPlayer) {
                 SpellLifetimeTracker lifetimes = clientPlayer.getData(PADataAttachmentsRegistry.SPELL_LIFETIMES.get());
                 lifetimes.setAllLifetimes(payload.lifetimes);
-                ClientCooldownManager.get().setCooldowns(payload.lifetimes);
             }
         });
     }

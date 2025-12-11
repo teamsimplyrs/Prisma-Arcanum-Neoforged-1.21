@@ -3,7 +3,7 @@ package com.teamsimplyrs.prismaarcanum.api.casting;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,10 +26,9 @@ public class PlayerSpellCooldowns {
 
     public PlayerSpellCooldowns(Map<ResourceLocation, Integer> map) {
         if (map != null) this.cooldowns.putAll(map);
-        ClientCooldownManager.get().setCooldowns(map);
     }
 
-    public boolean tick(ServerPlayer player) {
+    public boolean tick(Player player) {
         if (cooldowns.isEmpty()) {
             return false;
         }
@@ -75,7 +74,6 @@ public class PlayerSpellCooldowns {
 
     public void setCooldown(ResourceLocation spellID, int ticks) {
         cooldowns.put(spellID, ticks);
-        ClientCooldownManager.get().setCooldown(spellID, ticks);
         dirty = true;
     }
 
