@@ -23,7 +23,7 @@ public class FireballSpell extends AbstractSpell {
     public static final boolean hasEvolution = true;
 
     private static final float baseDamage = 50f;
-    private static final float baseSpeed = 0.1f;
+    private static final float baseSpeed = 1f;
 
     private static final int maxBounceCount = 3;
 
@@ -44,8 +44,6 @@ public class FireballSpell extends AbstractSpell {
             projectile.setPos(offset);
             projectile.setYRot(player.getYRot());
             projectile.setProjectileParameters(getDamage(), getLifetime(), getVelocity(), getBounceCount(), true, getProjectileMotionType());
-            projectile.setData(3);
-
             projectile.launch(player.getLookAngle());
 
             world.addFreshEntity(projectile);

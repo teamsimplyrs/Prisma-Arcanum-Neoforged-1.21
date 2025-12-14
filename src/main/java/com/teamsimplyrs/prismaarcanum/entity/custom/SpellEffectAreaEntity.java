@@ -1,5 +1,6 @@
 package com.teamsimplyrs.prismaarcanum.entity.custom;
 
+import com.lowdragmc.photon.client.fx.EntityEffectExecutor;
 import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
@@ -13,7 +14,10 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.slf4j.Logger;
+
+import java.util.List;
 
 public class SpellEffectAreaEntity extends Entity {
 
@@ -23,6 +27,7 @@ public class SpellEffectAreaEntity extends Entity {
     public int effectDuration = 60; // default 2 seconds status effect
     public int amplifier = 0;
     public boolean particleEmitted = false;
+    public ResourceLocation fxID;
 
     protected static final Logger LOGGER = LogUtils.getLogger();
 
@@ -49,6 +54,10 @@ public class SpellEffectAreaEntity extends Entity {
         this.refreshDimensions(); // update server BB; client updates via onSyncedDataUpdated
     }
 
+    public void setFxID(ResourceLocation resourceLocation) {
+       fxID = resourceLocation;
+    }
+
     /**
      * Implement hitbox tick function by overriding AbstractSpell.hitboxTick in your own spell
      */
@@ -65,8 +74,37 @@ public class SpellEffectAreaEntity extends Entity {
 
         if (!level().isClientSide) {
             lifetime--;
-            if (lifetime <= 0) discard();
+            if (lifetime <= 0) remove(RemovalReason.DISCARDED);
         }
+    }
+
+    @Override
+    public void remove(RemovalReason reason) {
+        ResourceLocation fxId = getFXid();
+        if (fxId != null) {
+            var CACHE = EntityEffectExecutor.CACHE;
+            List<EntityEffectExecutor> effects = CACHE.get(this);
+            if (effects != null && !effects.isEmpty()) {
+                var iterator = effects.iterator();
+
+                while(iterator.hasNext()) {
+                    EntityEffectExecutor exec = iterator.next();
+                    //Not sure if getFxLocation and getRuntime would become null or not
+                    if(exec.fx.getFxLocation().equals(fxId)){
+                        var runtime = exec.getRuntime();
+                        runtime.destroy(true);
+                        iterator.remove();
+                    }
+                }
+                if ((CACHE.get(this)).isEmpty()) {
+                    CACHE.remove(this);
+                }
+
+                EntityEffectExecutor.CACHE = CACHE;
+            }
+        }
+
+        super.remove(reason);
     }
 
     @Override
@@ -112,5 +150,8 @@ public class SpellEffectAreaEntity extends Entity {
         return EntityDimensions.fixed(w, h);
     }
 
+    public ResourceLocation getFXid() {
+        return fxID;
+    }
 }
 

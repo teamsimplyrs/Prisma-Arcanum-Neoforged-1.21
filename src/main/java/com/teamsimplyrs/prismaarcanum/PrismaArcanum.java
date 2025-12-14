@@ -2,6 +2,7 @@ package com.teamsimplyrs.prismaarcanum;
 
 import com.teamsimplyrs.prismaarcanum.client.menu.screen.PrismFocusBenchScreen;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
+import com.teamsimplyrs.prismaarcanum.entity.client.monster.IgniumLegionnaireRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.client.projectile.FireballSpellProjectileRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.client.projectile.ManaPelletRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.client.projectile.RippleSeekerProjectileRenderer;
@@ -103,6 +104,8 @@ public class PrismaArcanum
             EntityRenderers.register(PAEntityRegistry.BOUNCEZAP_PROJECTILE.get(), ctx -> new GenericEmptyRenderer<>(ctx));
             EntityRenderers.register(PAEntityRegistry.RIPPLE_SEEKER.get(), RippleSeekerRenderer::new);
             EntityRenderers.register(PAEntityRegistry.RIPPLE_SEEKER_PROJECTILE.get(), RippleSeekerProjectileRenderer::new);
+            EntityRenderers.register(PAEntityRegistry.IGNIUM_LEGIONNAIRE.get(), IgniumLegionnaireRenderer::new);
+            EntityRenderers.register(PAEntityRegistry.INTENT_SCAR_PROJECTILE.get(), GenericEmptyRenderer::new);
         }
 
         @SubscribeEvent

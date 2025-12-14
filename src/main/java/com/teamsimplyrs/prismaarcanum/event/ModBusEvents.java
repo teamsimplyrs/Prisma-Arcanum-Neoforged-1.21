@@ -1,11 +1,13 @@
 package com.teamsimplyrs.prismaarcanum.event;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
+import com.teamsimplyrs.prismaarcanum.entity.client.monster.IgniumLegionnaireModel;
 import com.teamsimplyrs.prismaarcanum.entity.client.projectile.FireballSpellProjectileModel;
 import com.teamsimplyrs.prismaarcanum.entity.client.projectile.ManaPelletModel;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.entity.client.monster.RippleSeekerModel;
 import com.teamsimplyrs.prismaarcanum.entity.client.projectile.RippleSeekerProjectileModel;
+import com.teamsimplyrs.prismaarcanum.entity.custom.monster.IgniumLegionnaireEntity;
 import com.teamsimplyrs.prismaarcanum.entity.custom.monster.RippleSeekerEntity;
 import com.teamsimplyrs.prismaarcanum.registry.PAEntityRegistry;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -22,11 +24,13 @@ public class ModBusEvents {
         event.registerLayerDefinition(FireballSpellProjectileModel.LAYER_LOCATION, FireballSpellProjectileModel::createBodyLayer);
         event.registerLayerDefinition(RippleSeekerModel.LAYER_LOCATION, RippleSeekerModel::createBodyLayer);
         event.registerLayerDefinition(RippleSeekerProjectileModel.LAYER_LOCATION, RippleSeekerProjectileModel::createBodyLayer);
+        event.registerLayerDefinition(IgniumLegionnaireModel.LAYER_LOCATION, IgniumLegionnaireModel::createBodyLayer);
     }
 
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(PAEntityRegistry.RIPPLE_SEEKER.get(), RippleSeekerEntity.createAttributes().build());
+        event.put(PAEntityRegistry.IGNIUM_LEGIONNAIRE.get(), IgniumLegionnaireEntity.createAttributes().build());
     }
 
     @SubscribeEvent

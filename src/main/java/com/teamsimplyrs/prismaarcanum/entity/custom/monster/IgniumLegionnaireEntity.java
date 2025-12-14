@@ -1,33 +1,23 @@
 package com.teamsimplyrs.prismaarcanum.entity.custom.monster;
 
 import com.mojang.logging.LogUtils;
-import com.teamsimplyrs.prismaarcanum.api.utils.ProjectileMotionType;
-import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.RippleSeekerProjectile;
-import com.teamsimplyrs.prismaarcanum.network.payload.OnCustomProjectileSpawnedPayload;
 import com.teamsimplyrs.prismaarcanum.network.payload.SeekerSyncPayload;
-import com.teamsimplyrs.prismaarcanum.registry.PAEntityRegistry;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.slf4j.Logger;
 
-public class RippleSeekerEntity extends Monster implements RangedAttackMob {
+public class IgniumLegionnaireEntity extends Monster implements RangedAttackMob {
     public final AnimationState idleAnimState = new AnimationState();
     public final AnimationState attackAnimState1 = new AnimationState();
     private int idleAnimationTimeout = 0;
@@ -36,48 +26,34 @@ public class RippleSeekerEntity extends Monster implements RangedAttackMob {
     private boolean attack1Scheduled = false;
     private LivingEntity target;
 
-    private static final float ATTACK_1_DAMAGE = 10;
+    private static final float ATTACK_1_DAMAGE = 15;
     private static final float ATTACK_1_LIFETIME = 80;
     private static final float ATTACK_1_SPEED = 70f;
 
     protected static final Logger LOGGER = LogUtils.getLogger();
 
     @Override
-    protected PathNavigation createNavigation(Level level) {
-        FlyingPathNavigation flyingPathNavigation = new FlyingPathNavigation(this, level);
-        flyingPathNavigation.setCanOpenDoors(false);
-        flyingPathNavigation.setCanFloat(true);
-        flyingPathNavigation.setCanPassDoors(false);
-        return flyingPathNavigation;
-    }
-
-    @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new FloatGoal(this));
         addBehaviorGoals();
     }
 
     protected void addBehaviorGoals() {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
-        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 20f));
+        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 20f));
         this.goalSelector.addGoal(3, new RangedAttackGoal(this, 1.0D, 60, 90, 16));
         this.goalSelector.addGoal(3, new MoveTowardsTargetGoal(this, 0.75d, 12));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomFlyingGoal(this,1f));
-       // this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1d, 60));
-        this.goalSelector.addGoal(5, new RandomSwimmingGoal(this, 1.5d, 60));
+         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1d, 60));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 50d)
+                .add(Attributes.MAX_HEALTH, 60d)
                 .add(Attributes.ATTACK_DAMAGE, 10d)
-                .add(Attributes.FLYING_SPEED, 10f)
-                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 1d)
                 .add(Attributes.MOVEMENT_SPEED, 0.25d)
                 .add(Attributes.FOLLOW_RANGE, 20d)
-                .add(Attributes.ARMOR, 10d);
+                .add(Attributes.ARMOR, 15d);
     }
 
     public void setAttackSync(boolean scheduled, int delay) {
@@ -99,7 +75,7 @@ public class RippleSeekerEntity extends Monster implements RangedAttackMob {
 
         else {
             if (this.idleAnimationTimeout <= 0) {
-                this.idleAnimationTimeout = 120;
+                this.idleAnimationTimeout = 160;
                 this.idleAnimState.start(this.tickCount);
             } else {
                 --this.idleAnimationTimeout;
@@ -110,21 +86,13 @@ public class RippleSeekerEntity extends Monster implements RangedAttackMob {
     @Override
     public void tick() {
         super.tick();
-
         if (this.level().isClientSide) {
             this.setupAnimationStates();
         }
     }
 
-    @Override
-    protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos) {
-    }
-
-    public RippleSeekerEntity(EntityType<? extends Monster> entityType, Level level) {
-
+    public IgniumLegionnaireEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
-        this.moveControl = new FlyingMoveControl(this, 10, true);
-
     }
 
     @Override
@@ -157,16 +125,6 @@ public class RippleSeekerEntity extends Monster implements RangedAttackMob {
                 } else {
                     attack1Scheduled = false;
 
-                    RippleSeekerProjectile projectile = new RippleSeekerProjectile(PAEntityRegistry.RIPPLE_SEEKER_PROJECTILE.get(), this.level());
-                    projectile.setOwner(this);
-                    projectile.setTarget(target);
-                    projectile.setProjectileParameters(ATTACK_1_DAMAGE, ATTACK_1_LIFETIME, 1f, 1, true, ProjectileMotionType.DEFAULT);
-                    projectile.setPos(this.position().add(0f, 0.5f, 0f));
-                    Vec3 shootDirection = target.position().subtract(this.position()).add(0,0.5,0).normalize();
-                    projectile.launch(shootDirection);
-                    this.level().addFreshEntity(projectile);
-
-                    PacketDistributor.sendToPlayersTrackingEntityAndSelf(projectile, new OnCustomProjectileSpawnedPayload(projectile.getId()));
                 }
             }
         }

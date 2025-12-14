@@ -12,57 +12,26 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-public class FireballSpellProjectile extends AbstractSpellProjectile {
-
-    public FireballSpellProjectile(EntityType<? extends Projectile> entityType, Level level) {
+public class IntentScarProjectile extends AbstractSpellProjectile {
+    public IntentScarProjectile(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
     }
 
-    public FireballSpellProjectile(LivingEntity caster, Level level, ResourceLocation spellID) {
-        super(PAEntityRegistry.FIREBALL_SPELL_PROJECTILE.get(), level);
+    public IntentScarProjectile(LivingEntity caster, Level level, ResourceLocation spellID) {
+        super(PAEntityRegistry.INTENT_SCAR_PROJECTILE.get(), level);
         this.setOwner(caster);
         this.setLevel(level);
         this.setParentSpell(spellID);
         this.setNoGravity(false);
-
-        this.refreshDimensions();
-    }
-
-    public void setData(int bounceCount) {
-        this.bounceCount = bounceCount;
     }
 
     @Override
     public void launch(Vec3 rot) {
-
         super.launch(rot);
-    }
-
-    @Override
-    public void startLaunchFX(Vec3 rot) {
-
-    }
-
-    @Override
-    public void startTrailFX() {
-        if (level().isClientSide) {
-            FX fireballFX = FXHelper.getFX(getTrailFXid());
-            EntityEffectExecutor entityFX = new EntityEffectExecutor(fireballFX, level(), this, EntityEffectExecutor.AutoRotate.NONE);
-            entityFX.setOffset(new Vector3f(0f, 0f, 0f));
-            entityFX.start();
-        }
-    }
-
-    @Override
-    public void startHitFX() {
-
-    }
-
-    @Override
-    protected ResourceLocation getTrailFXid() {
-        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "fireball_main_fx");
+        this.refreshDimensions();
     }
 
     @Override
@@ -82,18 +51,37 @@ public class FireballSpellProjectile extends AbstractSpellProjectile {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-//        setRot(getYRot() + 10, getXRot() + 10);
+    public void startLaunchFX(Vec3 rot) {
+
     }
 
     @Override
-    protected double getDefaultGravity() {
-        return 0.05;
+    public void startTrailFX() {
+        if (level().isClientSide) {
+            FX fx = FXHelper.getFX(getTrailFXid());
+            EntityEffectExecutor entityFX = new EntityEffectExecutor(fx, level(), this, EntityEffectExecutor.AutoRotate.NONE);
+            var rot = getEffectRotation();
+//            rot = new Vec3(Math.toDegrees(rot.x), Math.toDegrees(rot.y), 0f);
+            entityFX.setRotation(new Quaternionf()
+                    .rotateY((float)Math.toRadians(-rot.y))
+                    .rotateX((float)Math.toRadians(rot.x)));
+            entityFX.setOffset(new Vector3f(0f, -0.25f, 0f));
+            entityFX.start();
+        }
+    }
+
+    @Override
+    public void startHitFX() {
+
+    }
+
+    @Override
+    protected ResourceLocation getTrailFXid() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "intent_scar");
     }
 
     @Override
     public EntityDimensions getDimensions(Pose pose) {
-        return EntityDimensions.scalable(0.75f, 0.75f);
+        return EntityDimensions.scalable(1.25f, 0.5f);
     }
 }

@@ -19,22 +19,13 @@ import net.minecraft.world.entity.Entity;
  */
 public class GenericEmptyRenderer<T extends Entity> extends EntityRenderer<T> {
 
-    protected final ManaPelletModel model;
-
     public GenericEmptyRenderer(EntityRendererProvider.Context context) {
         super(context);
-        this.model = new ManaPelletModel(context.bakeLayer(ManaPelletModel.LAYER_LOCATION));
     }
 
     @Override
     public void render(T entity, float entityYaw, float partialTicks,
                        PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-        poseStack.pushPose();
-
-        VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityTranslucent(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, String.format("%s/%s/%s.png", "textures/entity/spells", ManaPellet.element.toString().toLowerCase(), ManaPellet.spellID))));
-        model.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
-
-        poseStack.popPose();
         super.render(entity, entityYaw, partialTicks, poseStack, bufferSource, packedLight);
     }
 

@@ -26,11 +26,13 @@ public abstract class AbstractSpellProjectile extends Projectile {
     protected float damage = 1f;
     protected float lifetime = 100f;
     protected float velocity = 1f;
+    protected float inaccuracy = 1f;
     protected int bounceCount = 0;
     protected boolean shouldBounce = false;
     protected ResourceLocation parentSpellID;
     protected ProjectileMotionType motionType = ProjectileMotionType.DEFAULT;
     protected LivingEntity target;
+    protected Vec3 effectRotation;
 
     protected EntityEffectExecutor activeTrailingEffect;
 
@@ -60,9 +62,17 @@ public abstract class AbstractSpellProjectile extends Projectile {
         }
     }
 
+    public void setEffectRotation(Vec3 rot) {
+        effectRotation = rot;
+    }
+
     public void launch(Vec3 rot) {
-        Vec3 delta = rot.scale(velocity);
-        setDeltaMovement(delta);
+        Entity owner = this.getOwner();
+        if (owner != null) {
+            this.shootFromRotation(owner, owner.getXRot(), owner.getYRot(), 0f, this.velocity, getInaccuracy());
+            Vec3 delta = rot.scale(velocity);
+            setDeltaMovement(delta);
+        }
     }
 
     protected void moveDefault() {
@@ -93,6 +103,26 @@ public abstract class AbstractSpellProjectile extends Projectile {
 
     protected abstract ResourceLocation getTrailFXid();
 
+    protected Vec3 getEffectRotation() {
+//        var owner = getOwner();
+//        if (owner != null) {
+//            return owner.getLookAngle();
+//        }
+
+        Vec3 motion = getDeltaMovement().normalize().scale(-1);
+
+        if (motion.lengthSqr() > 1.0e-5) {
+            double horizontalMag = Math.sqrt(motion.x * motion.x + motion.z * motion.z);
+
+            float yaw = (float)(Math.atan2(motion.z, motion.x) * (180F / Math.PI)) - 90F;
+            float pitch = (float)(-(Math.atan2(motion.y, horizontalMag) * (180F / Math.PI)));
+
+            return new Vec3(pitch, yaw, 0.0f);
+        }
+
+        return Vec3.ZERO;
+    }
+
     @Override
     public void tick() {
         super.tick();
@@ -115,6 +145,10 @@ public abstract class AbstractSpellProjectile extends Projectile {
         if (hitType != HitResult.Type.MISS) {
             onHit(hitResult);
         }
+    }
+
+    public float getInaccuracy() {
+        return inaccuracy;
     }
 
     public int getBounceCount() {
@@ -179,28 +213,33 @@ public abstract class AbstractSpellProjectile extends Projectile {
     @Override
     public void remove(RemovalReason reason) {
         ResourceLocation fxId = getTrailFXid();
-        if (fxId == null) return;
-        var CACHE = EntityEffectExecutor.CACHE;
-        List<EntityEffectExecutor> effects = CACHE.get(this);
-        if (effects == null || effects.isEmpty()) {
-            return;
-        }
-        var iterator = effects.iterator();
+        try {
+            if (fxId != null) {
+                var CACHE = EntityEffectExecutor.CACHE;
+                List<EntityEffectExecutor> effects = CACHE.get(this);
+                if (effects != null && !effects.isEmpty()) {
+                    var iterator = effects.iterator();
 
-        while(iterator.hasNext()) {
-            EntityEffectExecutor exec = iterator.next();
-            //Not sure if getFxLocation and getRuntime would become null or not
-            if(exec.fx.getFxLocation().equals(fxId)){
-                var runtime = exec.getRuntime();
-                runtime.destroy(true);
-                iterator.remove();
+                    while(iterator.hasNext()) {
+                        EntityEffectExecutor exec = iterator.next();
+                        //Not sure if getFxLocation and getRuntime would become null or not
+                        if(exec.fx.getFxLocation().equals(fxId)){
+                            var runtime = exec.getRuntime();
+                            runtime.destroy(true);
+                            iterator.remove();
+                        }
+                    }
+                    if ((CACHE.get(this)).isEmpty()) {
+                        CACHE.remove(this);
+                    }
+
+                    EntityEffectExecutor.CACHE = CACHE;
+                }
             }
-        }
-        if ((CACHE.get(this)).isEmpty()) {
-            CACHE.remove(this);
+        } catch (Exception e) {
+            LOGGER.error("[PrismaArcanum:AbstractSpellProjectile] ERROR! {%s}", e);
         }
 
-        EntityEffectExecutor.CACHE = CACHE;
         super.remove(reason);
     }
 }

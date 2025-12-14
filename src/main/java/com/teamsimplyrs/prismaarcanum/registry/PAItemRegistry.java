@@ -24,6 +24,10 @@ public class PAItemRegistry {
             () -> new DeferredSpawnEggItem(PAEntityRegistry.RIPPLE_SEEKER, 0x18558d, 0xcba36a,
                     new Item.Properties()));
 
+    public static final DeferredItem<Item> IGNIUM_LEGIONNAIRE_SPAWN_EGG = ITEM_REGISTER.register("ignium_legionnaire_spawn_egg",
+            () -> new DeferredSpawnEggItem(PAEntityRegistry.IGNIUM_LEGIONNAIRE, 0x8f4f29, 0xffaf38,
+                    new Item.Properties()));
+
     public static void register(IEventBus eventBus) {
         ITEM_REGISTER.register(eventBus);
     }

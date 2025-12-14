@@ -68,4 +68,9 @@ public class WindPoolBlankProjectile extends AbstractSpellProjectile {
     public void startHitFX() {
 
     }
+
+    @Override
+    protected ResourceLocation getTrailFXid() {
+        return null;
+    }
 }

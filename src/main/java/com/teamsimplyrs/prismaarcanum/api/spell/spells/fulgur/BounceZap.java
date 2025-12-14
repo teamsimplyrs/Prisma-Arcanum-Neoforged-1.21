@@ -19,6 +19,7 @@ public class BounceZap extends AbstractSpell {
     public static final int tier = 1;
     public static final int basicManaCost = 0;
     public static final int basicCooldown = 1;
+    private static final float inaccuracy = 1f;
 
     public static final boolean hasEvolution = true;
 

@@ -1,5 +1,6 @@
 package com.teamsimplyrs.prismaarcanum.api.spell.spells.common;
 
+import com.lowdragmc.photon.client.fx.EntityEffectExecutor;
 import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.casting.PlayerSpellCooldowns;
@@ -19,6 +20,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.slf4j.Logger;
+
+import java.util.List;
 
 public abstract class AbstractSpell implements ISpell {
     protected String spellID;
@@ -62,26 +65,28 @@ public abstract class AbstractSpell implements ISpell {
             return false;
         }
 
-        PlayerChromana chromana = serverPlayer.getData(PADataAttachmentsRegistry.CHROMANA.get());
+        if (!player.isCreative()) {
+            PlayerChromana chromana = serverPlayer.getData(PADataAttachmentsRegistry.CHROMANA.get());
 
-        if (chromana.getCurrent() < getManaCost()) {
-            serverPlayer.sendSystemMessage(Component.literal("Insufficient Chromana"));
-            return false;
+            if (chromana.getCurrent() < getManaCost()) {
+                serverPlayer.sendSystemMessage(Component.literal("Insufficient Chromana"));
+                return false;
+            }
+
+            PlayerSpellCooldowns cooldowns = serverPlayer.getData(PADataAttachmentsRegistry.SPELL_COOLDOWNS.get());
+            ResourceLocation spellID = getResourceLocation();
+
+            if (cooldowns.isOnCooldown(spellID)) {
+                float cooldownSecs = cooldowns.getCooldownSeconds(spellID);
+                player.sendSystemMessage(Component.literal(String.format("%s is on cooldown for %.2f seconds", getDisplayName(), cooldownSecs)));
+                return false;
+            }
+
+            chromana.useMana(getManaCost(), true);
+            cooldowns.setCooldown(getResourceLocation(), getCooldownTicks());
+
+            PacketDistributor.sendToPlayer(serverPlayer, new ManaSyncPayload(serverPlayer.getUUID(), chromana));
         }
-
-        PlayerSpellCooldowns cooldowns = serverPlayer.getData(PADataAttachmentsRegistry.SPELL_COOLDOWNS.get());
-        ResourceLocation spellID = getResourceLocation();
-
-        if (cooldowns.isOnCooldown(spellID)) {
-            float cooldownSecs = cooldowns.getCooldownSeconds(spellID);
-            player.sendSystemMessage(Component.literal(String.format("%s is on cooldown for %.2f seconds", getDisplayName(), cooldownSecs)));
-            return false;
-        }
-
-        chromana.useMana(getManaCost(), true);
-        cooldowns.setCooldown(getResourceLocation(), getCooldownTicks());
-
-        PacketDistributor.sendToPlayer(serverPlayer, new ManaSyncPayload(serverPlayer.getUUID(), chromana));
 
         PacketDistributor.sendToServer(new CastPayload(serverPlayer.getUUID(), getResourceLocation()));
         return true;
@@ -97,7 +102,31 @@ public abstract class AbstractSpell implements ISpell {
     }
 
     public void onCastingFinished(Player player, Level world) {
-//        player.sendSystemMessage(Component.literal(String.format("%s: OnCastingFinished called", getDisplayName())));
+        if (world.isClientSide) {
+            ResourceLocation fxId = getFXid();
+            if (fxId != null) {
+                var CACHE = EntityEffectExecutor.CACHE;
+                List<EntityEffectExecutor> effects = CACHE.get(this);
+                if (effects != null && !effects.isEmpty()) {
+                    var iterator = effects.iterator();
+
+                    while(iterator.hasNext()) {
+                        EntityEffectExecutor exec = iterator.next();
+                        //Not sure if getFxLocation and getRuntime would become null or not
+                        if(exec.fx.getFxLocation().equals(fxId)){
+                            var runtime = exec.getRuntime();
+                            runtime.destroy(true);
+                            iterator.remove();
+                        }
+                    }
+                    if ((CACHE.get(this)).isEmpty()) {
+                        CACHE.remove(this);
+                    }
+
+                    EntityEffectExecutor.CACHE = CACHE;
+                }
+            }
+        }
     }
 
     public int getManaCost() {
@@ -135,7 +164,15 @@ public abstract class AbstractSpell implements ISpell {
 
     public void hitboxTick(SpellEffectAreaEntity hitbox){};
 
+    public int getDurationTicks() {
+        return 100;
+    }
+
     public ResourceLocation getResourceLocation() {
         return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, spellID);
+    }
+
+    public ResourceLocation getFXid() {
+        return null;
     }
 }

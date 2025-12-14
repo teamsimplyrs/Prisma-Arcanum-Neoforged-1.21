@@ -2,6 +2,9 @@ package com.teamsimplyrs.prismaarcanum.registry;
 
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
+import com.teamsimplyrs.prismaarcanum.entity.client.monster.IgniumLegionnaireModel;
+import com.teamsimplyrs.prismaarcanum.entity.custom.monster.IgniumLegionnaireEntity;
+import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.IntentScarProjectile;
 import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.RippleSeekerProjectile;
 import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.FireballSpellProjectile;
 import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.ManaPelletProjectile;
@@ -26,6 +29,13 @@ public class PAEntityRegistry {
                         ManaPelletProjectile::new, MobCategory.MISC)
                         .sized(0.5f, 0.5f)
                         .build("mana_pellet_projectile"));
+
+    public static final Supplier<EntityType<IntentScarProjectile>> INTENT_SCAR_PROJECTILE =
+            ENTITY_TYPES.register("intent_scar_projectile",
+                    () -> EntityType.Builder.<IntentScarProjectile>of(
+                                    IntentScarProjectile::new, MobCategory.MISC)
+                            .sized(1f, 0.5f)
+                            .build("intent_scar_projectile"));
 
     public static final Supplier<EntityType<FireballSpellProjectile>> FIREBALL_SPELL_PROJECTILE =
             ENTITY_TYPES.register("fireball_spell_projectile",
@@ -82,7 +92,16 @@ public class PAEntityRegistry {
                     () -> EntityType.Builder.<RippleSeekerEntity>of(
                             RippleSeekerEntity::new, MobCategory.MONSTER)
                             .sized(1f, 1f)
-                            .build("ripple_seeker"));
+                            .build("ripple_seeker")
+            );
+
+    public static final Supplier<EntityType<IgniumLegionnaireEntity>> IGNIUM_LEGIONNAIRE =
+            ENTITY_TYPES.register("ignium_legionnaire",
+                    () -> EntityType.Builder.<IgniumLegionnaireEntity>of(
+                            IgniumLegionnaireEntity::new, MobCategory.MONSTER)
+                            .sized(1.25f, 2.75f)
+                            .build("ignium_legionnaire")
+            );
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
