@@ -8,7 +8,7 @@ import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import com.teamsimplyrs.prismaarcanum.api.utils.School;
 import com.teamsimplyrs.prismaarcanum.entity.custom.SpellEffectAreaEntity;
-import com.teamsimplyrs.prismaarcanum.entity.custom.VortexTrapProjectile;
+import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.VortexTrapProjectile;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCustomProjectileSpawnedPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;

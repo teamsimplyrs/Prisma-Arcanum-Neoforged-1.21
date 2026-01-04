@@ -41,7 +41,6 @@ public class OmenSlice extends AbstractSpell {
             Vec3 offset = player.position().add(0, player.getEyeHeight() - projectile.getBoundingBox().getYsize() * 0.5F - 0.25f, 0);
             projectile.setProjectileParameters(getDamage(), getLifetime(), getVelocity(), getBounceCount(), shouldBounce(), getProjectileMotionType());
             projectile.setPos(offset);
-            projectile.setEffectRotation(player.getLookAngle());
             projectile.launch(player.getLookAngle());
 
             world.addFreshEntity(projectile);

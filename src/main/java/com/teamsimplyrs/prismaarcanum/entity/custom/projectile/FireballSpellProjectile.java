@@ -66,6 +66,11 @@ public class FireballSpellProjectile extends AbstractSpellProjectile {
     }
 
     @Override
+    protected ResourceLocation getBlockImpactFXid() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "impact/impact_ignis_small_1");
+    }
+
+    @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
         Entity owner = getOwner();

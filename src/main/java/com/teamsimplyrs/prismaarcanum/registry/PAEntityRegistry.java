@@ -3,10 +3,7 @@ package com.teamsimplyrs.prismaarcanum.registry;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.entity.custom.monster.IgniumLegionnaireEntity;
-import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.OmenSliceProjectile;
-import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.RippleSeekerProjectile;
-import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.FireballSpellProjectile;
-import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.ManaPelletProjectile;
+import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.*;
 import com.teamsimplyrs.prismaarcanum.entity.custom.monster.RippleSeekerEntity;
 import com.teamsimplyrs.prismaarcanum.entity.custom.*;
 import net.minecraft.core.registries.BuiltInRegistries;

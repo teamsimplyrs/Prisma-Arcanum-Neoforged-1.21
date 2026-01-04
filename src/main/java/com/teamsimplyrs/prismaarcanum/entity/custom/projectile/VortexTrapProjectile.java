@@ -1,6 +1,7 @@
-package com.teamsimplyrs.prismaarcanum.entity.custom;
+package com.teamsimplyrs.prismaarcanum.entity.custom.projectile;
 
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpellProjectile;
+import com.teamsimplyrs.prismaarcanum.entity.custom.SpellEffectAreaEntity;
 import com.teamsimplyrs.prismaarcanum.registry.PAEntityRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -71,6 +72,11 @@ public class VortexTrapProjectile extends AbstractSpellProjectile {
 
     @Override
     protected ResourceLocation getTrailFXid() {
+        return null;
+    }
+
+    @Override
+    protected ResourceLocation getBlockImpactFXid() {
         return null;
     }
 }

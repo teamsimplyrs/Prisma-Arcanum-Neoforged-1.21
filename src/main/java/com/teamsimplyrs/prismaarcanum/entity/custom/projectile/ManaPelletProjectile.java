@@ -61,6 +61,11 @@ public class ManaPelletProjectile extends AbstractSpellProjectile {
         return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "mana_pellet_trail");
     }
 
+    @Override
+    protected ResourceLocation getBlockImpactFXid() {
+        return null;
+    }
+
     public void onHit(HitResult result) {
         super.onHit(result);
     }

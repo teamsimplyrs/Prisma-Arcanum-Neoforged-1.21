@@ -51,6 +51,11 @@ public class RippleSeekerProjectile extends AbstractSpellProjectile {
     }
 
     @Override
+    protected ResourceLocation getBlockImpactFXid() {
+        return null;
+    }
+
+    @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
         Entity entity = result.getEntity();

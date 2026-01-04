@@ -7,7 +7,7 @@ import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import com.teamsimplyrs.prismaarcanum.api.utils.School;
-import com.teamsimplyrs.prismaarcanum.entity.custom.NapalmSprayProjectile;
+import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.NapalmSprayProjectile;
 import com.teamsimplyrs.prismaarcanum.entity.custom.SpellEffectAreaEntity;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCustomProjectileSpawnedPayload;
 import com.teamsimplyrs.prismaarcanum.registry.PASpellEffectRegistry;

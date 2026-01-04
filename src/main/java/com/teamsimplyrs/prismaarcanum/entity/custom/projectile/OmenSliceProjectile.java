@@ -80,6 +80,11 @@ public class OmenSliceProjectile extends AbstractSpellProjectile {
     }
 
     @Override
+    protected ResourceLocation getBlockImpactFXid() {
+        return null;
+    }
+
+    @Override
     public EntityDimensions getDimensions(Pose pose) {
         return EntityDimensions.scalable(1.25f, 0.5f);
     }

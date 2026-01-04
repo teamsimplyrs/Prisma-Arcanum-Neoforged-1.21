@@ -1,4 +1,4 @@
-package com.teamsimplyrs.prismaarcanum.entity.custom;
+package com.teamsimplyrs.prismaarcanum.entity.custom.projectile;
 
 import com.lowdragmc.photon.client.fx.EntityEffectExecutor;
 import com.lowdragmc.photon.client.fx.FX;
@@ -87,6 +87,11 @@ public class ArcOrbProjectile extends AbstractSpellProjectile {
     @Override
     protected ResourceLocation getTrailFXid() {
         return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "lightning_trail");
+    }
+
+    @Override
+    protected ResourceLocation getBlockImpactFXid() {
+        return null;
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.teamsimplyrs.prismaarcanum.api.spell.spells.common;
 
+import com.lowdragmc.photon.client.fx.BlockEffectExecutor;
 import com.lowdragmc.photon.client.fx.EntityEffectExecutor;
+import com.lowdragmc.photon.client.fx.FX;
+import com.lowdragmc.photon.client.fx.FXHelper;
 import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.api.utils.PhysicsUtils;
 import com.teamsimplyrs.prismaarcanum.api.utils.ProjectileMotionType;
@@ -17,6 +20,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import org.slf4j.Logger;
 
 import java.util.List;
@@ -62,10 +67,6 @@ public abstract class AbstractSpellProjectile extends Projectile {
         }
     }
 
-    public void setEffectRotation(Vec3 rot) {
-        effectRotation = rot;
-    }
-
     public void launch(Vec3 rot) {
         Entity owner = this.getOwner();
         if (owner != null) {
@@ -104,11 +105,6 @@ public abstract class AbstractSpellProjectile extends Projectile {
     protected abstract ResourceLocation getTrailFXid();
 
     protected Vec3 getEffectRotation() {
-//        var owner = getOwner();
-//        if (owner != null) {
-//            return owner.getLookAngle();
-//        }
-
         Vec3 motion = getDeltaMovement().normalize().scale(-1);
 
         if (motion.lengthSqr() > 1.0e-5) {
@@ -122,6 +118,22 @@ public abstract class AbstractSpellProjectile extends Projectile {
 
         return Vec3.ZERO;
     }
+
+    protected Quaternionf getBlockImpactEffectRotation(BlockHitResult hit) {
+        if (hit == null) {
+            return new Quaternionf(0, 0, 0, 0);
+        }
+
+        Direction dir = hit.getDirection();
+        Vec3 normal = Vec3.atLowerCornerOf(dir.getNormal());
+        Vector3f up = new Vector3f(0f, 1f, 0f);
+
+        Quaternionf rot = new Quaternionf().rotationTo(new Vector3f(up.x, up.y, up.z), new Vector3f((float)normal.x, (float)normal.y, (float)normal.z));
+
+        return rot;
+    }
+
+    protected abstract ResourceLocation getBlockImpactFXid();
 
     @Override
     public void tick() {
@@ -172,6 +184,24 @@ public abstract class AbstractSpellProjectile extends Projectile {
     @Override
     public void onHit(HitResult result) {
         super.onHit(result);
+        if (level().isClientSide) {
+            ResourceLocation impactFX = getBlockImpactFXid();
+            if (impactFX != null) {
+                FX fx = FXHelper.getFX(impactFX);
+                if (fx != null) {
+                    if (result instanceof BlockHitResult blockHitResult) {
+                        BlockEffectExecutor blockFX = new BlockEffectExecutor(fx, level(), blockHitResult.getBlockPos());
+                        Quaternionf fxRotation = getBlockImpactEffectRotation(blockHitResult);
+                        blockFX.setOffset(0, 1, 0);
+                        blockFX.setRotation(fxRotation);
+                        blockFX.start();
+                    } else if (result instanceof EntityHitResult entityHitResult) {
+                        EntityEffectExecutor entityFX = new EntityEffectExecutor(fx, level(), entityHitResult.getEntity(), EntityEffectExecutor.AutoRotate.NONE);
+                        entityFX.start();
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -182,6 +212,7 @@ public abstract class AbstractSpellProjectile extends Projectile {
     @Override
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
+
         if (shouldBounce) {
             if (bounceCount <= 0) {
                 remove(RemovalReason.DISCARDED);
@@ -214,28 +245,28 @@ public abstract class AbstractSpellProjectile extends Projectile {
     public void remove(RemovalReason reason) {
         ResourceLocation fxId = getTrailFXid();
         try {
-            if (fxId != null) {
-                var CACHE = EntityEffectExecutor.CACHE;
-                List<EntityEffectExecutor> effects = CACHE.get(this);
-                if (effects != null && !effects.isEmpty()) {
-                    var iterator = effects.iterator();
-
-                    while(iterator.hasNext()) {
-                        EntityEffectExecutor exec = iterator.next();
-                        //Not sure if getFxLocation and getRuntime would become null or not
-                        if(exec.fx.getFxLocation().equals(fxId)){
-                            var runtime = exec.getRuntime();
-                            runtime.destroy(true);
-                            iterator.remove();
-                        }
-                    }
-                    if ((CACHE.get(this)).isEmpty()) {
-                        CACHE.remove(this);
-                    }
-
-                    EntityEffectExecutor.CACHE = CACHE;
-                }
-            }
+//            if (fxId != null) {
+//                var CACHE = EntityEffectExecutor.CACHE;
+//                List<EntityEffectExecutor> effects = CACHE.get(this);
+//                if (effects != null && !effects.isEmpty()) {
+//                    var iterator = effects.iterator();
+//
+//                    while(iterator.hasNext()) {
+//                        EntityEffectExecutor exec = iterator.next();
+//                        //Not sure if getFxLocation and getRuntime would become null or not
+//                        if(exec.fx.getFxLocation().equals(fxId)){
+//                            var runtime = exec.getRuntime();
+//                            runtime.destroy(true);
+//                            iterator.remove();
+//                        }
+//                    }
+//                    if ((CACHE.get(this)).isEmpty()) {
+//                        CACHE.remove(this);
+//                    }
+//
+//                    EntityEffectExecutor.CACHE = CACHE;
+//                }
+//            }
         } catch (Exception e) {
             LOGGER.error("[PrismaArcanum:AbstractSpellProjectile] ERROR! {%s}", e);
         }
