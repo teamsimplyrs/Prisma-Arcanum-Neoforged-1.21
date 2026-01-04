@@ -34,7 +34,7 @@ public class NapalmBlankRenderer extends EntityRenderer<NapalmSprayProjectile> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(NapalmShootBlankProjectile entity) {
+    public ResourceLocation getTextureLocation(NapalmSprayProjectile entity) {
         return null;
     }
 }

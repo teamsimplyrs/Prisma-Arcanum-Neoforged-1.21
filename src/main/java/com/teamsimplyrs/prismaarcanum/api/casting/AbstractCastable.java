@@ -8,6 +8,7 @@ import com.teamsimplyrs.prismaarcanum.api.casting.interfaces.ICastable;
 import com.teamsimplyrs.prismaarcanum.api.casting.interfaces.IMultiSpellHolder;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.api.utils.WandUtils;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;

@@ -148,26 +148,18 @@ public class ArcOrbProjectile extends AbstractSpellProjectile {
                 );
             }
         }
-
-<<<<<<<< HEAD:src/main/java/com/teamsimplyrs/prismaarcanum/entity/custom/projectile/ArcOrbProjectile.java
         remove(RemovalReason.DISCARDED);
-========
-        discard();
->>>>>>>> main:src/main/java/com/teamsimplyrs/prismaarcanum/entity/custom/projectile/BounceZapProjectile.java
     }
 
     @Override
     public void tick() {
         super.tick();
 
-<<<<<<<< HEAD:src/main/java/com/teamsimplyrs/prismaarcanum/entity/custom/projectile/ArcOrbProjectile.java
         // Self timeout failsafe
         if (tickCount > 200) {
             remove(RemovalReason.DISCARDED);
         }
-========
         if (tickCount > 200) discard();
->>>>>>>> main:src/main/java/com/teamsimplyrs/prismaarcanum/entity/custom/projectile/BounceZapProjectile.java
     }
 
     @Override

@@ -84,34 +84,6 @@ public class PAEntityRegistry {
 
     /** ==== MISC UTILS ==== */
 
-    public static final Supplier<EntityType<SpellEffectAreaEntity>> SPELL_EFFECT_AREA =
-            ENTITY_TYPES.register("spell_effect_area",
-                    () -> EntityType.Builder.<SpellEffectAreaEntity>of(SpellEffectAreaEntity::new, MobCategory.MISC)
-                            .sized(1.0f, 1.0f)
-                            .clientTrackingRange(64)
-                            .updateInterval(2)
-                            .build("spell_effect_area"
-                            ));
-
-
-    public static final Supplier<EntityType<NapalmShootBlankProjectile>> NAPALM_BLANK =
-            ENTITY_TYPES.register("napalm_blank",
-                    () -> EntityType.Builder.<NapalmShootBlankProjectile>of(
-                                    NapalmShootBlankProjectile::new, MobCategory.MISC)
-                            .sized(0.2f,0.2f)
-                            .build("napalm_blank"
-                            ));
-
-
-    public static final Supplier<EntityType<WindPoolBlankProjectile>> WINDPOOL_BLANK =
-            ENTITY_TYPES.register("windpool_blank",
-                    () -> EntityType.Builder.<WindPoolBlankProjectile>of(WindPoolBlankProjectile::new, MobCategory.MISC)
-                            .sized(1.0f,1.0f)
-                            .clientTrackingRange(64)
-                            .updateInterval(2)
-                            .build("windpool_blank"
-                            ));
-
     public static final Supplier<EntityType<SpringDeathTrackerEntity>> SPRING_DEATH_TRACKER =
             ENTITY_TYPES.register("spring_death_tracker",
                     () -> EntityType.Builder.<SpringDeathTrackerEntity>of(
