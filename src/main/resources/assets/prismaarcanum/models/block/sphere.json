@@ -1,0 +1,9 @@
+{
+  "loader": "neoforge:obj",
+  "model": "prismaarcanum:models/obj/sphere1.obj",
+  "textures": {
+  },
+  "automatic_culling": false,
+  "shade_quads": false,
+  "flip_v": true
+}

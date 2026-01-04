@@ -1,0 +1,17 @@
+{
+  "vertex": "prismaarcanum:photon_common_vertex",
+  "fragment": "prismaarcanum:water_surface",
+
+  "uniforms": [
+    { "name": "ModelViewMat", "type": "matrix4x4", "count": 16, "values": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1] },
+    { "name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1] },
+    { "name": "FogShape", "type": "int", "count": 1, "values": [0] },
+    { "name": "GameTime", "type": "float", "count": 1, "values": [0.0] },
+    { "name": "TimeFactor", "type": "float", "count": 1, "values": [100.0] },
+    { "name": "VoronoiSmoothstepLow", "type": "float", "count": 1, "values": [0.3] },
+    { "name": "VoronoiSmoothstepHigh", "type": "float", "count": 1, "values": [2.3] },
+    { "name": "VoronoiSmoothstepAlphaLow", "type": "float", "count": 1, "values": [0.03] },
+    { "name": "VoronoiSmoothstepAlphaHigh", "type": "float", "count": 1, "values": [1.4] },
+    { "name": "PosterizeSteps", "type": "float", "count": 1, "values": [1.0] }
+  ]
+}
