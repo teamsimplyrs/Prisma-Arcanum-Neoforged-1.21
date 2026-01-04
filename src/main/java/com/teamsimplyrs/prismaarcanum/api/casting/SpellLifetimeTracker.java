@@ -2,18 +2,26 @@ package com.teamsimplyrs.prismaarcanum.api.casting;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.teamsimplyrs.prismaarcanum.api.casting.spell_events.SpellInstance;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class SpellLifetimeTracker {
-    public Map<ResourceLocation, Integer> lifetimes = new HashMap<>();
-    public static final Codec<Map<ResourceLocation, Integer>> SPELL_LIFETIME_MAP_CODEC =
-            Codec.unboundedMap(ResourceLocation.CODEC, Codec.INT);
+    public Map<ResourceLocation, List<SpellInstance>> lifetimes = new HashMap<>();
+
+    public static final Codec<SpellInstance> SPELL_INSTANCE_CODEC =
+            RecordCodecBuilder.create(i -> i.group(
+                    Codec.INT.fieldOf("lifetime").forGetter(s -> s.lifetime),
+                    UUIDUtil.CODEC.fieldOf("id").forGetter(s -> s.id)
+            ).apply(i, SpellInstance::new));
+
+    public static final Codec<Map<ResourceLocation, List<SpellInstance>>> SPELL_LIFETIME_MAP_CODEC =
+            Codec.unboundedMap(ResourceLocation.CODEC, SPELL_INSTANCE_CODEC.listOf());
 
     public static final Codec<SpellLifetimeTracker> CODEC = RecordCodecBuilder.create(i -> i.group(
             SPELL_LIFETIME_MAP_CODEC.fieldOf("lifetimes").forGetter(SpellLifetimeTracker::getLifetimesMap)
@@ -25,51 +33,50 @@ public class SpellLifetimeTracker {
 
     }
 
-    public SpellLifetimeTracker(Map<ResourceLocation, Integer> map) {
+    public SpellLifetimeTracker(Map<ResourceLocation, List<SpellInstance>> map) {
         if (map != null) this.lifetimes.putAll(map);
     }
 
     public boolean tick(Player player) {
-        if (lifetimes.isEmpty()) {
-            return false;
-        }
+        if (lifetimes.isEmpty()) return false;
+
         boolean changed = false;
-        var it = lifetimes.entrySet().iterator();
 
-        while (it.hasNext()) {
-            var entry = it.next();
-            int currentLifetime = entry.getValue();
-            int newLifetime = currentLifetime + 1;
-            var spell = SpellRegistry.getSpell(entry.getKey());
+        for (var entry : lifetimes.entrySet()) {
+            ResourceLocation spellID = entry.getKey();
+            List<SpellInstance> list = entry.getValue();
+            AbstractSpell spell = SpellRegistry.getSpell(spellID);
 
-            if(spell.checkTickEvent(currentLifetime)) {
-                spell.runEventAtTick(currentLifetime,player);
+            Iterator<SpellInstance> it = list.iterator();
+
+            while (it.hasNext()) {
+                SpellInstance inst = it.next();
+                int time = inst.lifetime++;
+
+                if (spell.checkTickEvent(time)) {
+                    spell.runEventAtTick(time, player);
+                }
+
+                if (time >= spell.getLifetime()) {
+                    it.remove();
+                    changed = true;
+                    dirty = true;
+                }
             }
 
-            if (currentLifetime == spell.getLifetime()) {
-                it.remove();
-                changed = true;
-                dirty = true;
-            } else {
-                entry.setValue(newLifetime);
-
+            // cleanup empty spell groups
+            if (list.isEmpty()) {
+                lifetimes.remove(spellID);
             }
         }
 
         return changed;
     }
 
-    public Map<ResourceLocation, Integer> getLifetimesMap() {
+    public Map<ResourceLocation, List<SpellInstance>> getLifetimesMap() {
         return lifetimes;
     }
 
-    public int getLifetime(ResourceLocation spellID) {
-        return lifetimes.getOrDefault(spellID, -1);
-    }
-
-    public float getLifetimeSeconds(ResourceLocation spellID) {
-        return getLifetime(spellID) / 20.0f;
-    }
 
     public boolean isTracked(ResourceLocation spellID) {
         return lifetimes.containsKey(spellID);
@@ -82,15 +89,16 @@ public class SpellLifetimeTracker {
 
     public void setLifetime(ResourceLocation spellID) {
         AbstractSpell spell = SpellRegistry.getSpell(spellID);
-        //Doesn't track if getLifetime is not overridden.
-        if(spell.getLifetime() == -1){
-            return;
-        }
-        lifetimes.put(spellID,0);
+        if (spell.getLifetime() == -1) return;
+
+        lifetimes
+                .computeIfAbsent(spellID, k -> new ArrayList<>())
+                .add(new SpellInstance());
+
         dirty = true;
     }
 
-    public void setAllLifetimes(Map<ResourceLocation, Integer> lifetimes) {
+    public void setAllLifetimes(Map<ResourceLocation, List<SpellInstance>> lifetimes) {
         this.lifetimes.putAll(lifetimes);
         dirty = true;
     }
