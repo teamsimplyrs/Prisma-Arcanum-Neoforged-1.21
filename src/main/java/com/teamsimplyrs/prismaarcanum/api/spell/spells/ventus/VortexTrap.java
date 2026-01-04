@@ -63,7 +63,6 @@ public class VortexTrap extends AbstractSpell {
     @Override
     public void hitboxTick(SpellEffectAreaEntity hitbox) {
 
-        // ================= CLIENT SIDE =================
         if (hitbox.level().isClientSide) {
             if (!hitbox.particleEmitted) {
                 FX fx = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(
@@ -74,21 +73,16 @@ public class VortexTrap extends AbstractSpell {
             return;
         }
 
-        // ================= SERVER SIDE =================
-        // Attraction / suction force
         AABB box = hitbox.getBoundingBox();
 
         for (Entity e : hitbox.level().getEntities(hitbox, box)) {
             if (e instanceof LivingEntity living && living.isAlive()) {
 
-                // vector from entity to center
                 Vec3 center = hitbox.position();
                 Vec3 dirToCenter = center.subtract(living.position()).normalize();
 
-                // pull force strength
                 double pullStrength = 0.04D;
 
-                // apply attraction
                 Vec3 newMotion = living.getDeltaMovement().add(dirToCenter.scale(pullStrength));
                 living.setDeltaMovement(newMotion);
                 living.fallDistance = 0F;

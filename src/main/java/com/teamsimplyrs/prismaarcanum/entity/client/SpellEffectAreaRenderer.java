@@ -28,6 +28,6 @@ public class SpellEffectAreaRenderer extends EntityRenderer<SpellEffectAreaEntit
 
     @Override
     public ResourceLocation getTextureLocation(SpellEffectAreaEntity entity) {
-        return null; // no texture
+        return null;
     }
 }

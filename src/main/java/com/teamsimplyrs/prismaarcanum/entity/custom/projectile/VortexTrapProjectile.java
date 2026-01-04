@@ -38,8 +38,8 @@ public class VortexTrapProjectile extends AbstractSpellProjectile {
             aoe.setPos(result.getBlockPos().getX() + 0.5, result.getBlockPos().getY() + 1, result.getBlockPos().getZ() + 0.5);
 
             aoe.configure(
-                    this.parentSpellID,  // <-- spellID
-                    100,                     // lifetime in ticks (2 seconds)
+                    this.parentSpellID,
+                    100,
                     4f,
                     2f
             );

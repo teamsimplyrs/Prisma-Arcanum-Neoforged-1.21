@@ -28,7 +28,7 @@ public class ArcOrbProjectile extends AbstractSpellProjectile {
     private static final EntityDataAccessor<Integer> SPLIT_COUNT =
             SynchedEntityData.defineId(ArcOrbProjectile.class, EntityDataSerializers.INT);
 
-    private static final int MAX_SPLITS = 3; // change if needed
+    private static final int MAX_SPLITS = 3;
 
     public ArcOrbProjectile(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
@@ -102,18 +102,16 @@ public class ArcOrbProjectile extends AbstractSpellProjectile {
         Entity owner = getOwner();
 
         if (!(entity instanceof LivingEntity target) || !(owner instanceof LivingEntity livingOwner)) {
-            return; // ensure valid types
+            return;
         }
 
-        // Deal damage
         target.hurt(this.damageSources().magic(), this.damage);
         if(!level().isClientSide) {
-            // Apply status effect only if missing
             if (!target.hasEffect(PASpellEffectRegistry.ZAPPED)) {
                 target.addEffect(new MobEffectInstance(
                         PASpellEffectRegistry.ZAPPED,
-                        40,  // duration (ticks)
-                        0,   // amplifier
+                        40,
+                        0,
                         false,
                         false,
                         true
@@ -123,7 +121,6 @@ public class ArcOrbProjectile extends AbstractSpellProjectile {
 
         int splitsRemaining = getSplits();
 
-        // Perform splitting on server only
         if (!level().isClientSide && splitsRemaining > 0) {
 
             List<LivingEntity> nearbyEnemies = level().getEntitiesOfClass(
@@ -152,17 +149,25 @@ public class ArcOrbProjectile extends AbstractSpellProjectile {
             }
         }
 
+<<<<<<<< HEAD:src/main/java/com/teamsimplyrs/prismaarcanum/entity/custom/projectile/ArcOrbProjectile.java
         remove(RemovalReason.DISCARDED);
+========
+        discard();
+>>>>>>>> main:src/main/java/com/teamsimplyrs/prismaarcanum/entity/custom/projectile/BounceZapProjectile.java
     }
 
     @Override
     public void tick() {
         super.tick();
 
+<<<<<<<< HEAD:src/main/java/com/teamsimplyrs/prismaarcanum/entity/custom/projectile/ArcOrbProjectile.java
         // Self timeout failsafe
         if (tickCount > 200) {
             remove(RemovalReason.DISCARDED);
         }
+========
+        if (tickCount > 200) discard();
+>>>>>>>> main:src/main/java/com/teamsimplyrs/prismaarcanum/entity/custom/projectile/BounceZapProjectile.java
     }
 
     @Override

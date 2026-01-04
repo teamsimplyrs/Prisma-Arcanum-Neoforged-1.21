@@ -17,10 +17,9 @@ public class NapalmBurnEffect extends AbstractStatusEffect {
 
     @Override
     public boolean shouldApplyEffectTickThisTick(int tickCount, int amplifier) {
-        return true; // or your custom condition
+        return true;
     }
 
-    /** Called when a tick should deal damage */
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         Level level = entity.level();

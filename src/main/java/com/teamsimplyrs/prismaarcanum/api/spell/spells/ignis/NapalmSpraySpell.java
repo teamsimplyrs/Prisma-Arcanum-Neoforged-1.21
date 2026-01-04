@@ -48,34 +48,30 @@ public class NapalmSpraySpell extends AbstractSpell {
             Vec3 right = forward.cross(new Vec3(0, 1, 0)).normalize();
             double baseY = player.getEyeHeight();
             int count = 10;
-            double arcRadius = 18.0; // overall width of the arc
-            double depthRadius = 3.0; // how far forward the center extends
+            double arcRadius = 18.0;
+            double depthRadius = 3.0;
             double baseSpeed = 0.6;
 
             for (int i = 0; i < count; i++) {
                 NapalmSprayProjectile projectile = new NapalmSprayProjectile(player, world, this.getResourceLocation());
 
-                // Map i -> angle along the arc, from -π/4 (left) to +π/4 (right)
                 double angleRange = Math.PI / 4;
                 double angle = -angleRange / 2 + angleRange * (i / (double)(count - 1));
 
-                // Arc position: circle with player as center
                 Vec3 offset = forward.scale(Math.cos(angle) * depthRadius)
                         .add(right.scale(Math.sin(angle) * arcRadius * 0.5));
 
-                // Slight vertical staggering — left hits first
+                // Vertical separation so that there's a delay going from left to right when summoning particles.
                 double verticalOffset = baseY - (projectile.getBoundingBox().getYsize() / 2.0) + (i * 0.15);
 
                 Vec3 spawnPos = player.position().add(offset).add(0, verticalOffset, 0);
                 projectile.setPos(spawnPos);
                 projectile.setYRot(player.getYRot());
 
-                // Give slight downward bias, leftmost falls faster
                 double progress = (double) i / (count - 1);
                 double downward = -0.06 * (1.0 - progress * 0.3);
                 double speed = baseSpeed * (1.0 + progress * 0.1);
 
-                // Fire direction = outward tangent along the arc
                 Vec3 tangentDir = forward.scale(Math.cos(angle)).add(right.scale(Math.sin(angle))).normalize();
                 Vec3 motion = tangentDir.scale(speed).add(0, downward, 0);
 
@@ -92,7 +88,6 @@ public class NapalmSpraySpell extends AbstractSpell {
 
     @Override
     public void hitboxTick(SpellEffectAreaEntity hitbox) {
-        // CLIENT: one-shot FX (don’t decrement lifetime here)
         if (hitbox.level().isClientSide) {
             if (!hitbox.particleEmitted) {
                 FX napalmSprout = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(
@@ -100,17 +95,16 @@ public class NapalmSpraySpell extends AbstractSpell {
                 hitbox.particleEmitted = true;
                 new BlockEffectExecutor(napalmSprout, hitbox.level(), hitbox.blockPosition()).start();
             }
-            return; // client stops here; server continues below
+            return;
         }
 
-        // SERVER: apply effect & own the lifetime
         AABB box = hitbox.getBoundingBox();
         for (Entity e : hitbox.level().getEntities(hitbox, box)) {
             if (e instanceof LivingEntity living && living.isAlive()) {
                 // Only add if missing
                 if (!living.hasEffect((PASpellEffectRegistry.NAPALM_BURN))) {
                     living.addEffect(new MobEffectInstance(
-                            PASpellEffectRegistry.NAPALM_BURN, // Holder#get() returns the effect
+                            PASpellEffectRegistry.NAPALM_BURN,
                             hitbox.effectDuration, hitbox.amplifier,
                             false, // ambient
                             false, // show vanilla particles

@@ -46,8 +46,8 @@ public class NapalmSprayProjectile extends AbstractSpellProjectile {
             aoe.setPos(result.getBlockPos().getX() + 0.5, result.getBlockPos().getY() + 1, result.getBlockPos().getZ() + 0.5);
 
             aoe.configure(
-                    this.parentSpellID,  // <-- spellID
-                    40,                     // lifetime in ticks (2 seconds)
+                    this.parentSpellID,
+                    40,
                     2f,
                     8f
             );
@@ -60,7 +60,7 @@ public class NapalmSprayProjectile extends AbstractSpellProjectile {
 
     @Override
     public @NotNull EntityDimensions getDimensions(@NotNull Pose pose) {
-        return EntityDimensions.fixed(4f, 4f); // small hitbox
+        return EntityDimensions.fixed(4f, 4f);
     }
 
     @Override
