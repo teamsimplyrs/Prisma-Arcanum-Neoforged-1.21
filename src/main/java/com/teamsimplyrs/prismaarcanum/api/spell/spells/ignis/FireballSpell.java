@@ -17,7 +17,7 @@ public class FireballSpell extends AbstractSpell {
     public static final School school = School.Annihilation;
 
     public static final int tier = 1;
-    public static final int basicManaCost = 10;
+    public static final int basicManaCost = 20;
     public static final int basicCooldown = 60;
 
     public static final boolean hasEvolution = true;
@@ -69,6 +69,16 @@ public class FireballSpell extends AbstractSpell {
 
     public boolean shouldBounce() {
         return true;
+    }
+
+    @Override
+    public int getManaCost() {
+        return 20;
+    }
+
+    @Override
+    public int getCooldownTicks() {
+        return 60;
     }
 
     public ProjectileMotionType getProjectileMotionType() {

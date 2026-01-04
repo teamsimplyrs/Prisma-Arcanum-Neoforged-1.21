@@ -7,7 +7,7 @@ import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import com.teamsimplyrs.prismaarcanum.api.utils.School;
-import com.teamsimplyrs.prismaarcanum.entity.custom.NapalmShootBlankProjectile;
+import com.teamsimplyrs.prismaarcanum.entity.custom.NapalmSprayProjectile;
 import com.teamsimplyrs.prismaarcanum.entity.custom.SpellEffectAreaEntity;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCustomProjectileSpawnedPayload;
 import com.teamsimplyrs.prismaarcanum.registry.PASpellEffectRegistry;
@@ -23,7 +23,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 public class NapalmSpraySpell extends AbstractSpell {
 
-    public static final String spellID = "napalm_spray_spell";
+    public static final String spellID = "napalm_spray";
     public static final Element element = Element.Ignis;
     public static final School school = School.Annihilation;
 
@@ -53,7 +53,7 @@ public class NapalmSpraySpell extends AbstractSpell {
             double baseSpeed = 0.6;
 
             for (int i = 0; i < count; i++) {
-                NapalmShootBlankProjectile projectile = new NapalmShootBlankProjectile(player, world, this.getResourceLocation());
+                NapalmSprayProjectile projectile = new NapalmSprayProjectile(player, world, this.getResourceLocation());
 
                 // Map i -> angle along the arc, from -π/4 (left) to +π/4 (right)
                 double angleRange = Math.PI / 4;

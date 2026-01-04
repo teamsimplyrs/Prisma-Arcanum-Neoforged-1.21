@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.ManaPellet;
 import com.teamsimplyrs.prismaarcanum.entity.client.projectile.ManaPelletModel;
-import com.teamsimplyrs.prismaarcanum.entity.custom.NapalmShootBlankProjectile;
+import com.teamsimplyrs.prismaarcanum.entity.custom.NapalmSprayProjectile;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
-public class NapalmBlankRenderer extends EntityRenderer<NapalmShootBlankProjectile> {
+public class NapalmBlankRenderer extends EntityRenderer<NapalmSprayProjectile> {
 
     private ManaPelletModel model;
 
@@ -23,7 +23,7 @@ public class NapalmBlankRenderer extends EntityRenderer<NapalmShootBlankProjecti
     }
 
     @Override
-    public void render(NapalmShootBlankProjectile p_entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+    public void render(NapalmSprayProjectile p_entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
         poseStack.pushPose();
 
         VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityTranslucent(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, String.format("%s/%s/%s.png", "textures/entity/spells", ManaPellet.element.toString().toLowerCase(), ManaPellet.spellID))));
@@ -34,7 +34,7 @@ public class NapalmBlankRenderer extends EntityRenderer<NapalmShootBlankProjecti
     }
 
     @Override
-    public ResourceLocation getTextureLocation(NapalmShootBlankProjectile entity) {
+    public ResourceLocation getTextureLocation(NapalmSprayProjectile entity) {
         return null; // no texture
     }
 }

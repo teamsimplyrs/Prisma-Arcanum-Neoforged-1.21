@@ -23,19 +23,19 @@ import org.joml.Vector3f;
 
 import java.util.List;
 
-public class BounceZapProjectile extends AbstractSpellProjectile {
+public class ArcOrbProjectile extends AbstractSpellProjectile {
 
     private static final EntityDataAccessor<Integer> SPLIT_COUNT =
-            SynchedEntityData.defineId(BounceZapProjectile.class, EntityDataSerializers.INT);
+            SynchedEntityData.defineId(ArcOrbProjectile.class, EntityDataSerializers.INT);
 
     private static final int MAX_SPLITS = 3; // change if needed
 
-    public BounceZapProjectile(EntityType<? extends Projectile> entityType, Level level) {
+    public ArcOrbProjectile(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
     }
 
-    public BounceZapProjectile(LivingEntity caster, Level level, ResourceLocation spellID) {
-        super(PAEntityRegistry.BOUNCEZAP_PROJECTILE.get(), level);
+    public ArcOrbProjectile(LivingEntity caster, Level level, ResourceLocation spellID) {
+        super(PAEntityRegistry.ARC_ORB_PROJECTILE.get(), level);
         this.setOwner(caster);
         this.setLevel(level);
         this.setParentSpell(spellID);
@@ -130,7 +130,7 @@ public class BounceZapProjectile extends AbstractSpellProjectile {
             for (int i = 0; i < 3 && i < nearbyEnemies.size(); i++) {
                 LivingEntity nextTarget = nearbyEnemies.get(i);
 
-                BounceZapProjectile zap = new BounceZapProjectile(livingOwner, level(), this.parentSpellID);
+                ArcOrbProjectile zap = new ArcOrbProjectile(livingOwner, level(), this.parentSpellID);
                 zap.setPos(target.getX(), target.getEyeY(), target.getZ());
 
                 Vec3 direction = nextTarget.position().subtract(zap.position()).normalize().scale(1.2);

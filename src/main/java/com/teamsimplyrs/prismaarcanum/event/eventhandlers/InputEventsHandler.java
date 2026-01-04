@@ -4,6 +4,7 @@ import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.casting.AbstractCastable;
 import com.teamsimplyrs.prismaarcanum.api.casting.interfaces.IMultiSpellHolder;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.WandUtils;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import net.minecraft.client.Minecraft;
@@ -37,7 +38,10 @@ public class InputEventsHandler {
             List<ResourceLocation> spellsBound = hand.get(PADataComponents.SPELLS_BOUND.get());
             Integer currentSpellIndex = hand.get(PADataComponents.CURRENT_SPELL_INDEX.get());
             if (spellsBound != null && !spellsBound.isEmpty()) {
-                player.sendSystemMessage(Component.literal(String.format("Current Spell: %s", SpellRegistry.getSpell(spellsBound.get(currentSpellIndex == null ? 0 : currentSpellIndex)).getDisplayName())));
+                AbstractSpell spell = SpellRegistry.getSpell(spellsBound.get(currentSpellIndex == null ? 0 : currentSpellIndex));
+                if (spell != null) {
+                    player.sendSystemMessage(Component.literal(String.format("Current Spell: %s", spell.getDisplayName())));
+                }
             }
             event.setCanceled(true); // stop hotbar from scrolling
         }

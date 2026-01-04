@@ -2,15 +2,15 @@ package com.teamsimplyrs.prismaarcanum.api.spell.registry;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.fulgur.BounceZap;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.fulgur.ArcOrb;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.ignis.FireballSpell;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.ignis.NapalmSpraySpell;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.IntentScar;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.OmenSlice;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.MagicBullet;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.ManaPellet;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.MysticMissile;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.ventus.TailwindSpell;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.ventus.WindPool;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.ventus.VortexTrap;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -34,18 +34,18 @@ public class SpellRegistry {
     public static final Supplier<ManaPellet> MANA_PELLET = SPELLS.register(ManaPellet.spellID, ManaPellet::new);
     public static final Supplier<MagicBullet> MAGIC_BULLET = SPELLS.register(MagicBullet.spellID, MagicBullet::new);
     public static final Supplier<MysticMissile> MYSTIC_MISSILE = SPELLS.register(MysticMissile.spellID, MysticMissile::new);
-    public static final Supplier<IntentScar> INTENT_SCAR = SPELLS.register(IntentScar.spellID, IntentScar::new);
+    public static final Supplier<OmenSlice> INTENT_SCAR = SPELLS.register(OmenSlice.spellID, OmenSlice::new);
 
     /// == Ignis Spells ==
     public static final Supplier<FireballSpell> FIREBALL = SPELLS.register(FireballSpell.spellID, FireballSpell::new);
     public static final Supplier<NapalmSpraySpell> NAPALM_SPRAY = SPELLS.register(NapalmSpraySpell.spellID, NapalmSpraySpell::new);
 
     /// == Ventus Spells ==
-    public static final Supplier<WindPool> WINDPOOL = SPELLS.register(WindPool.spellID, WindPool::new);
+    public static final Supplier<VortexTrap> WINDPOOL = SPELLS.register(VortexTrap.spellID, VortexTrap::new);
     public static final Supplier<TailwindSpell> TAILWIND = SPELLS.register(TailwindSpell.spellID, TailwindSpell::new);
 
     ///  == Fulgur Spells ==
-    public static final Supplier<BounceZap> BOUNCEZAP = SPELLS.register(BounceZap.spellID, BounceZap::new);
+    public static final Supplier<ArcOrb> BOUNCEZAP = SPELLS.register(ArcOrb.spellID, ArcOrb::new);
 
     // ==============================================
 

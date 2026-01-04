@@ -1,7 +1,6 @@
 package com.teamsimplyrs.prismaarcanum.network.payload;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
-import com.teamsimplyrs.prismaarcanum.api.casting.ClientCooldownManager;
 import com.teamsimplyrs.prismaarcanum.api.casting.PlayerSpellCooldowns;
 import com.teamsimplyrs.prismaarcanum.api.mana.PlayerChromana;
 import com.teamsimplyrs.prismaarcanum.registry.PADataAttachmentsRegistry;
@@ -51,7 +50,7 @@ public record PlayerSpellCooldownsSyncPayload(Map<ResourceLocation, Integer> coo
             if (ctx.player() instanceof LocalPlayer clientPlayer) {
                 PlayerSpellCooldowns cooldowns = clientPlayer.getData(PADataAttachmentsRegistry.SPELL_COOLDOWNS.get());
                 cooldowns.setCooldowns(payload.cooldowns);
-                ClientCooldownManager.get().setCooldowns(payload.cooldowns);
+                clientPlayer.setData(PADataAttachmentsRegistry.SPELL_COOLDOWNS.get(), cooldowns);
             }
         });
     }

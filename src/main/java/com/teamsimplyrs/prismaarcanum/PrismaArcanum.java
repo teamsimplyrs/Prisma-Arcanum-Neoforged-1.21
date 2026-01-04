@@ -98,14 +98,14 @@ public class PrismaArcanum
         {
             EntityRenderers.register(PAEntityRegistry.MANA_PELLET_PROJECTILE.get(), ManaPelletRenderer::new);
             EntityRenderers.register(PAEntityRegistry.FIREBALL_SPELL_PROJECTILE.get(), FireballSpellProjectileRenderer::new);
-            EntityRenderers.register(PAEntityRegistry.NAPALM_BLANK.get(), NapalmBlankRenderer::new);
+            EntityRenderers.register(PAEntityRegistry.NAPALM_SPRAY_PROJECTILE.get(), NapalmBlankRenderer::new);
             EntityRenderers.register(PAEntityRegistry.SPELL_EFFECT_AREA.get(), SpellEffectAreaRenderer::new);
-            EntityRenderers.register(PAEntityRegistry.WINDPOOL_BLANK.get(), ctx -> new GenericEmptyRenderer<>(ctx));
-            EntityRenderers.register(PAEntityRegistry.BOUNCEZAP_PROJECTILE.get(), ctx -> new GenericEmptyRenderer<>(ctx));
+            EntityRenderers.register(PAEntityRegistry.VORTEX_TRAP_PROJECTILE.get(), ctx -> new GenericEmptyRenderer<>(ctx));
+            EntityRenderers.register(PAEntityRegistry.ARC_ORB_PROJECTILE.get(), ctx -> new GenericEmptyRenderer<>(ctx));
             EntityRenderers.register(PAEntityRegistry.RIPPLE_SEEKER.get(), RippleSeekerRenderer::new);
             EntityRenderers.register(PAEntityRegistry.RIPPLE_SEEKER_PROJECTILE.get(), RippleSeekerProjectileRenderer::new);
             EntityRenderers.register(PAEntityRegistry.IGNIUM_LEGIONNAIRE.get(), IgniumLegionnaireRenderer::new);
-            EntityRenderers.register(PAEntityRegistry.INTENT_SCAR_PROJECTILE.get(), GenericEmptyRenderer::new);
+            EntityRenderers.register(PAEntityRegistry.OMEN_SLICE_PROJECTILE.get(), GenericEmptyRenderer::new);
         }
 
         @SubscribeEvent

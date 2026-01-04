@@ -17,12 +17,12 @@
 
 
   "spells.prismaarcanum.ignis.fireball_spell": "Fireball",
-  "spells.prismaarcanum.ignis.napalm_spray_spell": "Napalm Spray",
+  "spells.prismaarcanum.ignis.napalm_spray": "Napalm Spray",
 
-  "spells.prismaarcanum.ventus.windpool_spell": "WindPool",
+  "spells.prismaarcanum.ventus.vortex_trap": "Vortex Trap",
   "spells.prismaarcanum.ventus.tailwind_spell": "Tailwind",
 
-  "spells.prismaarcanum.fulgur.bouncezap_spell": "BounceZap",
+  "spells.prismaarcanum.fulgur.arc_prb": "Arc Orb",
 
   "spells.prismaarcanum.mentis.mana_pellet": "Mana Pellet",
   "spells.prismaarcanum.mentis.mana_pellet.description": "Basic mana pellet stuff tbh",
@@ -30,5 +30,5 @@
   "spells.prismaarcanum.mentis.magic_bullet.description": "Basic magic bullet stuff tbh",
   "spells.prismaarcanum.mentis.mystic_missile": "Mystic Missile",
   "spells.prismaarcanum.mentis.mystic_missile.description": "Basic mystic missile stuff tbh",
-  "spells.prismaarcanum.mentis.intent_scar": "Intent Scar"
+  "spells.prismaarcanum.mentis.omen_slice": "Omen Slice"
 }

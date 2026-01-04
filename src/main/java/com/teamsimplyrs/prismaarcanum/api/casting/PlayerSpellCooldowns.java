@@ -7,6 +7,7 @@ import com.teamsimplyrs.prismaarcanum.api.mana.PlayerChromana;
 import com.teamsimplyrs.prismaarcanum.network.payload.PlayerSpellCooldownsSyncPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -33,10 +34,9 @@ public class PlayerSpellCooldowns {
 
     public PlayerSpellCooldowns(Map<ResourceLocation, Integer> map) {
         if (map != null) this.cooldowns.putAll(map);
-        ClientCooldownManager.get().setCooldowns(map);
     }
 
-    public boolean tick(ServerPlayer player) {
+    public boolean tick() {
         if (cooldowns.isEmpty()) {
             return false;
         }
@@ -82,7 +82,6 @@ public class PlayerSpellCooldowns {
 
     public void setCooldown(ResourceLocation spellID, int ticks) {
         cooldowns.put(spellID, ticks);
-        ClientCooldownManager.get().setCooldown(spellID, ticks);
         dirty = true;
     }
 

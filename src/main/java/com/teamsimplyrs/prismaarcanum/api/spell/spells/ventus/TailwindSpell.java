@@ -1,6 +1,5 @@
 package com.teamsimplyrs.prismaarcanum.api.spell.spells.ventus;
 
-import com.lowdragmc.photon.client.fx.BlockEffectExecutor;
 import com.lowdragmc.photon.client.fx.EntityEffectExecutor;
 import com.lowdragmc.photon.client.fx.FX;
 import com.lowdragmc.photon.client.fx.FXHelper;
@@ -8,23 +7,14 @@ import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import com.teamsimplyrs.prismaarcanum.api.utils.School;
-import com.teamsimplyrs.prismaarcanum.entity.custom.SpellEffectAreaEntity;
-import com.teamsimplyrs.prismaarcanum.entity.custom.WindPoolBlankProjectile;
-import com.teamsimplyrs.prismaarcanum.network.payload.OnCustomProjectileSpawnedPayload;
-import com.teamsimplyrs.prismaarcanum.registry.PAEntityRegistry;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.network.PacketDistributor;
 import org.joml.Vector3f;
 
 public class TailwindSpell extends AbstractSpell {
@@ -90,14 +80,12 @@ public class TailwindSpell extends AbstractSpell {
 
     @Override
     public int getCooldownTicks() {
-        return 0;
-//        return basicCooldown;
+        return basicCooldown;
     }
 
     @Override
     public int getManaCost() {
-        return 0;
-//        return basicManaCost;
+        return basicManaCost;
     }
 
     public float getSpeed() {

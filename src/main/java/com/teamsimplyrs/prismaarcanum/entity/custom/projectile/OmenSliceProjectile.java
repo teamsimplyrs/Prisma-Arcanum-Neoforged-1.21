@@ -15,13 +15,13 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-public class IntentScarProjectile extends AbstractSpellProjectile {
-    public IntentScarProjectile(EntityType<? extends Projectile> entityType, Level level) {
+public class OmenSliceProjectile extends AbstractSpellProjectile {
+    public OmenSliceProjectile(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
     }
 
-    public IntentScarProjectile(LivingEntity caster, Level level, ResourceLocation spellID) {
-        super(PAEntityRegistry.INTENT_SCAR_PROJECTILE.get(), level);
+    public OmenSliceProjectile(LivingEntity caster, Level level, ResourceLocation spellID) {
+        super(PAEntityRegistry.OMEN_SLICE_PROJECTILE.get(), level);
         this.setOwner(caster);
         this.setLevel(level);
         this.setParentSpell(spellID);
@@ -61,7 +61,6 @@ public class IntentScarProjectile extends AbstractSpellProjectile {
             FX fx = FXHelper.getFX(getTrailFXid());
             EntityEffectExecutor entityFX = new EntityEffectExecutor(fx, level(), this, EntityEffectExecutor.AutoRotate.NONE);
             var rot = getEffectRotation();
-//            rot = new Vec3(Math.toDegrees(rot.x), Math.toDegrees(rot.y), 0f);
             entityFX.setRotation(new Quaternionf()
                     .rotateY((float)Math.toRadians(-rot.y))
                     .rotateX((float)Math.toRadians(rot.x)));

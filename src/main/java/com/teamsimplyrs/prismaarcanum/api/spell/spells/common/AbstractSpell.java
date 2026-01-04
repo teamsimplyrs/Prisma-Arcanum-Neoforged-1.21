@@ -11,6 +11,7 @@ import com.teamsimplyrs.prismaarcanum.entity.custom.SpellEffectAreaEntity;
 import com.teamsimplyrs.prismaarcanum.network.payload.CastPayload;
 import com.teamsimplyrs.prismaarcanum.network.payload.ManaSyncPayload;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCastingStartedPayload;
+import com.teamsimplyrs.prismaarcanum.network.payload.PlayerSpellCooldownsSyncPayload;
 import com.teamsimplyrs.prismaarcanum.registry.PADataAttachmentsRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -32,6 +33,8 @@ public abstract class AbstractSpell implements ISpell {
     protected int basicManaCost;
     protected int basicCooldown;
 
+    protected float chargedCastModifier;
+
     protected boolean hasEvolution;
 
     protected final Logger LOGGER = LogUtils.getLogger();
@@ -45,6 +48,7 @@ public abstract class AbstractSpell implements ISpell {
     }
 
 
+    // TO DO: this needs to be rewritten. provide all of this data via overridden functions in each spell -- to make it hotreloadable.
     protected AbstractSpell(String spellID, Element element, School school, int tier, int basicManaCost, int basicCooldown, boolean hasEvolution) {
         this.spellID = spellID;
         this.element = element;
@@ -66,14 +70,14 @@ public abstract class AbstractSpell implements ISpell {
         }
 
         if (!player.isCreative()) {
-            PlayerChromana chromana = serverPlayer.getData(PADataAttachmentsRegistry.CHROMANA.get());
+            PlayerChromana chromana = player.getData(PADataAttachmentsRegistry.CHROMANA.get());
 
             if (chromana.getCurrent() < getManaCost()) {
                 serverPlayer.sendSystemMessage(Component.literal("Insufficient Chromana"));
                 return false;
             }
 
-            PlayerSpellCooldowns cooldowns = serverPlayer.getData(PADataAttachmentsRegistry.SPELL_COOLDOWNS.get());
+            PlayerSpellCooldowns cooldowns = player.getData(PADataAttachmentsRegistry.SPELL_COOLDOWNS.get());
             ResourceLocation spellID = getResourceLocation();
 
             if (cooldowns.isOnCooldown(spellID)) {
@@ -85,6 +89,7 @@ public abstract class AbstractSpell implements ISpell {
             chromana.useMana(getManaCost(), true);
             cooldowns.setCooldown(getResourceLocation(), getCooldownTicks());
 
+            PacketDistributor.sendToPlayer(serverPlayer, new PlayerSpellCooldownsSyncPayload(cooldowns.getCooldownMap()));
             PacketDistributor.sendToPlayer(serverPlayer, new ManaSyncPayload(serverPlayer.getUUID(), chromana));
         }
 
@@ -102,7 +107,9 @@ public abstract class AbstractSpell implements ISpell {
     }
 
     public void onCastingFinished(Player player, Level world) {
-        if (world.isClientSide) {
+        //TO DO: this causes a race condition that crashes the game. gotta implement our own FX executor that can safely kill individual VFX instances without racing.
+
+        /*if (world.isClientSide) {
             ResourceLocation fxId = getFXid();
             if (fxId != null) {
                 var CACHE = EntityEffectExecutor.CACHE;
@@ -126,7 +133,11 @@ public abstract class AbstractSpell implements ISpell {
                     EntityEffectExecutor.CACHE = CACHE;
                 }
             }
-        }
+        }*/
+    }
+
+    public boolean allowsCharging() {
+        return false;
     }
 
     public int getManaCost() {
@@ -173,6 +184,10 @@ public abstract class AbstractSpell implements ISpell {
     }
 
     public ResourceLocation getFXid() {
+        return null;
+    }
+
+    public ResourceLocation getChargingFXid() {
         return null;
     }
 }

@@ -8,7 +8,7 @@ import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import com.teamsimplyrs.prismaarcanum.api.utils.School;
 import com.teamsimplyrs.prismaarcanum.entity.custom.SpellEffectAreaEntity;
-import com.teamsimplyrs.prismaarcanum.entity.custom.WindPoolBlankProjectile;
+import com.teamsimplyrs.prismaarcanum.entity.custom.VortexTrapProjectile;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCustomProjectileSpawnedPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,10 +19,10 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class WindPool extends AbstractSpell {
-    public static final String spellID = "windpool_spell";
+public class VortexTrap extends AbstractSpell {
+    public static final String spellID = "vortex_trap";
     public static final Element element = Element.Ventus;
-    public static final School school = School.Motion;
+    public static final School school = School.Artifice;
 
     public static final int tier = 1;
     public static final int basicManaCost = 0;
@@ -33,34 +33,26 @@ public class WindPool extends AbstractSpell {
     private static final float baseDamage = 50f;
     private static final float baseSpeed = 2f;
 
-    public WindPool(){ super(spellID,element,school,tier,basicManaCost,basicCooldown,hasEvolution); }
+    public VortexTrap(){ super(spellID,element,school,tier,basicManaCost,basicCooldown,hasEvolution); }
 
     @Override
     public void cast(ServerPlayer player, Level world) {
         if (!world.isClientSide) {
             super.cast(player, world);
-
-            // Direction from player camera
             Vec3 forward = player.getLookAngle().normalize();
-
-            // Spawn position slightly in front of player's eyes
             double offsetY = player.getEyeHeight();
             Vec3 spawnPos = player.position()
                     .add(forward.scale(1.0))
                     .add(0, offsetY - 0.25, 0);
 
-            WindPoolBlankProjectile projectile =
-                    new WindPoolBlankProjectile(player, world, this.getResourceLocation());
+            VortexTrapProjectile projectile =
+                    new VortexTrapProjectile(player, world, this.getResourceLocation());
 
             projectile.setPos(spawnPos);
             projectile.setYRot(player.getYRot());
-
-            // Basic forward velocity — adjust speed to match your design
             projectile.setDeltaMovement(forward.scale(1.0));
 
             world.addFreshEntity(projectile);
-
-            // Notify client to start visual effects
             PacketDistributor.sendToPlayersTrackingEntityAndSelf(
                     projectile,
                     new OnCustomProjectileSpawnedPayload(projectile.getId())
@@ -79,7 +71,7 @@ public class WindPool extends AbstractSpell {
                 hitbox.particleEmitted = true;
                 new BlockEffectExecutor(fx, hitbox.level(), hitbox.blockPosition()).start();
             }
-            return; // stop processing further on client
+            return;
         }
 
         // ================= SERVER SIDE =================
@@ -89,18 +81,16 @@ public class WindPool extends AbstractSpell {
         for (Entity e : hitbox.level().getEntities(hitbox, box)) {
             if (e instanceof LivingEntity living && living.isAlive()) {
 
-                // compute vector from entity → hitbox center
+                // vector from entity to center
                 Vec3 center = hitbox.position();
                 Vec3 dirToCenter = center.subtract(living.position()).normalize();
 
-                // pull force strength — tweak if needed
+                // pull force strength
                 double pullStrength = 0.04D;
 
                 // apply attraction
                 Vec3 newMotion = living.getDeltaMovement().add(dirToCenter.scale(pullStrength));
                 living.setDeltaMovement(newMotion);
-
-                // Optional: slow falling / reduce upward escape
                 living.fallDistance = 0F;
             }
         }
