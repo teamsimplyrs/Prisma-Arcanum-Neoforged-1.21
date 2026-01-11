@@ -12,6 +12,7 @@ public class PlayerChromana {
     protected int max;
     protected float regen; // per tick
     protected int regenCooldown;
+    protected boolean regenCooldownDirty;
 
 
     private float accumulatedFractionalMana = 0;
@@ -21,7 +22,8 @@ public class PlayerChromana {
             Codec.INT.fieldOf("current").forGetter(PlayerChromana::getCurrent),
             Codec.INT.fieldOf("max").forGetter(PlayerChromana::getMax),
             Codec.FLOAT.fieldOf("regen").forGetter(PlayerChromana::getRegen),
-            Codec.INT.fieldOf("regen_cooldown").forGetter(PlayerChromana::getRegenCooldown)
+            Codec.INT.fieldOf("regen_cooldown").forGetter(PlayerChromana::getRegenCooldown),
+            Codec.INT.fieldOf("regen_cooldown_active_ticks").forGetter(PlayerChromana::getRegenCooldownActiveTicks)
     ).apply(i, PlayerChromana::new));
 
     public PlayerChromana() {
@@ -31,11 +33,12 @@ public class PlayerChromana {
         regenCooldown = BASE_REGEN_COOLDOWN;
     }
 
-    public PlayerChromana(int current, int max, float regen, int regenCooldown) {
+    public PlayerChromana(int current, int max, float regen, int regenCooldown, int regenCooldownActiveTicks) {
         this.current = current;
         this.max = max;
         this.regen = regen;
         this.regenCooldown = regenCooldown;
+        this.regenCooldownActiveTicks = regenCooldownActiveTicks;
     }
 
     // server tick to perform mana operations
@@ -77,6 +80,10 @@ public class PlayerChromana {
         return regenCooldown;
     }
 
+    public int getRegenCooldownActiveTicks() {
+        return regenCooldownActiveTicks;
+    }
+
     // --- SETTERS ---
 
     public void addMana(int toAdd) {
@@ -86,6 +93,7 @@ public class PlayerChromana {
     public void useMana(int toUse, boolean applyPreRegenCooldown) {
         addMana(-toUse);
         regenCooldownActiveTicks = applyPreRegenCooldown ? getRegenCooldown() : 0;
+        setRegenCooldownActiveTicks(applyPreRegenCooldown ? getRegenCooldown() : 0);
     }
 
     public void setCurrent(int newCurrent) {
@@ -102,6 +110,10 @@ public class PlayerChromana {
 
     public void setRegenCooldown(int newRegenCooldown) {
         regenCooldown = newRegenCooldown;
+    }
+
+    public void setRegenCooldownActiveTicks(int activeTicks) {
+        regenCooldownActiveTicks = activeTicks;
     }
 
     // --- UTILS ---

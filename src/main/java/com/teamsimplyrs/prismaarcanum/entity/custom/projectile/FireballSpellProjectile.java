@@ -4,7 +4,7 @@ import com.lowdragmc.photon.client.fx.EntityEffectExecutor;
 import com.lowdragmc.photon.client.fx.FX;
 import com.lowdragmc.photon.client.fx.FXHelper;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpellProjectile;
+import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpellProjectile;
 import com.teamsimplyrs.prismaarcanum.registry.PAEntityRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.*;
@@ -15,8 +15,6 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
 public class FireballSpellProjectile extends AbstractSpellProjectile {
-
-    private int bounceCount = 0;
 
     public FireballSpellProjectile(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
@@ -50,7 +48,7 @@ public class FireballSpellProjectile extends AbstractSpellProjectile {
     @Override
     public void startTrailFX() {
         if (level().isClientSide) {
-            FX fireballFX = FXHelper.getFX(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "fireball_main_fx"));
+            FX fireballFX = FXHelper.getFX(getTrailFXid());
             EntityEffectExecutor entityFX = new EntityEffectExecutor(fireballFX, level(), this, EntityEffectExecutor.AutoRotate.NONE);
             entityFX.setOffset(new Vector3f(0f, 0f, 0f));
             entityFX.start();
@@ -60,6 +58,16 @@ public class FireballSpellProjectile extends AbstractSpellProjectile {
     @Override
     public void startHitFX() {
 
+    }
+
+    @Override
+    protected ResourceLocation getTrailFXid() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "fireball_main_fx");
+    }
+
+    @Override
+    protected ResourceLocation getBlockImpactFXid() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "impact/impact_ignis_small_1");
     }
 
     @Override
@@ -74,7 +82,7 @@ public class FireballSpellProjectile extends AbstractSpellProjectile {
 
         if (target != owner) {
             target.hurt(this.damageSources().magic(), damage);
-            discard();
+            remove(RemovalReason.DISCARDED);
         }
     }
 

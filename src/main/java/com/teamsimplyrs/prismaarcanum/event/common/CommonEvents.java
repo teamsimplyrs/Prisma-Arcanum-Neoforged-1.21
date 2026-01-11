@@ -42,7 +42,7 @@ public class CommonEvents {
             }
 
             if (spellCooldowns.tick(player)) {
-                if (player.tickCount % 100 == 0 || spellCooldowns.isMarkedDirty()) {
+                if (player.tickCount % 50 == 0 || spellCooldowns.isMarkedDirty()) {
                     spellCooldowns.unmarkDirty();
                     PacketDistributor.sendToPlayer(player, new PlayerSpellCooldownsSyncPayload(spellCooldowns.getCooldownMap()));
                 }

@@ -1,0 +1,18 @@
+{
+  "vertex": "prismaarcanum:photon_common_vertex",
+  "fragment": "prismaarcanum:scrolling_trail",
+  "samplers": [
+    {"name": "TrailTex"},
+    {"name": "SamplerGradient"}
+  ],
+  "uniforms": [
+    { "name": "ModelViewMat", "type": "matrix4x4", "count": 16, "values": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1] },
+    { "name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1] },
+    { "name": "FogShape", "type": "int", "count": 1, "values": [0] },
+    { "name": "GameTime", "type": "float", "count": 1, "values": [0.0] },
+    { "name": "TimeFactor", "type": "float", "count": 1, "values": [1.0] },
+    { "name": "NoiseScale", "type": "float", "count": 1, "values": [30.0] },
+    { "name": "NoiseScrollSpeed", "type": "float", "count": 2, "values": [0.0, 0.0] },
+    { "name": "TexScrollSpeed", "type": "float", "count": 2, "values": [0.0, 0.0] }
+  ]
+}

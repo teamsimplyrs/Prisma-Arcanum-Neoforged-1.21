@@ -3,7 +3,6 @@ package com.teamsimplyrs.prismaarcanum.item;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
-import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.api.utils.GuiUtils;
 import com.teamsimplyrs.prismaarcanum.api.utils.WandUtils;
 import net.minecraft.client.Minecraft;
@@ -55,8 +54,7 @@ public class WandRenderer extends BlockEntityWithoutLevelRenderer {
         }
 
         int spellColor = 0xDE6B23;
-        var spellId = WandUtils.getCurrentSpell(stack);
-        var spell = SpellRegistry.getSpell(spellId);
+        var spell = WandUtils.getCurrentSpell(stack);
         if (spell != null) {
             spellColor = GuiUtils.getTextColorForElement(spell.getElement());
         }

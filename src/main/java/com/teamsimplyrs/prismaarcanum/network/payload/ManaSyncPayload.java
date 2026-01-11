@@ -35,6 +35,7 @@ public record ManaSyncPayload(UUID playerUUID, PlayerChromana mana) implements C
         buf.writeVarInt(m.getMax());
         buf.writeFloat(m.getRegen());
         buf.writeVarInt(m.getRegenCooldown());
+        buf.writeVarInt(m.getRegenCooldownActiveTicks());
     }
 
     private static PlayerChromana readMana(RegistryFriendlyByteBuf buf) {
@@ -42,16 +43,16 @@ public record ManaSyncPayload(UUID playerUUID, PlayerChromana mana) implements C
         int max = buf.readVarInt();
         float regen = buf.readFloat();
         int regenCooldown = buf.readVarInt();
+        int regenCooldownActiveTicks = buf.readVarInt();
 
-        return new PlayerChromana(cur, max, regen, regenCooldown);
+        return new PlayerChromana(cur, max, regen, regenCooldown, regenCooldownActiveTicks);
     }
 
     public static void handle(ManaSyncPayload payload, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
             if (ctx.player() instanceof LocalPlayer clientPlayer) {
                 var attachmentType = PADataAttachmentsRegistry.CHROMANA.get();
-                PlayerChromana mana = clientPlayer.getData(attachmentType);
-                mana.setCurrent(payload.mana.getCurrent());
+                clientPlayer.setData(attachmentType, payload.mana);
             }
         });
     }

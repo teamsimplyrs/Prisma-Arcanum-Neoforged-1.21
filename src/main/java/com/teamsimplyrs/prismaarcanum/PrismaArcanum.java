@@ -2,13 +2,14 @@ package com.teamsimplyrs.prismaarcanum;
 
 import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.animation.FirstPersonTorsoModifier;
-import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
+import com.teamsimplyrs.prismaarcanum.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.client.menu.screen.PrismFocusBenchScreen;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.entity.client.GenericEmptyRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.client.NapalmBlankRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.client.SpellEffectAreaRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.client.monster.RippleSeekerRenderer;
+import com.teamsimplyrs.prismaarcanum.entity.client.monster.IgniumLegionnaireRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.client.projectile.FireballSpellProjectileRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.client.projectile.ManaPelletRenderer;
 import com.teamsimplyrs.prismaarcanum.entity.client.projectile.RippleSeekerProjectileRenderer;
@@ -103,13 +104,16 @@ public class PrismaArcanum
             LOGGER.info("Client Setup");
             EntityRenderers.register(PAEntityRegistry.MANA_PELLET_PROJECTILE.get(), ManaPelletRenderer::new);
             EntityRenderers.register(PAEntityRegistry.FIREBALL_SPELL_PROJECTILE.get(), FireballSpellProjectileRenderer::new);
-            EntityRenderers.register(PAEntityRegistry.NAPALM_BLANK.get(), NapalmBlankRenderer::new);
+            EntityRenderers.register(PAEntityRegistry.NAPALM_SPRAY_PROJECTILE.get(), NapalmBlankRenderer::new);
             EntityRenderers.register(PAEntityRegistry.SPELL_EFFECT_AREA.get(), SpellEffectAreaRenderer::new);
-            EntityRenderers.register(PAEntityRegistry.WINDPOOL_BLANK.get(), ctx -> new GenericEmptyRenderer<>(ctx));
-            EntityRenderers.register(PAEntityRegistry.BOUNCEZAP_PROJECTILE.get(), ctx -> new GenericEmptyRenderer<>(ctx));
+            EntityRenderers.register(PAEntityRegistry.VORTEX_TRAP_PROJECTILE.get(), GenericEmptyRenderer::new);
+            EntityRenderers.register(PAEntityRegistry.ARC_ORB_PROJECTILE.get(), GenericEmptyRenderer::new);
+            EntityRenderers.register(PAEntityRegistry.OMEN_SLICE_PROJECTILE.get(), GenericEmptyRenderer::new);
+            EntityRenderers.register(PAEntityRegistry.SPRING_DEATH_TRACKER.get(), GenericEmptyRenderer::new);
             EntityRenderers.register(PAEntityRegistry.RIPPLE_SEEKER.get(), RippleSeekerRenderer::new);
             EntityRenderers.register(PAEntityRegistry.RIPPLE_SEEKER_PROJECTILE.get(), RippleSeekerProjectileRenderer::new);
-            EntityRenderers.register(PAEntityRegistry.SPRING_DEATH_TRACKER.get(),  ctx -> new GenericEmptyRenderer<>(ctx));
+            EntityRenderers.register(PAEntityRegistry.IGNIUM_LEGIONNAIRE.get(), IgniumLegionnaireRenderer::new);
+
 
             //todo move this somewhere else
             event.enqueueWork(() -> {

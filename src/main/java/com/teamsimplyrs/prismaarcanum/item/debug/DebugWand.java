@@ -18,16 +18,6 @@ public class DebugWand extends AbstractCastable {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        return super.use(level, player, usedHand);
-    }
-
-    @Override
-    public void cast(Level world, Player player, ResourceLocation spellID) {
-        super.cast(world, player, spellID);
-    }
-
-    @Override
     public void upgrade() {
 
     }
