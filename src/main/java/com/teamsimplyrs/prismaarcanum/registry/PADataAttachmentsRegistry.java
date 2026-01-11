@@ -2,6 +2,8 @@ package com.teamsimplyrs.prismaarcanum.registry;
 
 import com.teamsimplyrs.prismaarcanum.api.casting.PlayerSpellCooldowns;
 import com.teamsimplyrs.prismaarcanum.api.mana.PlayerChromana;
+import com.teamsimplyrs.prismaarcanum.api.spell.states.EntitySpellControlStateComponent;
+import com.teamsimplyrs.prismaarcanum.api.spell.states.EntitySpellControlStateInstance;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -26,6 +28,10 @@ public class PADataAttachmentsRegistry {
                     .serialize(PlayerSpellCooldowns.CODEC)
                     .copyOnDeath()
                     .build()
+    );
+
+    public static final Supplier<AttachmentType<EntitySpellControlStateComponent>> SPELL_CONTROL_STATE = ATTACHMENT_TYPES.register(
+            "spell_control_state", () -> AttachmentType.builder(EntitySpellControlStateComponent::new).build()
     );
 
     public static void register(IEventBus eventBus) {

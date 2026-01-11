@@ -3,12 +3,15 @@ package com.teamsimplyrs.prismaarcanum.api.utils;
 import com.teamsimplyrs.prismaarcanum.api.casting.AbstractCastable;
 import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.api.spell.states.EntitySpellControlState;
+import com.teamsimplyrs.prismaarcanum.api.spell.states.logic.IEntitySpellControlStateLogic;
+import com.teamsimplyrs.prismaarcanum.api.spell.states.logic.HoverStateLogic;
+import com.teamsimplyrs.prismaarcanum.api.spell.states.logic.RisingStateLogic;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SpellUtils {
@@ -51,4 +54,24 @@ public class SpellUtils {
 
         return spell.getElement();
     }
+
+    // region Spell States
+
+    public static IEntitySpellControlStateLogic getLogicForState(EntitySpellControlState state) {
+        return switch (state) {
+            case CHARGING -> null;
+            case IMMOBILE -> null;
+            case RISING -> new RisingStateLogic();
+            case HOVERING -> new HoverStateLogic();
+            case GROUNDED -> null;
+            case DASHING -> null;
+            case CUSTOM_GRAVITY -> null;
+            case NO_GRAVITY -> null;
+            case SWINGING -> null;
+            case TIME_CONTROL -> null;
+            default -> null;
+        };
+    }
+
+    // endregion
 }

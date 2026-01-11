@@ -1,21 +1,20 @@
 package com.teamsimplyrs.prismaarcanum.event.common;
 
-import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.casting.PlayerSpellCooldowns;
 import com.teamsimplyrs.prismaarcanum.api.mana.PlayerChromana;
+import com.teamsimplyrs.prismaarcanum.api.spell.states.EntitySpellControlStateComponent;
+import com.teamsimplyrs.prismaarcanum.api.spell.states.EntitySpellControlStateInstance;
 import com.teamsimplyrs.prismaarcanum.network.payload.ManaSyncPayload;
 import com.teamsimplyrs.prismaarcanum.network.payload.PlayerSpellCooldownsSyncPayload;
 import com.teamsimplyrs.prismaarcanum.registry.PADataAttachmentsRegistry;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -57,6 +56,18 @@ public class CommonEvents {
 
             if (spellCooldowns.tick()) {
 
+            }
+        }
+    }
+
+
+    @SubscribeEvent
+    public static void onEntityTick(EntityTickEvent.Post event) {
+        Entity entity = event.getEntity();
+        if (!entity.level().isClientSide) {
+            if (entity instanceof LivingEntity livingEntity) {
+                EntitySpellControlStateComponent spellControlStateData = livingEntity.getData(PADataAttachmentsRegistry.SPELL_CONTROL_STATE.get());
+                spellControlStateData.tick(entity);
             }
         }
     }

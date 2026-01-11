@@ -21,7 +21,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
-import net.neoforged.neoforge.client.extensions.IGuiGraphicsExtension;
 
 @EventBusSubscriber(modid = PrismaArcanum.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
 public class ChromanaHUDOverlayRenderer {
@@ -36,7 +35,7 @@ public class ChromanaHUDOverlayRenderer {
     @SubscribeEvent
     public static void onRenderOverlay(RenderGuiLayerEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
-        Player player = Minecraft.getInstance().player;
+        Player player = mc.player;
 
         if (mc.options.hideGui || player == null) {
             return;

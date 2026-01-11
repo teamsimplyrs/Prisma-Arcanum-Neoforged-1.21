@@ -50,6 +50,7 @@ public class FireballSpellProjectile extends AbstractSpellProjectile {
         if (level().isClientSide) {
             FX fireballFX = FXHelper.getFX(getTrailFXid());
             EntityEffectExecutor entityFX = new EntityEffectExecutor(fireballFX, level(), this, EntityEffectExecutor.AutoRotate.NONE);
+//            entityFX.getRuntime().destroy();
             entityFX.setOffset(new Vector3f(0f, 0f, 0f));
             entityFX.start();
         }

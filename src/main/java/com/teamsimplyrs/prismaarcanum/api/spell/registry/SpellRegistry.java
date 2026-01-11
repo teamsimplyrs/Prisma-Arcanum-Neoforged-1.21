@@ -10,6 +10,7 @@ import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.OmenSlice;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.MagicBullet;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.ManaPellet;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.MysticMissile;
+import com.teamsimplyrs.prismaarcanum.api.spell.spells.terra.GroundPound;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.ventus.TailwindSpell;
 import com.teamsimplyrs.prismaarcanum.api.spell.spells.ventus.VortexTrap;
 import net.minecraft.core.Registry;
@@ -31,25 +32,34 @@ public class SpellRegistry {
 
     /// ==== All spells go here for registration ====
 
-    /// ==Mentis Spells==
+    // region Mentis Spells
     public static final Supplier<ManaPellet> MANA_PELLET = SPELLS.register(ManaPellet.spellID, ManaPellet::new);
     public static final Supplier<MagicBullet> MAGIC_BULLET = SPELLS.register(MagicBullet.spellID, MagicBullet::new);
     public static final Supplier<MysticMissile> MYSTIC_MISSILE = SPELLS.register(MysticMissile.spellID, MysticMissile::new);
     public static final Supplier<OmenSlice> INTENT_SCAR = SPELLS.register(OmenSlice.spellID, OmenSlice::new);
+    // endregion
 
-    /// == Ignis Spells ==
+    // region Ignis Spells
     public static final Supplier<FireballSpell> FIREBALL = SPELLS.register(FireballSpell.spellID, FireballSpell::new);
     public static final Supplier<NapalmSpraySpell> NAPALM_SPRAY = SPELLS.register(NapalmSpraySpell.spellID, NapalmSpraySpell::new);
+    // endregion
 
-    ///  == Aqua Spells ==
+    // region Aqua Spells
     public static final Supplier<SpringOfDeath> SPRING_OF_DEATH = SPELLS.register(SpringOfDeath.spellID, SpringOfDeath::new);
+    // endregion
 
-    /// == Ventus Spells ==
+    // region Ventus Spells
     public static final Supplier<VortexTrap> WINDPOOL = SPELLS.register(VortexTrap.spellID, VortexTrap::new);
     public static final Supplier<TailwindSpell> TAILWIND = SPELLS.register(TailwindSpell.spellID, TailwindSpell::new);
+    // endregion
 
-    ///  == Fulgur Spells ==
+    // region Fulgur Spells
     public static final Supplier<ArcOrb> BOUNCEZAP = SPELLS.register(ArcOrb.spellID, ArcOrb::new);
+    // endregion
+
+    // region Terra Spells
+    public static final Supplier<GroundPound> GROUND_POUND = SPELLS.register(GroundPound.SPELL_ID, GroundPound::new);
+    // endregion
 
     // ==============================================
 
