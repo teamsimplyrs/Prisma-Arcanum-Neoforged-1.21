@@ -9,7 +9,7 @@ public enum EntitySpellControlState {
     IMMOBILE,
     RISING,
     HOVERING,
-    GROUNDED,
+    SLAMMING,
     DASHING,
 
     // Physics based states

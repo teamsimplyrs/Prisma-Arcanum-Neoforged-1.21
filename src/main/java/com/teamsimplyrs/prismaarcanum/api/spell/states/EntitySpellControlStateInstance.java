@@ -22,6 +22,9 @@ public final class EntitySpellControlStateInstance {
 
     @Nullable
     private final EntitySpellControlStateInstance nextState;
+
+    @Nullable
+    private final Runnable runOnStateEnd;
     // endregion
 
     // region Private data
@@ -37,7 +40,7 @@ public final class EntitySpellControlStateInstance {
 
     //endregion
 
-    public EntitySpellControlStateInstance(EntitySpellControlState state, IEntitySpellControlStateData data, int duration, int delay, @Nullable EntitySpellControlStateInstance nextState, @Nullable ResourceLocation spellSource) {
+    public EntitySpellControlStateInstance(EntitySpellControlState state, IEntitySpellControlStateData data, int duration, int delay, @Nullable EntitySpellControlStateInstance nextState, @Nullable ResourceLocation spellSource, @Nullable Runnable runOnStateEnd) {
         this.spellControlState = state;
         this.spellControlLogic = SpellUtils.getLogicForState(state);
         this.data = data;
@@ -45,6 +48,7 @@ public final class EntitySpellControlStateInstance {
         this.delay = delay;
         this.spellControlSource = spellSource;
         this.nextState = nextState;
+        this.runOnStateEnd = runOnStateEnd;
     }
 
     public boolean tick(Entity entity) {
@@ -54,6 +58,10 @@ public final class EntitySpellControlStateInstance {
 
         if (isFinished) {
             return false;
+        }
+
+        if (spellControlLogic.shouldForceEnd(entity, this)) {
+            forceEnd(entity);
         }
 
         if (delay > 0) {
@@ -81,6 +89,14 @@ public final class EntitySpellControlStateInstance {
         return false;
     }
 
+    public void forceEnd(Entity entity) {
+        if (!isFinished) {
+            spellControlLogic.onEnd(entity, this);
+            isFinished = true;
+            ticksLeft = 0;
+        }
+    }
+
     public EntitySpellControlState getState() {
         return spellControlState;
     }
@@ -103,5 +119,9 @@ public final class EntitySpellControlStateInstance {
 
     public boolean isFinished() {
         return isFinished;
+    }
+
+    public Runnable getStateEndRunner() {
+        return runOnStateEnd;
     }
 }

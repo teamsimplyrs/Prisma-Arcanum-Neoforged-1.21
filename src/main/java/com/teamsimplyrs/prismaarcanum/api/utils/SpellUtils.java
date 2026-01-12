@@ -7,6 +7,7 @@ import com.teamsimplyrs.prismaarcanum.api.spell.states.EntitySpellControlState;
 import com.teamsimplyrs.prismaarcanum.api.spell.states.logic.IEntitySpellControlStateLogic;
 import com.teamsimplyrs.prismaarcanum.api.spell.states.logic.HoverStateLogic;
 import com.teamsimplyrs.prismaarcanum.api.spell.states.logic.RisingStateLogic;
+import com.teamsimplyrs.prismaarcanum.api.spell.states.logic.SlammingStateLogic;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
 import net.minecraft.resources.ResourceLocation;
@@ -63,7 +64,7 @@ public class SpellUtils {
             case IMMOBILE -> null;
             case RISING -> new RisingStateLogic();
             case HOVERING -> new HoverStateLogic();
-            case GROUNDED -> null;
+            case SLAMMING ->  new SlammingStateLogic();
             case DASHING -> null;
             case CUSTOM_GRAVITY -> null;
             case NO_GRAVITY -> null;
