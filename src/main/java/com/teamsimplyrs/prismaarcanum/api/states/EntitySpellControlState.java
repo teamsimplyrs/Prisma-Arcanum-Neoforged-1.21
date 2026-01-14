@@ -1,4 +1,4 @@
-package com.teamsimplyrs.prismaarcanum.api.spell.states;
+package com.teamsimplyrs.prismaarcanum.api.states;
 
 public enum EntitySpellControlState {
     // Default common states

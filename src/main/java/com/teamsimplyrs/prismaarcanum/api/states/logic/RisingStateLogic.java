@@ -1,7 +1,7 @@
-package com.teamsimplyrs.prismaarcanum.api.spell.states.logic;
+package com.teamsimplyrs.prismaarcanum.api.states.logic;
 
-import com.teamsimplyrs.prismaarcanum.api.spell.states.EntitySpellControlStateInstance;
-import com.teamsimplyrs.prismaarcanum.api.spell.states.data.RisingStateData;
+import com.teamsimplyrs.prismaarcanum.api.states.EntitySpellControlStateInstance;
+import com.teamsimplyrs.prismaarcanum.api.states.data.RisingStateData;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;

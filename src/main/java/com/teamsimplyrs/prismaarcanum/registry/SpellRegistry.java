@@ -10,6 +10,7 @@ import com.teamsimplyrs.prismaarcanum.spells.mentis.OmenSlice;
 import com.teamsimplyrs.prismaarcanum.spells.mentis.MagicBullet;
 import com.teamsimplyrs.prismaarcanum.spells.mentis.ManaPellet;
 import com.teamsimplyrs.prismaarcanum.spells.mentis.MysticMissile;
+import com.teamsimplyrs.prismaarcanum.spells.terra.GroundPound;
 import com.teamsimplyrs.prismaarcanum.spells.ventus.TailwindSpell;
 import com.teamsimplyrs.prismaarcanum.spells.ventus.VortexTrap;
 import net.minecraft.core.Registry;

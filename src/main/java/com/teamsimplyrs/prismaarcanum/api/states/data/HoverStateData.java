@@ -1,4 +1,4 @@
-package com.teamsimplyrs.prismaarcanum.api.spell.states.data;
+package com.teamsimplyrs.prismaarcanum.api.states.data;
 
 public record HoverStateData() implements IEntitySpellControlStateData {
 }

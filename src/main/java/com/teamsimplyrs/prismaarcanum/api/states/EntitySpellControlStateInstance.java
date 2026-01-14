@@ -1,7 +1,7 @@
-package com.teamsimplyrs.prismaarcanum.api.spell.states;
+package com.teamsimplyrs.prismaarcanum.api.states;
 
-import com.teamsimplyrs.prismaarcanum.api.spell.states.data.IEntitySpellControlStateData;
-import com.teamsimplyrs.prismaarcanum.api.spell.states.logic.IEntitySpellControlStateLogic;
+import com.teamsimplyrs.prismaarcanum.api.states.data.IEntitySpellControlStateData;
+import com.teamsimplyrs.prismaarcanum.api.states.logic.IEntitySpellControlStateLogic;
 import com.teamsimplyrs.prismaarcanum.api.utils.SpellUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;

@@ -1,7 +1,6 @@
-package com.teamsimplyrs.prismaarcanum.api.spell.states;
+package com.teamsimplyrs.prismaarcanum.api.states;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import org.slf4j.Logger;
 
