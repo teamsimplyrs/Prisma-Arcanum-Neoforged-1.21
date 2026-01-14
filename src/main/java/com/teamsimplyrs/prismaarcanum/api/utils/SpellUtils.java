@@ -1,12 +1,13 @@
 package com.teamsimplyrs.prismaarcanum.api.utils;
 
 import com.teamsimplyrs.prismaarcanum.api.casting.AbstractCastable;
+import com.teamsimplyrs.prismaarcanum.registry.SpellRegistry;
+import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SpellUtils {
@@ -39,5 +40,14 @@ public class SpellUtils {
         }
 
         return stack.get(PADataComponents.SPELL_ID.get());
+    }
+
+    public static Element getSpellElement(ResourceLocation spellID) {
+        AbstractSpell spell = SpellRegistry.getSpell(spellID);
+        if (spell == null) {
+            return Element.None;
+        }
+
+        return spell.getElement();
     }
 }

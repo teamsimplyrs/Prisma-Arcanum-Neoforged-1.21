@@ -4,6 +4,7 @@
   "item.prismaarcanum.ignis_wand": "Ignis Wand",
 
   "item.prismaarcanum.ripple_seeker_spawn_egg" : "Ripple Seeker Spawn Egg",
+  "item.prismaarcanum.ignium_legionnaire_spawn_egg" : "Ignium Legionnaire Spawn Egg",
 
   "block.prismaarcanum.prism_focus_bench": "Prism Focus Bench",
 
@@ -16,16 +17,20 @@
 
 
   "spells.prismaarcanum.ignis.fireball_spell": "Fireball",
-  "spells.prismaarcanum.ignis.napalm_spray_spell": "Napalm Spray",
+  "spells.prismaarcanum.ignis.napalm_spray": "Napalm Spray",
 
-  "spells.prismaarcanum.ventus.windpool_spell": "WindPool",
+  "spells.prismaarcanum.ventus.vortex_trap": "Vortex Trap",
+  "spells.prismaarcanum.ventus.tailwind_spell": "Tailwind",
 
-  "spells.prismaarcanum.fulgur.bouncezap_spell": "BounceZap",
+  "spells.prismaarcanum.fulgur.arc_orb": "Arc Orb",
+
+  "spells.prismaarcanum.aqua.spring_of_death": "Spring of Death",
 
   "spells.prismaarcanum.mentis.mana_pellet": "Mana Pellet",
   "spells.prismaarcanum.mentis.mana_pellet.description": "Basic mana pellet stuff tbh",
   "spells.prismaarcanum.mentis.magic_bullet": "Magic Bullet",
   "spells.prismaarcanum.mentis.magic_bullet.description": "Basic magic bullet stuff tbh",
   "spells.prismaarcanum.mentis.mystic_missile": "Mystic Missile",
-  "spells.prismaarcanum.mentis.mystic_missile.description": "Basic mystic missile stuff tbh"
+  "spells.prismaarcanum.mentis.mystic_missile.description": "Basic mystic missile stuff tbh",
+  "spells.prismaarcanum.mentis.omen_slice": "Omen Slice"
 }

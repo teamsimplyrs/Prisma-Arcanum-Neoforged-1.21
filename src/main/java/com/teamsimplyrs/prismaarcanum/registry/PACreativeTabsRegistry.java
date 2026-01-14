@@ -4,7 +4,6 @@ import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
 import com.teamsimplyrs.prismaarcanum.item.debug.DebugWand;
-import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -26,6 +25,8 @@ public class PACreativeTabsRegistry {
                 ItemStack debugWandInstance = new ItemStack((DebugWand)PAItemRegistry.DEBUG_WAND.get());
                 debugWandInstance.set(PADataComponents.SPELLS_BOUND, SpellRegistry.getAllSpellIDs());
                 debugWandInstance.set(PADataComponents.CURRENT_SPELL_INDEX, 0);
+                debugWandInstance.set(PADataComponents.SPELL_DELAY,null);
+                debugWandInstance.set(PADataComponents.PENDING_SPELL,null);
                 output.accept(debugWandInstance);
 
                 output.accept(PAItemRegistry.IGNIS_WAND);
@@ -62,7 +63,8 @@ public class PACreativeTabsRegistry {
             .withTabsBefore(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "prismatic_mobs_tab"))
             .title(Component.translatable("creativetab.prismaarcanum.prismatic_mobs"))
             .displayItems(((itemDisplayParameters, output) -> {
-                output.accept(PAItemRegistry.RIPPLE_SEEKER_SPAWN_EGG.get());
+                output.accept(PAItemRegistry.RIPPLE_SEEKER_SPAWN_EGG);
+                output.accept(PAItemRegistry.IGNIUM_LEGIONNAIRE_SPAWN_EGG);
             } ))
             .build());
 

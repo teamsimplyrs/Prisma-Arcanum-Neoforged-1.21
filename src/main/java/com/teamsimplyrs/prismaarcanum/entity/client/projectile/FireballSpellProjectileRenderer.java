@@ -3,7 +3,7 @@ package com.teamsimplyrs.prismaarcanum.entity.client.projectile;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.ignis.FireballSpell;
+import com.teamsimplyrs.prismaarcanum.spells.ignis.FireballSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.FireballSpellProjectile;
 import net.minecraft.client.renderer.MultiBufferSource;

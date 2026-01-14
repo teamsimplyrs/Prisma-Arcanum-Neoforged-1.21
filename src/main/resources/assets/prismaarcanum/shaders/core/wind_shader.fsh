@@ -80,6 +80,7 @@ void main()
 
     alpha = clamp(alpha * 1.6, 0.0, 1.0);
     col = pow(col, vec3(1.2));
+    col = clamp(col,0.0,1.0);
 
     fragColor = vec4(col, alpha) * vertexColor;
 }

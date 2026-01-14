@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.ManaPelletProjectile;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.mentis.ManaPellet;
+import com.teamsimplyrs.prismaarcanum.spells.mentis.ManaPellet;
 import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;

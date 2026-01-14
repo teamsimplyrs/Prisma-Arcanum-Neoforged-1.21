@@ -104,7 +104,7 @@ void main() {
     col += vec3(1.0) * core * 2.0;
 
     float alpha = clamp(glow * 1.6 + core * 2.2, 0.0, 1.0);
-
+    col = clamp(col,0.0,1.0);
     fragColor = vec4(col, alpha) * vertexColor;
 
     // apply fog — required for MC consistency
