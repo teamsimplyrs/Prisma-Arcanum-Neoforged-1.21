@@ -1,5 +1,9 @@
 package com.teamsimplyrs.prismaarcanum.spells.terra;
 
+import com.lowdragmc.photon.client.fx.BlockEffectExecutor;
+import com.lowdragmc.photon.client.fx.EntityEffectExecutor;
+import com.lowdragmc.photon.client.fx.FX;
+import com.lowdragmc.photon.client.fx.FXHelper;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.states.EntitySpellControlState;
 import com.teamsimplyrs.prismaarcanum.api.states.EntitySpellControlStateComponent;
@@ -9,14 +13,18 @@ import com.teamsimplyrs.prismaarcanum.api.states.data.RisingStateData;
 import com.teamsimplyrs.prismaarcanum.api.states.data.SlammingStateData;
 import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import com.teamsimplyrs.prismaarcanum.api.utils.School;
+import com.teamsimplyrs.prismaarcanum.network.payload.OnCastingFinishedPayload;
 import com.teamsimplyrs.prismaarcanum.registry.PADataAttachmentsRegistry;
 import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpell;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
+import org.joml.Vector3f;
 
 import java.util.List;
 
@@ -79,12 +87,26 @@ public class GroundPound extends AbstractSpell {
     }
 
     @Override
+    public void onCastingFinished(Player player, Level world) {
+        super.onCastingFinished(player, world);
+        if (world.isClientSide) {
+            FX fx = FXHelper.getFX(getFXid());
+//            Vector3f offset = player.position().toVector3f().sub(0f, -0.5f, 0f);
+            BlockEffectExecutor fxExec = new BlockEffectExecutor(fx, world, player.getOnPos());
+            fxExec.setOffset(0, 0.5f, 0);
+            fxExec.start();
+        }
+    }
+
+    @Override
     public ResourceLocation getFXid() {
-        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "ground_pound_fx");
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "ground_pound");
     }
 
     private void groundPoundSlam(ServerPlayer player, Level world) {
         if (!player.onGround()) return;
+
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, new OnCastingFinishedPayload(player.getUUID(), this.getResourceLocation()));
 
         double radius = 4.0d;
         double height = 0.5d;
