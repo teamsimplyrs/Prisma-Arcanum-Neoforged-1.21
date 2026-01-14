@@ -108,19 +108,20 @@ public class GroundPound extends AbstractSpell {
 
         PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, new OnCastingFinishedPayload(player.getUUID(), this.getResourceLocation()));
 
-        double radius = 4.0d;
-        double height = 0.5d;
+        double radius = 4.5d;
+        double height = 1d;
 
         AABB box = player.getBoundingBox().inflate(radius, height, radius);
         List<Entity> entities = world.getEntities(player, box, entity -> entity != player);
 
         if (entities.isEmpty()) return;
 
-        float pushForceVertical = 4f;
-        float pushForceHorizontal = 1.5f;
+        float pushForceVertical = 0.5f;
+        float pushForceHorizontal = 2f;
 
         for (Entity entity: entities) {
-            Vec3 pushForce = player.position().vectorTo(entity.position()).normalize();
+            Vec3 directionVec = player.position().vectorTo(entity.position()).normalize();
+            Vec3 pushForce = new Vec3(directionVec.x, 1f, directionVec.z);
             pushForce = pushForce.multiply(pushForceHorizontal, pushForceVertical, pushForceHorizontal);
             entity.hurt(player.damageSources().magic(), 5f);
             entity.push(pushForce);
