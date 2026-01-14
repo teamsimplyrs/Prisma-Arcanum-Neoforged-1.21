@@ -4,7 +4,7 @@ import com.lowdragmc.photon.client.fx.EntityEffectExecutor;
 import com.lowdragmc.photon.client.fx.FX;
 import com.lowdragmc.photon.client.fx.FXHelper;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpellProjectile;
+import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpellProjectile;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCustomProjectileSpawnedPayload;
 import com.teamsimplyrs.prismaarcanum.registry.PAEntityRegistry;
 import com.teamsimplyrs.prismaarcanum.registry.PASpellEffectRegistry;

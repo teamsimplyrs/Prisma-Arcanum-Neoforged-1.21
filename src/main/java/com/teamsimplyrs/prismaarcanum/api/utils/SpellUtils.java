@@ -8,6 +8,8 @@ import com.teamsimplyrs.prismaarcanum.api.spell.states.logic.IEntitySpellControl
 import com.teamsimplyrs.prismaarcanum.api.spell.states.logic.HoverStateLogic;
 import com.teamsimplyrs.prismaarcanum.api.spell.states.logic.RisingStateLogic;
 import com.teamsimplyrs.prismaarcanum.api.spell.states.logic.SlammingStateLogic;
+import com.teamsimplyrs.prismaarcanum.registry.SpellRegistry;
+import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.item.SpellPrismItem;
 import net.minecraft.resources.ResourceLocation;

@@ -2,8 +2,8 @@ package com.teamsimplyrs.prismaarcanum.entity.custom;
 
 import com.lowdragmc.photon.client.fx.EntityEffectExecutor;
 import com.mojang.logging.LogUtils;
-import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.registry.SpellRegistry;
+import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpell;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -14,7 +14,6 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 import org.slf4j.Logger;
 
 import java.util.List;

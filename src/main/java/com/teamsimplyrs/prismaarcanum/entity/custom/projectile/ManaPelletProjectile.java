@@ -6,7 +6,7 @@ import com.lowdragmc.photon.client.fx.FXHelper;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCastingFinishedPayload;
 import com.teamsimplyrs.prismaarcanum.registry.PAEntityRegistry;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpellProjectile;
+import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpellProjectile;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.*;

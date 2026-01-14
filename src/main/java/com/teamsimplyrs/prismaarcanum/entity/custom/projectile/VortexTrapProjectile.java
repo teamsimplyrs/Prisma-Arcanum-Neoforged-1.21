@@ -1,6 +1,6 @@
 package com.teamsimplyrs.prismaarcanum.entity.custom.projectile;
 
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpellProjectile;
+import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpellProjectile;
 import com.teamsimplyrs.prismaarcanum.entity.custom.SpellEffectAreaEntity;
 import com.teamsimplyrs.prismaarcanum.registry.PAEntityRegistry;
 import net.minecraft.resources.ResourceLocation;

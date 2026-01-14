@@ -1,12 +1,10 @@
 package com.teamsimplyrs.prismaarcanum.client.overlay;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.casting.AbstractCastable;
 import com.teamsimplyrs.prismaarcanum.api.mana.PlayerChromana;
-import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.registry.SpellRegistry;
+import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.GuiUtils;
 import com.teamsimplyrs.prismaarcanum.api.utils.WandUtils;
 import com.teamsimplyrs.prismaarcanum.registry.PADataAttachmentsRegistry;

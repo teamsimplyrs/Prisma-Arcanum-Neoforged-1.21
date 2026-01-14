@@ -6,16 +6,15 @@ import com.lowdragmc.photon.client.fx.FXHelper;
 import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.api.casting.interfaces.ICastable;
 import com.teamsimplyrs.prismaarcanum.api.casting.interfaces.IMultiSpellHolder;
-import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.registry.SpellRegistry;
+import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.WandUtils;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -50,6 +49,33 @@ public class AbstractCastable extends Item implements ICastable, IMultiSpellHold
                 cast(level, player, spells.get(currentSpellIndex), 0);
             }
         }
+
+        var currentSpell = WandUtils.getCurrentSpell(stack);
+
+        ResourceLocation spellAnimationLocation = currentSpell.getAnimationLocation();
+
+        //Animation player - MAYBE DEPRECATED
+//        if (level.isClientSide() && spellAnimationLocation != null) {
+//            PlayerAnimationController controller = (PlayerAnimationController) PlayerAnimationAccess.getPlayerAnimationLayer(
+//                    (AbstractClientPlayer) player, ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "spell_caster"));
+//            assert controller != null;
+//            controller.setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL);
+//            FirstPersonConfiguration config = new FirstPersonConfiguration(true, true, true, true, true);
+//            controller.setFirstPersonConfiguration(config);
+//            controller.triggerAnimation(spellAnimationLocation);
+//        }
+
+//        int spellDelay = currentSpell.getStartDelay();
+//
+//        //Spell delay and casting handler (makes cast redundant)
+//        if (!level.isClientSide()) {
+//
+//            if (stack.get(PADataComponents.SPELL_DELAY) == null) {
+//                stack.set(PADataComponents.SPELL_DELAY, spellDelay);
+//                stack.set(PADataComponents.PENDING_SPELL, spells.get(currentSpellIndex));
+//            }
+//            //  cast(level, player, spells.get(currentSpellIndex));
+//        }
 
         return super.use(level, player, usedHand);
     }
@@ -118,12 +144,31 @@ public class AbstractCastable extends Item implements ICastable, IMultiSpellHold
         spell.tryCast(world, player);
     }
 
-    // TO-DO: Implement spell cast delay. Implement Data Component to store delay and tick down here.
+
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
         super.inventoryTick(stack, level, entity, slotId, isSelected);
-        if(isSelected) {
-            //LOGGER.info("Wand selected");
+
+        if (level.isClientSide || !isSelected || !(entity instanceof Player player)) return;
+
+        Integer delay = stack.get(PADataComponents.SPELL_DELAY.get());
+        ResourceLocation pendingSpell = stack.get(PADataComponents.PENDING_SPELL.get());
+
+        if (delay == null || pendingSpell == null) return;
+
+        if (delay > 0) {
+            stack.update(PADataComponents.SPELL_DELAY, 0, (d) -> d - 1);
+            //stack.set(PADataComponents.SPELL_DELAY.get(), delay - 1);
+        } else {
+            // delay expired —> perform cast
+            AbstractSpell spell = SpellRegistry.getSpell(pendingSpell);
+            if (spell != null) {
+                spell.tryCast(level, player);
+            }
+
+            // Clear data so it does not cast again
+            stack.remove(PADataComponents.SPELL_DELAY.get());
+            stack.remove(PADataComponents.PENDING_SPELL.get());
         }
     }
 

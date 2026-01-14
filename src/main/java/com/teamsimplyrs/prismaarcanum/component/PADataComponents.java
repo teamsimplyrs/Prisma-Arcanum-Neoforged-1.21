@@ -77,6 +77,25 @@ public class PADataComponents {
                             ))
             );
 
+    public static final Supplier<DataComponentType<Integer>> SPELL_DELAY =
+            DATA_COMPONENTS.registerComponentType(
+                    "spell_delay",
+                    builder -> builder
+                            .persistent(Codec.INT)
+                            .networkSynchronized(StreamCodec.of(
+                                    FriendlyByteBuf::writeInt,
+                                    FriendlyByteBuf::readInt
+                            ))
+            );
+
+    public static final Supplier<DataComponentType<ResourceLocation>> PENDING_SPELL =
+            DATA_COMPONENTS.registerComponentType(
+                    "pending_spell",
+                    builder -> builder
+                            .persistent(ResourceLocation.CODEC)
+                            .networkSynchronized(RESOURCE_LOCATION_STREAM_CODEC)
+            );
+
     public static void register(IEventBus bus) {
         DATA_COMPONENTS.register(bus);
     }

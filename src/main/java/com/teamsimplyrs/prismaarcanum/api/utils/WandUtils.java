@@ -2,12 +2,11 @@ package com.teamsimplyrs.prismaarcanum.api.utils;
 
 import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.api.casting.AbstractCastable;
-import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpell;
+import com.teamsimplyrs.prismaarcanum.registry.SpellRegistry;
+import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.component.PADataComponents;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnSelectedSpellChangedPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.slf4j.Logger;

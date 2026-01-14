@@ -1,7 +1,7 @@
 package com.teamsimplyrs.prismaarcanum.network.payload;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
-import com.teamsimplyrs.prismaarcanum.api.spell.spells.common.AbstractSpellProjectile;
+import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpellProjectile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;

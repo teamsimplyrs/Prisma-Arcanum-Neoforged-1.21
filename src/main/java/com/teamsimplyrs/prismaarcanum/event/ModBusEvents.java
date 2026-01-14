@@ -4,7 +4,7 @@ import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.entity.client.monster.IgniumLegionnaireModel;
 import com.teamsimplyrs.prismaarcanum.entity.client.projectile.FireballSpellProjectileModel;
 import com.teamsimplyrs.prismaarcanum.entity.client.projectile.ManaPelletModel;
-import com.teamsimplyrs.prismaarcanum.api.spell.registry.SpellRegistry;
+import com.teamsimplyrs.prismaarcanum.registry.SpellRegistry;
 import com.teamsimplyrs.prismaarcanum.entity.client.monster.RippleSeekerModel;
 import com.teamsimplyrs.prismaarcanum.entity.client.projectile.RippleSeekerProjectileModel;
 import com.teamsimplyrs.prismaarcanum.entity.custom.monster.IgniumLegionnaireEntity;
