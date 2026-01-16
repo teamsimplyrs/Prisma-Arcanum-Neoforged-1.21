@@ -33,7 +33,7 @@ public class ChromanaHUDOverlayRenderer {
     @SubscribeEvent
     public static void onRenderOverlay(RenderGuiLayerEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
-        Player player = Minecraft.getInstance().player;
+        Player player = mc.player;
 
         if (mc.options.hideGui || player == null) {
             return;

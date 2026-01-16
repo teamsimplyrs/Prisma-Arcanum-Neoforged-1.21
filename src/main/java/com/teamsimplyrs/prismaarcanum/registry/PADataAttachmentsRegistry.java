@@ -3,6 +3,7 @@ package com.teamsimplyrs.prismaarcanum.registry;
 import com.teamsimplyrs.prismaarcanum.api.casting.PlayerSpellCooldowns;
 import com.teamsimplyrs.prismaarcanum.api.casting.SpellLifetimeTracker;
 import com.teamsimplyrs.prismaarcanum.api.mana.PlayerChromana;
+import com.teamsimplyrs.prismaarcanum.api.states.EntitySpellControlStateComponent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -29,6 +30,9 @@ public class PADataAttachmentsRegistry {
                     .build()
     );
 
+    public static final Supplier<AttachmentType<EntitySpellControlStateComponent>> SPELL_CONTROL_STATE = ATTACHMENT_TYPES.register(
+            "spell_control_state", () -> AttachmentType.builder(EntitySpellControlStateComponent::new).build());
+            
     public static final Supplier<AttachmentType<SpellLifetimeTracker>> SPELL_LIFETIMES = ATTACHMENT_TYPES.register(
             "spell_lifetimes", () -> AttachmentType.builder(() -> new SpellLifetimeTracker())
                     .serialize(SpellLifetimeTracker.CODEC)
