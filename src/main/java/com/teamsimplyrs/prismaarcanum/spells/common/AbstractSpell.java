@@ -52,8 +52,7 @@ public abstract class AbstractSpell implements ISpell {
     }
 
     // TO DO: this needs to be rewritten. provide all of this data via overridden functions in each spell -- to make it hotreloadable.
-    protected AbstractSpell(String spellID, Element element, School school, int tier, int basicManaCost, int basicCooldown, int startDelay, boolean hasEvolution) {
-        this.spellID = spellID;
+    protected AbstractSpell(Element element, School school, int tier, int basicManaCost, int basicCooldown, int startDelay, boolean hasEvolution) {
         this.element = element;
         this.school = school;
         this.tier = tier;
@@ -194,9 +193,7 @@ public abstract class AbstractSpell implements ISpell {
         return 100;
     }
 
-    public ResourceLocation getResourceLocation() {
-        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, spellID);
-    }
+    public abstract ResourceLocation getResourceLocation();
 
     public int getStartDelay() {
         return startDelay;

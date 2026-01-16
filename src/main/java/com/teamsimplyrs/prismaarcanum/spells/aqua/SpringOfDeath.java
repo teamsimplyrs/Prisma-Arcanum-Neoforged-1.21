@@ -19,7 +19,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 public class SpringOfDeath extends AbstractSpell {
-    public static final String spellID = "spring_of_death";
+    public static final String SPELL_ID = "spring_of_death";
     public static final Element element = Element.Aqua;
     public static final School school = School.Annihilation;
 
@@ -34,7 +34,7 @@ public class SpringOfDeath extends AbstractSpell {
     private static final float baseSpeed = 2f;
 
     public SpringOfDeath() {
-        super(spellID, element, school, tier, basicManaCost, basicCooldown, spellDelay, hasEvolution);
+        super(element, school, tier, basicManaCost, basicCooldown, spellDelay, hasEvolution);
     }
 
     @Override
@@ -78,6 +78,11 @@ public class SpringOfDeath extends AbstractSpell {
     @Override
     public ResourceLocation getAnimationLocation() {
         return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID,"bend");
+    }
+
+    @Override
+    public ResourceLocation getResourceLocation() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, SPELL_ID);
     }
 
 }

@@ -21,7 +21,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public class VortexTrap extends AbstractSpell {
-    public static final String spellID = "vortex_trap";
+    public static final String SPELL_ID = "vortex_trap";
     public static final Element element = Element.Ventus;
     public static final School school = School.Artifice;
 
@@ -36,7 +36,7 @@ public class VortexTrap extends AbstractSpell {
     private static final float baseSpeed = 2f;
 
     public VortexTrap(){
-        super(spellID,element,school,tier,basicManaCost,basicCooldown, spellDelay,hasEvolution);
+        super(element,school,tier,basicManaCost,basicCooldown, spellDelay,hasEvolution);
         addEvent(0,new PlayAnimationSpellEvent(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID,"cast_shoot")));
     }
 
@@ -93,6 +93,11 @@ public class VortexTrap extends AbstractSpell {
                 living.fallDistance = 0F;
             }
         }
+    }
+
+    @Override
+    public ResourceLocation getResourceLocation() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, SPELL_ID);
     }
 
     @Override
