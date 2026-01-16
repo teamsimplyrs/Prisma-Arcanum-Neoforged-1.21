@@ -10,6 +10,7 @@ import com.teamsimplyrs.prismaarcanum.spells.mentis.OmenSlice;
 import com.teamsimplyrs.prismaarcanum.spells.mentis.MagicBullet;
 import com.teamsimplyrs.prismaarcanum.spells.mentis.ManaPellet;
 import com.teamsimplyrs.prismaarcanum.spells.mentis.MysticMissile;
+import com.teamsimplyrs.prismaarcanum.spells.natura.HealSpell;
 import com.teamsimplyrs.prismaarcanum.spells.terra.GroundPound;
 import com.teamsimplyrs.prismaarcanum.spells.ventus.TailwindSpell;
 import com.teamsimplyrs.prismaarcanum.spells.ventus.VortexTrap;
@@ -59,6 +60,10 @@ public class SpellRegistry {
 
     // region Terra Spells
     public static final Supplier<GroundPound> GROUND_POUND = SPELLS.register(GroundPound.SPELL_ID, GroundPound::new);
+    // endregion
+
+    // region Natura Spells
+    public static final Supplier<HealSpell> HEAL_SPELL = SPELLS.register(HealSpell.SPELL_ID, HealSpell::new);
     // endregion
 
     // ==============================================
