@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ManaPelletModel extends EntityModel<ManaPelletProjectile> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, ManaPellet.spellID), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, ManaPellet.SPELL_ID), "main");
     private final ModelPart main_part;
 
     public ManaPelletModel(ModelPart root) {
