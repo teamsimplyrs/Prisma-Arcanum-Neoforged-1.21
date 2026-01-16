@@ -9,6 +9,7 @@ import com.teamsimplyrs.prismaarcanum.api.utils.School;
 import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpell;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 public class HealSpell extends AbstractSpell {
@@ -31,15 +32,20 @@ public class HealSpell extends AbstractSpell {
     }
 
     @Override
-    public void cast(ServerPlayer player, Level world) {
-        super.cast(player, world);
+    public void onCastingStarted(Player player, Level world) {
+        super.onCastingStarted(player, world);
         if (world.isClientSide) {
             FX fx = FXHelper.getFX(getFXid());
             EntityEffectExecutor fxExec = new EntityEffectExecutor(fx, world, player, EntityEffectExecutor.AutoRotate.NONE);
+            fxExec.setOffset(0, -1.5f, 0);
             fxExec.start();
-        } else {
-            player.heal(6);
         }
+    }
+
+    @Override
+    public void cast(ServerPlayer player, Level world) {
+        super.cast(player, world);
+        player.heal(6);
     }
 
     @Override
