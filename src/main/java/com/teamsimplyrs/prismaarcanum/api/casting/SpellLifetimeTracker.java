@@ -1,5 +1,6 @@
 package com.teamsimplyrs.prismaarcanum.api.casting;
 
+import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teamsimplyrs.prismaarcanum.api.casting.spell_events.SpellInstance;
@@ -8,10 +9,12 @@ import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpell;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import org.slf4j.Logger;
 
 import java.util.*;
 
 public class SpellLifetimeTracker {
+    private static final Logger LOGGER = LogUtils.getLogger();
     public Map<ResourceLocation, List<SpellInstance>> lifetimes = new HashMap<>();
 
     public static final Codec<SpellInstance> SPELL_INSTANCE_CODEC =
@@ -42,32 +45,36 @@ public class SpellLifetimeTracker {
 
         boolean changed = false;
 
-        for (var entry : lifetimes.entrySet()) {
-            ResourceLocation spellID = entry.getKey();
-            List<SpellInstance> list = entry.getValue();
-            AbstractSpell spell = SpellRegistry.getSpell(spellID);
+        try {
+            for (var entry : lifetimes.entrySet()) {
+                ResourceLocation spellID = entry.getKey();
+                List<SpellInstance> list = entry.getValue();
+                AbstractSpell spell = SpellRegistry.getSpell(spellID);
 
-            Iterator<SpellInstance> it = list.iterator();
+                Iterator<SpellInstance> it = list.iterator();
 
-            while (it.hasNext()) {
-                SpellInstance inst = it.next();
-                int time = inst.lifetime++;
+                while (it.hasNext()) {
+                    SpellInstance inst = it.next();
+                    int time = inst.lifetime++;
 
-                if (spell.checkTickEvent(time)) {
-                    spell.runEventAtTick(time, player);
+                    if (spell.checkTickEvent(time)) {
+                        spell.runEventAtTick(time, player);
+                    }
+
+                    if (time >= spell.getLifetime()) {
+                        it.remove();
+                        changed = true;
+                        dirty = true;
+                    }
                 }
 
-                if (time >= spell.getLifetime()) {
-                    it.remove();
-                    changed = true;
-                    dirty = true;
+                // cleanup empty spell groups
+                if (list.isEmpty()) {
+                    lifetimes.remove(spellID);
                 }
             }
-
-            // cleanup empty spell groups
-            if (list.isEmpty()) {
-                lifetimes.remove(spellID);
-            }
+        } catch (Exception e) {
+            LOGGER.error(String.format("[PrismaArcanum] SpellLifetimeTracker Exception: %s", e.getMessage()));
         }
 
         return changed;

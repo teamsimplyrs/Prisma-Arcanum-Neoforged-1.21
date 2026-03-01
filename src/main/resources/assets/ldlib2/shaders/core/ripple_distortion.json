@@ -1,0 +1,21 @@
+{
+  "vertex": "prismaarcanum:photon_common_vertex",
+  "fragment": "prismaarcanum:ripple_distortion",
+  "samplers": [
+    {"name": "BaseTexture"},
+    {"name": "SamplerSceneColor"}
+  ],
+  "uniforms": [
+    { "name": "ModelViewMat", "type": "matrix4x4", "count": 16, "values": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1] },
+    { "name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1] },
+    { "name": "FogShape", "type": "int", "count": 1, "values": [0] },
+    { "name": "GameTime", "type": "float", "count": 1, "values": [0.0] },
+    { "name": "TimeFactor", "type": "float", "count": 1, "values": [100.0] },
+    { "name": "SceneColorSampleStrength", "type": "float", "count": 1, "values": [1.0] },
+    { "name": "ChromaticAbberrationFactor", "type": "float", "count": 1, "values": [0.5] },
+    { "name": "BaseRadiusFactor", "type": "float", "count": 1, "values": [1.0] },
+    { "name": "MaxRadius", "type": "float", "count": 1, "values": [0.8] },
+    { "name": "RippleAmplitude", "type": "float", "count": 1, "values": [0.125] },
+    { "name": "RippleWidth", "type": "float", "count": 1, "values": [0.1] }
+  ]
+}

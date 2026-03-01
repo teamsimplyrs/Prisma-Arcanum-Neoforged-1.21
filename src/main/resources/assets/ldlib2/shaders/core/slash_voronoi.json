@@ -1,0 +1,88 @@
+{
+  "vertex": "prismaarcanum:photon_common_vertex",
+  "fragment": "prismaarcanum:slash_voronoi_baked",
+  "samplers": [
+    {
+      "name": "Sampler2"
+    },
+    {
+      "name": "BaseTexture"
+    },
+    {
+      "name": "NoiseTex"
+    },
+    {
+      "name": "SamplerGradient"
+    }
+  ],
+  "uniforms": [
+    {
+      "name": "ModelViewMat",
+      "type": "matrix4x4",
+      "count": 16,
+      "values": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "ProjMat",
+      "type": "matrix4x4",
+      "count": 16,
+      "values": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "FogShape",
+      "type": "int",
+      "count": 1,
+      "values": [
+        0
+      ]
+    },
+    {
+      "name": "GameTime",
+      "type": "float",
+      "count": 1,
+      "values": [
+        0.0
+      ]
+    },
+    {"name": "scrollRate", "type": "float", "count": 2, "values": [0.0, 0.0]},
+    {"name": "timeFactor", "type": "float", "count": 1, "values": [0.0]},
+    {"name": "contrast", "type": "float", "count": 1, "values": [0.0]},
+    {"name": "alphaThreshold", "type": "float", "count": 1, "values": [0.0]},
+    {"name": "scale", "type": "float", "count": 1, "values": [1.0]},
+    {"name": "HDR", "type": "float", "count": 1, "values": [1.0]}
+  ]
+}

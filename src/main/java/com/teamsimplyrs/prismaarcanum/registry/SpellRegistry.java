@@ -4,6 +4,8 @@ import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.spells.aqua.SpringOfDeath;
 import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.spells.fulgur.ArcOrb;
+import com.teamsimplyrs.prismaarcanum.spells.gelum.IceClaw;
+import com.teamsimplyrs.prismaarcanum.spells.gelum.SnowSlide;
 import com.teamsimplyrs.prismaarcanum.spells.ignis.FireballSpell;
 import com.teamsimplyrs.prismaarcanum.spells.ignis.NapalmSpraySpell;
 import com.teamsimplyrs.prismaarcanum.spells.mentis.OmenSlice;
@@ -37,7 +39,7 @@ public class SpellRegistry {
     public static final Supplier<ManaPellet> MANA_PELLET = SPELLS.register(ManaPellet.SPELL_ID, ManaPellet::new);
     public static final Supplier<MagicBullet> MAGIC_BULLET = SPELLS.register(MagicBullet.SPELL_ID, MagicBullet::new);
     public static final Supplier<MysticMissile> MYSTIC_MISSILE = SPELLS.register(MysticMissile.SPELL_ID, MysticMissile::new);
-    public static final Supplier<OmenSlice> INTENT_SCAR = SPELLS.register(OmenSlice.SPELL_ID, OmenSlice::new);
+    public static final Supplier<OmenSlice> OMEN_SLICE = SPELLS.register(OmenSlice.SPELL_ID, OmenSlice::new);
     // endregion
 
     // region Ignis Spells
@@ -49,13 +51,18 @@ public class SpellRegistry {
     public static final Supplier<SpringOfDeath> SPRING_OF_DEATH = SPELLS.register(SpringOfDeath.SPELL_ID, SpringOfDeath::new);
     // endregion
 
+    // region Gelum Spells
+    public static final Supplier<SnowSlide> SNOW_SLIDE = SPELLS.register(SnowSlide.SPELL_ID, SnowSlide::new);
+    public static final Supplier<IceClaw> ICE_SLING = SPELLS.register(IceClaw.SPELL_ID, IceClaw::new);
+    // endregion
+
     // region Ventus Spells
-    public static final Supplier<VortexTrap> WINDPOOL = SPELLS.register(VortexTrap.SPELL_ID, VortexTrap::new);
+    public static final Supplier<VortexTrap> VORTEX_TRAP = SPELLS.register(VortexTrap.SPELL_ID, VortexTrap::new);
     public static final Supplier<TailwindSpell> TAILWIND = SPELLS.register(TailwindSpell.SPELL_ID, TailwindSpell::new);
     // endregion
 
     // region Fulgur Spells
-    public static final Supplier<ArcOrb> BOUNCEZAP = SPELLS.register(ArcOrb.SPELL_ID, ArcOrb::new);
+    public static final Supplier<ArcOrb> ARC_ORB = SPELLS.register(ArcOrb.SPELL_ID, ArcOrb::new);
     // endregion
 
     // region Terra Spells
