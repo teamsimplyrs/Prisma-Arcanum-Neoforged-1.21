@@ -4,12 +4,15 @@ import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.spells.aqua.SpringOfDeath;
 import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.spells.fulgur.ArcOrb;
+import com.teamsimplyrs.prismaarcanum.spells.gelum.IceClaw;
+import com.teamsimplyrs.prismaarcanum.spells.gelum.SnowSlide;
 import com.teamsimplyrs.prismaarcanum.spells.ignis.FireballSpell;
 import com.teamsimplyrs.prismaarcanum.spells.ignis.NapalmSpraySpell;
 import com.teamsimplyrs.prismaarcanum.spells.mentis.OmenSlice;
 import com.teamsimplyrs.prismaarcanum.spells.mentis.MagicBullet;
 import com.teamsimplyrs.prismaarcanum.spells.mentis.ManaPellet;
 import com.teamsimplyrs.prismaarcanum.spells.mentis.MysticMissile;
+import com.teamsimplyrs.prismaarcanum.spells.natura.HealSpell;
 import com.teamsimplyrs.prismaarcanum.spells.terra.GroundPound;
 import com.teamsimplyrs.prismaarcanum.spells.ventus.TailwindSpell;
 import com.teamsimplyrs.prismaarcanum.spells.ventus.VortexTrap;
@@ -33,32 +36,41 @@ public class SpellRegistry {
     /// ==== All spells go here for registration ====
 
     // region Mentis Spells
-    public static final Supplier<ManaPellet> MANA_PELLET = SPELLS.register(ManaPellet.spellID, ManaPellet::new);
-    public static final Supplier<MagicBullet> MAGIC_BULLET = SPELLS.register(MagicBullet.spellID, MagicBullet::new);
-    public static final Supplier<MysticMissile> MYSTIC_MISSILE = SPELLS.register(MysticMissile.spellID, MysticMissile::new);
-    public static final Supplier<OmenSlice> INTENT_SCAR = SPELLS.register(OmenSlice.spellID, OmenSlice::new);
+    public static final Supplier<ManaPellet> MANA_PELLET = SPELLS.register(ManaPellet.SPELL_ID, ManaPellet::new);
+    public static final Supplier<MagicBullet> MAGIC_BULLET = SPELLS.register(MagicBullet.SPELL_ID, MagicBullet::new);
+    public static final Supplier<MysticMissile> MYSTIC_MISSILE = SPELLS.register(MysticMissile.SPELL_ID, MysticMissile::new);
+    public static final Supplier<OmenSlice> OMEN_SLICE = SPELLS.register(OmenSlice.SPELL_ID, OmenSlice::new);
     // endregion
 
     // region Ignis Spells
-    public static final Supplier<FireballSpell> FIREBALL = SPELLS.register(FireballSpell.spellID, FireballSpell::new);
-    public static final Supplier<NapalmSpraySpell> NAPALM_SPRAY = SPELLS.register(NapalmSpraySpell.spellID, NapalmSpraySpell::new);
+    public static final Supplier<FireballSpell> FIREBALL = SPELLS.register(FireballSpell.SPELL_ID, FireballSpell::new);
+    public static final Supplier<NapalmSpraySpell> NAPALM_SPRAY = SPELLS.register(NapalmSpraySpell.SPELL_ID, NapalmSpraySpell::new);
     // endregion
 
     // region Aqua Spells
-    public static final Supplier<SpringOfDeath> SPRING_OF_DEATH = SPELLS.register(SpringOfDeath.spellID, SpringOfDeath::new);
+    public static final Supplier<SpringOfDeath> SPRING_OF_DEATH = SPELLS.register(SpringOfDeath.SPELL_ID, SpringOfDeath::new);
+    // endregion
+
+    // region Gelum Spells
+    public static final Supplier<SnowSlide> SNOW_SLIDE = SPELLS.register(SnowSlide.SPELL_ID, SnowSlide::new);
+    public static final Supplier<IceClaw> ICE_SLING = SPELLS.register(IceClaw.SPELL_ID, IceClaw::new);
     // endregion
 
     // region Ventus Spells
-    public static final Supplier<VortexTrap> WINDPOOL = SPELLS.register(VortexTrap.spellID, VortexTrap::new);
-    public static final Supplier<TailwindSpell> TAILWIND = SPELLS.register(TailwindSpell.spellID, TailwindSpell::new);
+    public static final Supplier<VortexTrap> VORTEX_TRAP = SPELLS.register(VortexTrap.SPELL_ID, VortexTrap::new);
+    public static final Supplier<TailwindSpell> TAILWIND = SPELLS.register(TailwindSpell.SPELL_ID, TailwindSpell::new);
     // endregion
 
     // region Fulgur Spells
-    public static final Supplier<ArcOrb> BOUNCEZAP = SPELLS.register(ArcOrb.spellID, ArcOrb::new);
+    public static final Supplier<ArcOrb> ARC_ORB = SPELLS.register(ArcOrb.SPELL_ID, ArcOrb::new);
     // endregion
 
     // region Terra Spells
     public static final Supplier<GroundPound> GROUND_POUND = SPELLS.register(GroundPound.SPELL_ID, GroundPound::new);
+    // endregion
+
+    // region Natura Spells
+    public static final Supplier<HealSpell> HEAL_SPELL = SPELLS.register(HealSpell.SPELL_ID, HealSpell::new);
     // endregion
 
     // ==============================================
@@ -91,5 +103,9 @@ public class SpellRegistry {
         }
 
         return result;
+    }
+
+    public static ResourceLocation getEmpty() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "empty");
     }
 }

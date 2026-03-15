@@ -7,7 +7,5 @@ import net.minecraft.world.level.Level;
 public interface ISpell {
     void cast(ServerPlayer player, Level world);
 
-    static ResourceLocation getResourceLocation() {
-        return null;
-    }
+    ResourceLocation getResourceLocation();
 }

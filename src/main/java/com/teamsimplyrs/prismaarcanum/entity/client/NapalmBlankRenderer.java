@@ -26,7 +26,7 @@ public class NapalmBlankRenderer extends EntityRenderer<NapalmSprayProjectile> {
     public void render(NapalmSprayProjectile p_entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
         poseStack.pushPose();
 
-        VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityTranslucent(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, String.format("%s/%s/%s.png", "textures/entity/spells", ManaPellet.element.toString().toLowerCase(), ManaPellet.spellID))));
+        VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityTranslucent(ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, String.format("%s/%s/%s.png", "textures/entity/spells", ManaPellet.element.toString().toLowerCase(), ManaPellet.SPELL_ID))));
         model.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
         poseStack.popPose();
 

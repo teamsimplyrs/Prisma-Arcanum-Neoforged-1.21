@@ -1,8 +1,10 @@
 package com.teamsimplyrs.prismaarcanum.event.common;
 
+import com.mojang.logging.LogUtils;
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.casting.AbstractCastable;
 import com.teamsimplyrs.prismaarcanum.api.casting.PlayerSpellCooldowns;
+import com.teamsimplyrs.prismaarcanum.api.combo.SpellComboChainData;
 import com.teamsimplyrs.prismaarcanum.api.casting.SpellLifetimeTracker;
 import com.teamsimplyrs.prismaarcanum.api.mana.PlayerChromana;
 import com.teamsimplyrs.prismaarcanum.api.states.EntitySpellControlStateComponent;
@@ -10,6 +12,8 @@ import com.teamsimplyrs.prismaarcanum.network.payload.ManaSyncPayload;
 import com.teamsimplyrs.prismaarcanum.network.payload.PlayerSpellCooldownsSyncPayload;
 import com.teamsimplyrs.prismaarcanum.network.payload.SpellLifetimeSyncPayload;
 import com.teamsimplyrs.prismaarcanum.registry.PADataAttachmentsRegistry;
+import com.teamsimplyrs.prismaarcanum.registry.SpellRegistry;
+import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpell;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -23,9 +27,11 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.slf4j.Logger;
 
 @EventBusSubscriber(modid = PrismaArcanum.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
 public class CommonEvents {
+    private static final Logger LOGGER = LogUtils.getLogger();
 
     @SubscribeEvent
     public static void onServerTick(ServerTickEvent.Post event) {
@@ -38,6 +44,7 @@ public class CommonEvents {
             PlayerChromana manaData = player.getData(PADataAttachmentsRegistry.CHROMANA.get());
             PlayerSpellCooldowns spellCooldowns = player.getData(PADataAttachmentsRegistry.SPELL_COOLDOWNS.get());
             SpellLifetimeTracker lifetimeTracker = player.getData(PADataAttachmentsRegistry.SPELL_LIFETIMES.get());
+            SpellComboChainData spellComboChain = player.getData(PADataAttachmentsRegistry.SPELL_COMBO_CHAIN_DATA.get());
 
             if (manaData.tick()) {
                 if (player.tickCount % 5 == 0  || manaData.getCurrent() == manaData.getMax()) {
@@ -51,10 +58,26 @@ public class CommonEvents {
                     PacketDistributor.sendToPlayer(player, new PlayerSpellCooldownsSyncPayload(spellCooldowns.getCooldownMap()));
                 }
             }
+
             if (lifetimeTracker.tick(player)) {
                 if(lifetimeTracker.isMarkedDirty()){
                     lifetimeTracker.unmarkDirty();
                     PacketDistributor.sendToPlayer(player, new SpellLifetimeSyncPayload(lifetimeTracker.getLifetimesMap()));
+                }
+            }
+
+            var comboingSpell = spellComboChain.getSpellID();
+            if (comboingSpell != null && !comboingSpell.equals(SpellRegistry.getEmpty())) {
+                spellComboChain.tick();
+                if (spellComboChain.getRemainingComboWindowTicks() <= 0 && !spellCooldowns.isOnCooldown(comboingSpell)) {
+                    AbstractSpell comboingSpellData = SpellRegistry.getSpell(comboingSpell);
+                    if (comboingSpellData == null) {
+                        LOGGER.error("[PrismaArcanum] PlayerTickEvent: Invalid/unregistered spell encountered while ticking combo chain data");
+                    } else {
+                        spellCooldowns.setCooldown(comboingSpell, comboingSpellData.getCooldownTicks());
+                        PacketDistributor.sendToPlayer(player, new PlayerSpellCooldownsSyncPayload(spellCooldowns.getCooldownMap()));
+                        spellComboChain.reset();
+                    }
                 }
             }
         }

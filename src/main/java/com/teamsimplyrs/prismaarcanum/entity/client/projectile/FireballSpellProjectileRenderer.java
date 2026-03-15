@@ -34,7 +34,7 @@ public class FireballSpellProjectileRenderer extends EntityRenderer<FireballSpel
     @Override
     public ResourceLocation getTextureLocation(FireballSpellProjectile fireballSpellProjectile) {
         Element element = FireballSpell.element;
-        String id = FireballSpell.spellID;
+        String id = FireballSpell.SPELL_ID;
         return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, String.format("%s/%s/%s.png", "textures/entity/spells", element.toString().toLowerCase(), id));
     }
 }

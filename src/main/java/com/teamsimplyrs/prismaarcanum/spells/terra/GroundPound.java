@@ -40,7 +40,7 @@ public class GroundPound extends AbstractSpell {
     protected static boolean hasEvolution = true;
 
     public GroundPound() {
-        super(SPELL_ID, ELEMENT, SCHOOL, TIER, basicManaCost, basicCooldown, 0, hasEvolution);
+        super(ELEMENT, SCHOOL, TIER, basicManaCost, basicCooldown, 0, hasEvolution);
     }
 
     @Override
@@ -96,6 +96,11 @@ public class GroundPound extends AbstractSpell {
             fxExec.setOffset(0, 0.5f, 0);
             fxExec.start();
         }
+    }
+
+    @Override
+    public ResourceLocation getResourceLocation() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "ground_pound");
     }
 
     @Override

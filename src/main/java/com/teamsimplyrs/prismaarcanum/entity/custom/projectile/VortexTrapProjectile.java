@@ -41,7 +41,8 @@ public class VortexTrapProjectile extends AbstractSpellProjectile {
                     this.parentSpellID,
                     100,
                     4f,
-                    2f
+                    2f,
+                    0
             );
 
             level().addFreshEntity(aoe);

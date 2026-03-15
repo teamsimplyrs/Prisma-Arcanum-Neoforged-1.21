@@ -77,7 +77,7 @@ public class WandUtils {
     public static AbstractSpell getCurrentSpell(ItemStack stack) {
         var spellID = getCurrentSpellID(stack);
         if (spellID == null) {
-            LOGGER.error("[PrismaArcanum / Exception] (WandUtils::getCurrentSpell) Null spell on itemstack");
+//            LOGGER.error("[PrismaArcanum / Exception] (WandUtils::getCurrentSpell) Null spell on itemstack");
             return null;
         }
 

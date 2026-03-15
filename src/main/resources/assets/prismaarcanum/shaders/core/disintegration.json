@@ -1,0 +1,26 @@
+{
+  "vertex": "prismaarcanum:disintegration",
+  "fragment": "prismaarcanum:disintegration",
+  "samplers": [
+    {"name": "MainTex"},
+    {"name": "NoiseTex"}
+  ],
+  "uniforms": [
+    { "name": "ModelViewMat", "type": "matrix4x4", "count": 16, "values": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1] },
+    { "name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1] },
+    { "name": "FogShape", "type": "int", "count": 1, "values": [0] },
+    { "name": "GameTime", "type": "float", "count": 1, "values": [0.0] },
+    { "name": "TimeFactor", "type": "float", "count": 1, "values": [1.0] },
+    { "name": "NoiseStrength", "type": "float", "count": 1, "values": [0.03] },
+    { "name": "EdgeColor", "type": "float", "count": 4, "values": [1.0, 1.0, 1.0, 1.0] },
+    { "name": "MainTexHDRColor", "type": "float", "count": 4, "values": [1.0, 1.0, 1.0, 1.0] },
+    { "name": "AlphaClipThreshold", "type": "float", "count": 1, "values": [0.0] },
+    { "name": "CutoffHeight", "type": "float", "count": 1, "values": [0.0] },
+    { "name": "CutoffInitialValue", "type": "float", "count": 1, "values": [0.0] },
+    { "name": "ParticleLifetime", "type": "int", "count": 1, "values": [100] },
+    { "name": "EdgeThickness", "type": "float", "count": 1, "values": [0.02] },
+    { "name": "Direction", "type": "float", "count": 1, "values": [1] },
+    { "name": "HDRStrength", "type": "float", "count": 1, "values": [0.0] },
+    { "name": "HDRMode", "type": "int", "count": 1, "values": [0] }
+  ]
+}

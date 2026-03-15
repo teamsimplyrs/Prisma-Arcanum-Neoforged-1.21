@@ -1,8 +1,9 @@
 package com.teamsimplyrs.prismaarcanum.spells.common;
 
 import com.mojang.logging.LogUtils;
-import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.api.casting.PlayerSpellCooldowns;
+import com.teamsimplyrs.prismaarcanum.api.combo.ComboAttemptResult;
+import com.teamsimplyrs.prismaarcanum.api.combo.SpellComboChainData;
 import com.teamsimplyrs.prismaarcanum.api.casting.SpellLifetimeTracker;
 import com.teamsimplyrs.prismaarcanum.api.casting.spell_events.AbstractSpellTimedEvent;
 import com.teamsimplyrs.prismaarcanum.api.casting.spell_events.PlaySoundSpellEvent;
@@ -52,8 +53,7 @@ public abstract class AbstractSpell implements ISpell {
     }
 
     // TO DO: this needs to be rewritten. provide all of this data via overridden functions in each spell -- to make it hotreloadable.
-    protected AbstractSpell(String spellID, Element element, School school, int tier, int basicManaCost, int basicCooldown, int startDelay, boolean hasEvolution) {
-        this.spellID = spellID;
+    protected AbstractSpell(Element element, School school, int tier, int basicManaCost, int basicCooldown, int startDelay, boolean hasEvolution) {
         this.element = element;
         this.school = school;
         this.tier = tier;
@@ -77,6 +77,7 @@ public abstract class AbstractSpell implements ISpell {
 
         if (!player.isCreative()) {
             PlayerChromana chromana = player.getData(PADataAttachmentsRegistry.CHROMANA.get());
+            SpellComboChainData comboChainData = player.getData(PADataAttachmentsRegistry.SPELL_COMBO_CHAIN_DATA.get());
 
             if (chromana.getCurrent() < getManaCost()) {
                 serverPlayer.sendSystemMessage(Component.literal("Insufficient Chromana"));
@@ -93,7 +94,21 @@ public abstract class AbstractSpell implements ISpell {
             }
 
             chromana.useMana(getManaCost(), true);
-            cooldowns.setCooldown(getResourceLocation(), getCooldownTicks());
+
+            if (hasCombo()) {
+                if (!comboChainData.isActive()) {
+                    comboChainData = new SpellComboChainData(getResourceLocation(), world.getGameTime(), 0, getMaxComboCount(), getInternalComboCooldownTicks(), 0, getComboWindowTicks(), true);
+                    player.setData(PADataAttachmentsRegistry.SPELL_COMBO_CHAIN_DATA, comboChainData);
+                }
+
+                ComboAttemptResult comboIncrement = comboChainData.tryIncrementCombo();
+                if (comboIncrement == ComboAttemptResult.MAX_COMBO_CHAIN_REACHED || comboIncrement == ComboAttemptResult.WINDOW_EXPIRED) {
+                    if (!cooldowns.isOnCooldown(getResourceLocation())) {
+                        cooldowns.setCooldown(getResourceLocation(), getCooldownTicks());
+                    }
+                    return false;
+                }
+            }
 
             PacketDistributor.sendToPlayer(serverPlayer, new PlayerSpellCooldownsSyncPayload(cooldowns.getCooldownMap()));
             PacketDistributor.sendToPlayer(serverPlayer, new ManaSyncPayload(serverPlayer.getUUID(), chromana));
@@ -150,6 +165,22 @@ public abstract class AbstractSpell implements ISpell {
         return false;
     }
 
+    public boolean hasCombo () {
+        return false;
+    }
+
+    public int getInternalComboCooldownTicks() {
+        return 0;
+    }
+
+    public int getComboWindowTicks() {
+        return 0;
+    }
+
+    public int getMaxComboCount() {
+        return 0;
+    }
+
     public int getManaCost() {
         return basicManaCost;
     }
@@ -194,9 +225,7 @@ public abstract class AbstractSpell implements ISpell {
         return 100;
     }
 
-    public ResourceLocation getResourceLocation() {
-        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, spellID);
-    }
+    public abstract ResourceLocation getResourceLocation();
 
     public int getStartDelay() {
         return startDelay;

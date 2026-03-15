@@ -23,7 +23,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 public class NapalmSpraySpell extends AbstractSpell {
 
-    public static final String spellID = "napalm_spray";
+    public static final String SPELL_ID = "napalm_spray";
     public static final Element element = Element.Ignis;
     public static final School school = School.Annihilation;
 
@@ -38,7 +38,7 @@ public class NapalmSpraySpell extends AbstractSpell {
     private static final float baseSpeed = 2f;
 
     public NapalmSpraySpell() {
-        super(spellID,element,school,tier, basicManaCost,basicCooldown, spellDelay,hasEvolution);
+        super(element,school,tier, basicManaCost,basicCooldown, spellDelay,hasEvolution);
     }
 
     public void cast(ServerPlayer player, Level world) {
@@ -114,6 +114,11 @@ public class NapalmSpraySpell extends AbstractSpell {
                 }
             }
         }
+    }
+
+    @Override
+    public ResourceLocation getResourceLocation() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, SPELL_ID);
     }
 
     @Override

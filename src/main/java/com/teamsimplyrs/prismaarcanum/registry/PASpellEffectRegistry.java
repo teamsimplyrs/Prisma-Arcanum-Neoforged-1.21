@@ -1,6 +1,7 @@
 package com.teamsimplyrs.prismaarcanum.registry;
 
 import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
+import com.teamsimplyrs.prismaarcanum.api.status_effect.gelum.SnowSlideEffect;
 import com.teamsimplyrs.prismaarcanum.api.status_effect.ignis.NapalmBurnEffect;
 import com.teamsimplyrs.prismaarcanum.api.status_effect.fulgur.ZappedEffect;
 import net.minecraft.core.Holder;
@@ -18,6 +19,8 @@ public class PASpellEffectRegistry {
 
     public static final Holder<MobEffect> ZAPPED = 
             EFFECTS.register("zapped", ZappedEffect::new);
+
+    public static final Holder<MobEffect> SNOW_SLIDE_EFFECT = EFFECTS.register("snow_slide_effect", SnowSlideEffect::new);
 
     public static void register(IEventBus eventBus) {
         EFFECTS.register(eventBus);

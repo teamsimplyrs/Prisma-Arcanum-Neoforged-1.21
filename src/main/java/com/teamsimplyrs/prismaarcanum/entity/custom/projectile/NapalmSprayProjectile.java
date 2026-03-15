@@ -49,7 +49,8 @@ public class NapalmSprayProjectile extends AbstractSpellProjectile {
                     this.parentSpellID,
                     40,
                     2f,
-                    8f
+                    8f,
+                    0
             );
 
             level().addFreshEntity(aoe);

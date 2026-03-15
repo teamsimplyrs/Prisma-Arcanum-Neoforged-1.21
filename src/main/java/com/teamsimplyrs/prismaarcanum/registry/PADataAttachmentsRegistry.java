@@ -1,6 +1,7 @@
 package com.teamsimplyrs.prismaarcanum.registry;
 
 import com.teamsimplyrs.prismaarcanum.api.casting.PlayerSpellCooldowns;
+import com.teamsimplyrs.prismaarcanum.api.combo.SpellComboChainData;
 import com.teamsimplyrs.prismaarcanum.api.casting.SpellLifetimeTracker;
 import com.teamsimplyrs.prismaarcanum.api.mana.PlayerChromana;
 import com.teamsimplyrs.prismaarcanum.api.states.EntitySpellControlStateComponent;
@@ -36,6 +37,13 @@ public class PADataAttachmentsRegistry {
     public static final Supplier<AttachmentType<SpellLifetimeTracker>> SPELL_LIFETIMES = ATTACHMENT_TYPES.register(
             "spell_lifetimes", () -> AttachmentType.builder(() -> new SpellLifetimeTracker())
                     .serialize(SpellLifetimeTracker.CODEC)
+                    .copyOnDeath()
+                    .build()
+    );
+
+    public static final Supplier<AttachmentType<SpellComboChainData>> SPELL_COMBO_CHAIN_DATA = ATTACHMENT_TYPES.register(
+            "spell_combo_chain_data", () -> AttachmentType.builder(SpellComboChainData::new)
+                    .serialize(SpellComboChainData.CODEC)
                     .copyOnDeath()
                     .build()
     );

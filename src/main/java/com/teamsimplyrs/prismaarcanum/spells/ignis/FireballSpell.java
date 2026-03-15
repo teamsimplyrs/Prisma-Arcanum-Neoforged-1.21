@@ -1,18 +1,20 @@
 package com.teamsimplyrs.prismaarcanum.spells.ignis;
 
+import com.teamsimplyrs.prismaarcanum.PrismaArcanum;
 import com.teamsimplyrs.prismaarcanum.spells.common.AbstractSpell;
 import com.teamsimplyrs.prismaarcanum.api.utils.Element;
 import com.teamsimplyrs.prismaarcanum.api.utils.ProjectileMotionType;
 import com.teamsimplyrs.prismaarcanum.api.utils.School;
 import com.teamsimplyrs.prismaarcanum.entity.custom.projectile.FireballSpellProjectile;
 import com.teamsimplyrs.prismaarcanum.network.payload.OnCustomProjectileSpawnedPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public class FireballSpell extends AbstractSpell {
-    public static final String spellID = "fireball_spell";
+    public static final String SPELL_ID = "fireball_spell";
     public static final Element element = Element.Ignis;
     public static final School school = School.Annihilation;
 
@@ -29,7 +31,7 @@ public class FireballSpell extends AbstractSpell {
     private static final int maxBounceCount = 3;
 
     public FireballSpell() {
-        super(spellID, element, school, tier, basicManaCost, basicCooldown, spellDelay, hasEvolution);
+        super(element, school, tier, basicManaCost, basicCooldown, spellDelay, hasEvolution);
     }
 
     @Override
@@ -82,6 +84,11 @@ public class FireballSpell extends AbstractSpell {
     @Override
     public int getCooldownTicks() {
         return 60;
+    }
+
+    @Override
+    public ResourceLocation getResourceLocation() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, SPELL_ID);
     }
 
     public ProjectileMotionType getProjectileMotionType() {

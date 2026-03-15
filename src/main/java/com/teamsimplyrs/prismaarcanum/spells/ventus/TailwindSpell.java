@@ -18,7 +18,7 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
 public class TailwindSpell extends AbstractSpell {
-    public static final String spellID = "tailwind_spell";
+    public static final String SPELL_ID = "tailwind_spell";
     public static final Element element = Element.Ventus;
     public static final School school = School.Motion;
 
@@ -31,7 +31,7 @@ public class TailwindSpell extends AbstractSpell {
 
     private static final float baseDamage = 0f;
 
-    public TailwindSpell() { super(spellID, element, school, tier, basicManaCost, basicCooldown,startDelay, hasEvolution); }
+    public TailwindSpell() { super(element, school, tier, basicManaCost, basicCooldown,startDelay, hasEvolution); }
 
     @Override
     public void cast(ServerPlayer player, Level world) {
@@ -77,6 +77,11 @@ public class TailwindSpell extends AbstractSpell {
     public int getDurationTicks() {
         // 1s duration
         return 20;
+    }
+
+    @Override
+    public ResourceLocation getResourceLocation() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, SPELL_ID);
     }
 
     @Override

@@ -19,7 +19,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import org.joml.Vector3f;
 
 public class ManaPellet extends AbstractSpell {
-    public static final String spellID = "mana_pellet";
+    public static final String SPELL_ID = "mana_pellet";
     public static final Element element = Element.Mentis;
     public static final School school = School.Occult;
 
@@ -36,7 +36,7 @@ public class ManaPellet extends AbstractSpell {
     private static final float baseLifetime = 50f;
 
     public ManaPellet() {
-        super(spellID, element, school, tier, basicManaCost, basicCooldown, spellDelay, hasEvolution);
+        super(element, school, tier, basicManaCost, basicCooldown, spellDelay, hasEvolution);
     }
 
     @Override
@@ -76,6 +76,11 @@ public class ManaPellet extends AbstractSpell {
     @Override
     public void onCastingFinished(Player player, Level world) {
         super.onCastingFinished(player, world);
+    }
+
+    @Override
+    public ResourceLocation getResourceLocation() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, SPELL_ID);
     }
 
     public float getSpeed() {

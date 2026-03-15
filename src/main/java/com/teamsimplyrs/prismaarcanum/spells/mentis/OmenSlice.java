@@ -15,7 +15,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public class OmenSlice extends AbstractSpell {
-    public static final String spellID = "omen_slice";
+    public static final String SPELL_ID = "omen_slice";
     public static final Element element = Element.Mentis;
     public static final School school = School.Occult;
 
@@ -32,7 +32,7 @@ public class OmenSlice extends AbstractSpell {
     private static final float baseLifetime = 60f;
 
     public OmenSlice() {
-        super(spellID, element, school, tier, basicManaCost, basicCooldown, startDelay, hasEvolution);
+        super(element, school, tier, basicManaCost, basicCooldown, startDelay, hasEvolution);
     }
 
     @Override
@@ -98,6 +98,11 @@ public class OmenSlice extends AbstractSpell {
     @Override
     public boolean allowsCharging() {
         return true;
+    }
+
+    @Override
+    public ResourceLocation getResourceLocation() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, SPELL_ID);
     }
 
     public ProjectileMotionType getProjectileMotionType() {

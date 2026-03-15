@@ -38,7 +38,7 @@ public class ManaPelletRenderer extends EntityRenderer<ManaPelletProjectile> {
     @Override
     public ResourceLocation getTextureLocation(ManaPelletProjectile manaPelletProjectile) {
         Element element = ManaPellet.element;
-        String id = ManaPellet.spellID;
+        String id = ManaPellet.SPELL_ID;
         return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, String.format("%s/%s/%s.png", "textures/entity/spells", element.toString().toLowerCase(), id));
     }
 }
