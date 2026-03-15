@@ -1,4 +1,4 @@
-package com.teamsimplyrs.prismaarcanum.api.casting;
+package com.teamsimplyrs.prismaarcanum.api.combo;
 
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
@@ -8,31 +8,38 @@ import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 
 public class SpellComboChainData {
+
+
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    protected ResourceLocation spellID;
+    protected ResourceLocation spellID = SpellRegistry.getEmpty();
     protected long latestCastGameTime;
     protected int currentComboCount;
     protected int maxChainCount;
     protected int internalComboCooldownTicks;
+    protected int remainingInternalComboCooldownTicks;
     protected int remainingComboWindowTicks;
     protected boolean isActive;
 
     public static final Codec<SpellComboChainData> CODEC = RecordCodecBuilder.create(i -> i.group(
+            ResourceLocation.CODEC.fieldOf("spellID").forGetter(SpellComboChainData::getSpellID),
             Codec.LONG.fieldOf("latestCastGameTime").forGetter(SpellComboChainData::getLatestCastGameTime),
             Codec.INT.fieldOf("currentComboCount").forGetter(SpellComboChainData::getCurrentComboCount),
             Codec.INT.fieldOf("maxChainCount").forGetter(SpellComboChainData::getMaxChainCount),
             Codec.INT.fieldOf("internalComboCooldownTicks").forGetter(SpellComboChainData::getInternalComboCooldownTicks),
+            Codec.INT.fieldOf("remainingInternalComboCooldownTicks").forGetter(SpellComboChainData::getRemainingInternalComboCooldownTicks),
             Codec.INT.fieldOf("remainingComboWindowTicks").forGetter(SpellComboChainData::getRemainingComboWindowTicks),
             Codec.BOOL.fieldOf("isActive").forGetter(SpellComboChainData::isActive)
     ).apply(i, SpellComboChainData::new));
 
-    public SpellComboChainData(long latestCastGameTime, int currentComboCount, int maxChainCount, int internalComboCooldownTicks, int remainingComboWindowTicks, boolean isActive) {
+    public SpellComboChainData(ResourceLocation spellID, long latestCastGameTime, int currentComboCount, int maxChainCount, int internalComboCooldownTicks, int remainingInternalComboCooldownTicks, int comboWindowTicks, boolean isActive) {
+        this.spellID = spellID == null ? SpellRegistry.getEmpty() : spellID;
         this.latestCastGameTime = latestCastGameTime;
         this.currentComboCount = currentComboCount;
         this.maxChainCount = maxChainCount;
         this.internalComboCooldownTicks = internalComboCooldownTicks;
-        this.remainingComboWindowTicks = remainingComboWindowTicks;
+        this.remainingInternalComboCooldownTicks = remainingInternalComboCooldownTicks;
+        this.remainingComboWindowTicks = comboWindowTicks;
         this.isActive = isActive;
     }
 
@@ -48,43 +55,63 @@ public class SpellComboChainData {
             return false;
         }
 
-        if (internalComboCooldownTicks > 0) {
-            internalComboCooldownTicks--;
+        if (remainingInternalComboCooldownTicks > 0) {
+            remainingInternalComboCooldownTicks--;
             return false;
         }
 
         if (remainingComboWindowTicks > 0) {
             remainingComboWindowTicks--;
             if (remainingComboWindowTicks <= 0) {
-                isActive = false;
                 return false;
             }
         }
 
-
         return true;
     }
 
-    public boolean tryIncrementCombo() {
-        if (spellID == null ||
-                !isActive ||
-                internalComboCooldownTicks > 0 ||
-                currentComboCount > maxChainCount ||
-                remainingComboWindowTicks <= 0) {
-            return false;
+    public ComboAttemptResult tryIncrementCombo() {
+        if (spellID.equals(SpellRegistry.getEmpty()) || !isActive) {
+            return ComboAttemptResult.INACTIVE;
+        }
+
+        if (remainingInternalComboCooldownTicks > 0) {
+            return ComboAttemptResult.INTERNAL_COOLDOWN;
+        }
+
+        if (currentComboCount > maxChainCount) {
+            return ComboAttemptResult.MAX_COMBO_CHAIN_REACHED;
+        }
+
+        if (remainingComboWindowTicks <= 0) {
+            return ComboAttemptResult.WINDOW_EXPIRED;
         }
 
         currentComboCount++;
+        remainingInternalComboCooldownTicks = internalComboCooldownTicks;
         isActive = currentComboCount < maxChainCount;
 
-        return true;
+        return ComboAttemptResult.SUCCESS;
     }
 
     public void reset() {
+        if (!isActive) {
+            return; // no need to keep resetting if combo is marked inactive
+        }
 
+        isActive = false;
+        spellID = SpellRegistry.getEmpty();
+        currentComboCount = 0;
+        maxChainCount = 0;
+        remainingComboWindowTicks = 0;
+        internalComboCooldownTicks = 0;
     }
 
     // region Region: Getters
+
+    public ResourceLocation getSpellID() {
+        return spellID;
+    }
 
     public long getLatestCastGameTime() {
         return latestCastGameTime;
@@ -100,6 +127,10 @@ public class SpellComboChainData {
 
     public int getInternalComboCooldownTicks() {
         return internalComboCooldownTicks;
+    }
+
+    public int getRemainingInternalComboCooldownTicks() {
+        return remainingInternalComboCooldownTicks;
     }
 
     public int getRemainingComboWindowTicks() {

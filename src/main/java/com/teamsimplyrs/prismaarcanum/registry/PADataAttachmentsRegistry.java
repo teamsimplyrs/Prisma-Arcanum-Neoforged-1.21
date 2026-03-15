@@ -1,7 +1,7 @@
 package com.teamsimplyrs.prismaarcanum.registry;
 
 import com.teamsimplyrs.prismaarcanum.api.casting.PlayerSpellCooldowns;
-import com.teamsimplyrs.prismaarcanum.api.casting.SpellComboChainData;
+import com.teamsimplyrs.prismaarcanum.api.combo.SpellComboChainData;
 import com.teamsimplyrs.prismaarcanum.api.casting.SpellLifetimeTracker;
 import com.teamsimplyrs.prismaarcanum.api.mana.PlayerChromana;
 import com.teamsimplyrs.prismaarcanum.api.states.EntitySpellControlStateComponent;

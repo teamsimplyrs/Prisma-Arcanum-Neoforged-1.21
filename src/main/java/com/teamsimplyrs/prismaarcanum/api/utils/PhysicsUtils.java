@@ -6,6 +6,8 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
 
+import javax.annotation.Nullable;
+
 /// <summary> Common Physics class that provides plug-and-play functions for various physics-related behaviors. </summary>
 public class PhysicsUtils {
 
@@ -92,8 +94,8 @@ public class PhysicsUtils {
         return finalHit;
     }
 
-    public static Vec3 raycastForPosition(LivingEntity sourceEntity, Level level, float range) {
-        Vec3 start = sourceEntity.getEyePosition();
+    public static Vec3 raycastForPosition(LivingEntity sourceEntity, Level level, float range, Vec3 eyeOffset) {
+        Vec3 start = sourceEntity.getEyePosition().add(eyeOffset);
         Vec3 look = sourceEntity.getLookAngle();
         Vec3 end = start.add(look.scale(range));
 

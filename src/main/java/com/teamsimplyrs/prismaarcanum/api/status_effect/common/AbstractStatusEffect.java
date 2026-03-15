@@ -34,6 +34,9 @@ public abstract class AbstractStatusEffect extends MobEffect {
         ResourceLocation fxId = getFX();
         if (fxId == null) return;
         FX fx = FXHelper.getFX(fxId);
+        if (fx == null) {
+            return;
+        }
         EntityEffectExecutor exec = new EntityEffectExecutor(fx, level, entity, EntityEffectExecutor.AutoRotate.NONE);
         exec.setOffset(getFXOffset(entity));
         exec.start();

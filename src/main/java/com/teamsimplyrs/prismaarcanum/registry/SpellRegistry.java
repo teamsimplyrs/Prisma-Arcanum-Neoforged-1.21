@@ -104,4 +104,8 @@ public class SpellRegistry {
 
         return result;
     }
+
+    public static ResourceLocation getEmpty() {
+        return ResourceLocation.fromNamespaceAndPath(PrismaArcanum.MOD_ID, "empty");
+    }
 }

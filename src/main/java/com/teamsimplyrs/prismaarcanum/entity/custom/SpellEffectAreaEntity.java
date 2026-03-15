@@ -27,6 +27,7 @@ public class SpellEffectAreaEntity extends Entity {
     public int amplifier = 0;
     public boolean particleEmitted = false;
     public ResourceLocation fxID;
+    public float damage = 0;
 
     protected static final Logger LOGGER = LogUtils.getLogger();
 
@@ -44,7 +45,7 @@ public class SpellEffectAreaEntity extends Entity {
     }
 
 
-    public void configure(ResourceLocation spellID, int lifetime, float width, float height) {
+    public void configure(ResourceLocation spellID, int lifetime, float width, float height, float damage) {
         this.spellID = spellID;
         this.lifetime = lifetime;
         this.entityData.set(DATA_WIDTH, width);
