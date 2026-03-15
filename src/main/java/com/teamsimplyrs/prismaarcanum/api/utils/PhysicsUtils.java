@@ -94,6 +94,8 @@ public class PhysicsUtils {
         return finalHit;
     }
 
+    /// <summary>Initiates a raycast, starting from the eye position of the source entity, towards its look direction.</summary>
+    /// <returns>Returns position of the entity/block hit. Prioritizes entity.</returns>
     public static Vec3 raycastForPosition(LivingEntity sourceEntity, Level level, float range, Vec3 eyeOffset) {
         Vec3 start = sourceEntity.getEyePosition().add(eyeOffset);
         Vec3 look = sourceEntity.getLookAngle();
